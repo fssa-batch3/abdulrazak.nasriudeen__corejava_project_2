@@ -120,3 +120,6 @@ abstract class VehicleEntities{
 
 
 }
+ abstract class BookingEntities{
+
+}

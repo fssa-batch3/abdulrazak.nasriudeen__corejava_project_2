@@ -6,6 +6,7 @@ import util.DTBException;
 import validation.InvalidEntryException;
 import validation.UserValidation;
 
+
 import java.sql.*;
 public class UserDao extends VehicleDao{
     public static boolean insertUser(User use) throws DaoException {
