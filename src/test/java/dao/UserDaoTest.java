@@ -61,26 +61,45 @@ public class UserDaoTest {
 
         }
     }
-    @Test
-    void addUserVehicleSuccess()
+
+
+}
+class VehicleDaoTest{
+@Test
+
+void testvehicleAdd()
     {
         try {
             User user = new User();
-            user.setVehicleModel("Hero");
+
             user.setVehicleType(2);
             user.setVehicleModel("spl");
             user.setVehicleCompany("hero");
             user.setVehicleNumber("TN08AP8800");
             user.setVehicleYear(2002);
-            user.setId(4);
+            user.setId(6);
 
 
             Assertions.assertTrue(UserDao.addVehicle(user));
 
-        }catch (DaoException e){
+        }catch (Exception e){
             e.printStackTrace();
 
         }
+
     }
+    @Test
+    void addvehicleSuccess(){
+        try {
+            User u =  UserDao.findVehicleByUserId(6);
+
+            Assertions.assertEquals("spl",u.getVehicleModel());
+            Assertions.assertTrue(UserDao.deleteVehicle(6));
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
 }

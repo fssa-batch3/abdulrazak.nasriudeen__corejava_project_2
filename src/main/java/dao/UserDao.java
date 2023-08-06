@@ -119,6 +119,47 @@ class VehicleDao{
 
 
     }
+    public static boolean deleteVehicle(int id) throws DaoException{
+        try {
+            Connection connect =  ConnectionDb.getConnection();
+            String query = "delete from vehicles where user_id = ?";
+            PreparedStatement pre =  connect.prepareStatement(query);
+            pre.setInt(1,id);
+            int i = pre.executeUpdate();
+            return i ==1 ;
+        } catch (DTBException | SQLException e) {
+            throw new DaoException(e);
+        }
+
+
+    }
+    public static User findVehicleByUserId(int id) throws DaoException{
+        try {
+            Connection connect =  ConnectionDb.getConnection();
+            String query = "select * from vehicles where user_id = ?";
+            PreparedStatement pre =  connect.prepareStatement(query);
+            pre.setInt(1,id);
+            ResultSet i = pre.executeQuery();
+            User u = new User();
+            while (i.next()){
+                u.setVehicleCompany(i.getString("company"));
+                u.setUser_id(i.getInt("user_id"));
+                u.setVehicleYear(i.getInt("year"));
+                u.setVehicleType(i.getInt("vehicleType"));
+                u.setVehicleModel(i.getString("model"));
+                u.setVehicleId(i.getInt("id"));
+                u.setVehicleNumber(i.getString("vehicleNumber"));
+
+
+            }
+            return u;
+
+        } catch (DTBException | SQLException e) {
+            throw new DaoException(e);
+        }
+
+
+    }
 //
 
 }
