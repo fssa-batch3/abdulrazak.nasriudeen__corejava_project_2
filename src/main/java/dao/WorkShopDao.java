@@ -7,6 +7,8 @@ import util.ConnectionDb;
 import util.DTBException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkShopDao {
 
@@ -95,6 +97,33 @@ public class WorkShopDao {
             int i = pre.executeUpdate();
             return i==1;
         }catch(SQLException | DTBException e){
+            throw new DaoException(e);
+        }
+    }
+    public static List<WorkShop> findWorkshopsByArea(String area)throws DaoException{
+        try {
+            Connection connect = ConnectionDb.getConnection();
+            String query = "Select * from workshops where city = ? ";
+            PreparedStatement pre = connect.prepareStatement(query);
+            pre.setString(1, area);
+            ResultSet rs =  pre.executeQuery();
+            List<WorkShop> workshops = new ArrayList<>();
+            while(rs.next()){
+                WorkShop work = new WorkShop();
+                work.setName(rs.getString("name"));
+                work.setCity(rs.getString("city"));
+                String num  = rs.getString("phone");
+
+                work.setNumber(Long.parseLong(num));
+                work.setAddress(rs.getString("address"));
+                work.setState(rs.getString("state"));
+                work.setType(rs.getInt("workShoptype"));
+                work.setId(rs.getInt("id"));
+                workshops.add(work);
+            }
+            return workshops;
+
+        } catch (DTBException | SQLException e) {
             throw new DaoException(e);
         }
     }

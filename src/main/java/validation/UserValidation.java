@@ -1,5 +1,6 @@
 package validation;
 import exception.DaoException;
+import model.Bookings;
 import model.User;
 import dao.UserDao;
 
@@ -17,6 +18,10 @@ public class UserValidation {
 
         return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.WorkshopType(u.getVehicleType());
 
+    }
+    public boolean bookingValidation(Bookings book)throws InvalidEntryException{
+        Validations validate =  new  Validations();
+        return validate.stringValidation(book.getProblem())&&validate.stringValidation(book.getAddress())&&validate.stringValidation(book.getCity())&&validate.stringValidation(book.getState());
     }
 
     public boolean validNewUser(User user){
