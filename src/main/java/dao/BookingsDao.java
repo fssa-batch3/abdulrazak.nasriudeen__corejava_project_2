@@ -15,10 +15,11 @@ import java.util.List;
 public class BookingsDao {
 
     public static boolean insertBooking(Bookings book) throws DaoException{
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String query =  "insert into bookings (vehicle_id,customer_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?,?)";
-            PreparedStatement pre =  connect.prepareStatement(query);
+        String query =  "insert into bookings (vehicle_id,customer_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?,?)";
+
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement pre =  connect.prepareStatement(query);) {
+
             pre.setInt(1,book.getVehicleId());
             pre.setInt(2,book.getCustomerId());
             pre.setInt(3,book.getWorkShopId());
@@ -58,9 +59,10 @@ public class BookingsDao {
     }
     public static  boolean updateRequestSts(int j) throws DaoException{
         int i = 0 ;
-        try (Connection connect = ConnectionDb.getConnection()) {
-            String query = "update bookings set request_status = true where customer_id = ? ";
-            PreparedStatement pre = connect.prepareStatement(query);
+        String query = "update bookings set request_status = true where customer_id = ? ";
+
+        try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query);) {
+
             pre.setInt(1,j);
             i = pre.executeUpdate();
             return i == 1 ;
@@ -71,10 +73,11 @@ public class BookingsDao {
     }
     public static Bookings getBookingsByCustomerId(int id) throws DaoException {
         Bookings book = new Bookings();
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String query = "select * from bookings where customer_id = ?";
-            PreparedStatement con = connect.prepareStatement(query);
+        String query = "select * from bookings where customer_id = ?";
+        try(Connection connect = ConnectionDb.getConnection();
+
+            PreparedStatement con = connect.prepareStatement(query);) {
+
             con.setInt(1,id);
             ResultSet rs = con.executeQuery();
             while(rs.next()){
@@ -97,11 +100,11 @@ public class BookingsDao {
         }
     }
     public static List<Bookings> getBookingsByArea(String area) throws DaoException {
+        String query = "select * from bookings where city = ?";
 
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String query = "select * from bookings where city = ?";
-            PreparedStatement con = connect.prepareStatement(query);
+        try( Connection connect = ConnectionDb.getConnection();
+             PreparedStatement con = connect.prepareStatement(query);) {
+
             con.setString(1,area);
             ResultSet rs = con.executeQuery();
             ArrayList<Bookings> bookings= new ArrayList<>();
