@@ -38,11 +38,12 @@ public class BookingsDao {
         }
 
     }
-    public static boolean deleteBooking(int id)throws DaoException{
+    public static boolean removeBooking(int id)throws DaoException{
         int i = 0;
-        try (Connection connect = ConnectionDb.getConnection()) {
-            String query = "delete from bookings where customer_id = ?";
-            PreparedStatement pre =  connect.prepareStatement(query);
+        String query = "delete from bookings where customer_id = ?";
+        try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre =  connect.prepareStatement(query);) {
+
+
             pre.setInt(1,id);
           i =  pre.executeUpdate()  ;
             

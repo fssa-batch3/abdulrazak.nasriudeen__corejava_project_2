@@ -1,11 +1,12 @@
 package service;
 import exception.DaoException;
 import model.User;
+import model.Vehicle;
 import validation.UserValidation;
 
 import static dao.UserDao.findUserByNumber;
 import static dao.UserDao.insertUser;
-import static dao.UserDao.addVehicle;
+import static dao.UserDao.insertVehicle;
 
 public class UserServices {
 
@@ -30,40 +31,8 @@ public class UserServices {
         validate.isUser(num,pass);
 
     }
-    public static void userVehicle(User us,long num,String pass){
-        try {
-            UserValidation validate = new UserValidation();
-            if(validate.isUser(num,pass)){
-                User use = findUserByNumber(num);
-                use.setVehicleType(us.getVehicleType());
-                use.setVehicleNumber(us.getVehicleNumber());
-                use.setVehicleCompany(us.getVehicleCompany());
-                use.setVehicleModel(us.getVehicleModel());
-                use.setVehicleYear(us.getVehicleYear());
-
-                if(addVehicle(use))System.out.println("your vehicle is added successfully");
-                else System.out.println("Your vehicle haven't added");
 
 
-            }
-
-
-        }catch (DaoException e){
-            e.printStackTrace();
-        }
-    }
-    public static void main(String []args){
-        User user = new User();
-       user.setVehicleType(2);
-       user.setVehicleModel("spl");
-       user.setVehicleCompany("hero");
-       user.setVehicleNumber("tniwodj2io");
-       user.setVehicleYear(2002);
-
-       registerUser(user);
-        loginUser(8124311602L,"abdul123");
-        userVehicle(user,8124311602L,"abdul123");
-    }
 
 
 

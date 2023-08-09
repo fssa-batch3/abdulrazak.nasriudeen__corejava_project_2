@@ -1,6 +1,7 @@
 package dao;
 import exception.DaoException;
 import model.User;
+import model.Vehicle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ public class UserDaoTest {
     {
         try {
 
-            Assertions.assertTrue(UserDao.deleteUserAccount(98403265109L));
+            Assertions.assertTrue(UserDao.removeUser(98403265109L));
 
         }catch (DaoException e){
             e.printStackTrace();
@@ -80,7 +81,7 @@ void testvehicleAdd()
             user.setId(6);
 
 
-            Assertions.assertTrue(UserDao.addVehicle(user));
+            Assertions.assertTrue(UserDao.insertVehicle(user));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -91,10 +92,10 @@ void testvehicleAdd()
     @Test
     void addvehicleSuccess(){
         try {
-            User u =  UserDao.findVehicleByUserId(6);
+            Vehicle u =  VehicleDao.findVehicleByUserId(6);
 
             Assertions.assertEquals("spl",u.getVehicleModel());
-            Assertions.assertTrue(UserDao.deleteVehicle(6));
+            Assertions.assertTrue(UserDao.removeVehicle(6));
         } catch (DaoException e) {
             throw new RuntimeException(e);
         }

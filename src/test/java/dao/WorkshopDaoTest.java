@@ -55,7 +55,7 @@ public class WorkshopDaoTest {
         {
             try {
 
-                Assertions.assertTrue(WorkShopDao.deleteWorkShopAccount(98403265109L));
+                Assertions.assertTrue(WorkShopDao.removeWorkShopAccount(98403265109L));
 
             }catch (DaoException e){
                 e.printStackTrace();

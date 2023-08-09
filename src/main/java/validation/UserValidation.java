@@ -3,6 +3,7 @@ import exception.DaoException;
 import model.Bookings;
 import model.User;
 import dao.UserDao;
+import model.Vehicle;
 
 public class UserValidation {
     public boolean userCredentialValidate(User user) throws InvalidEntryException {
@@ -13,7 +14,7 @@ public class UserValidation {
         Validations validate = new Validations();
         return validate.numberValidation(num)&&validate.passWordValidation(pass);
     }
-    public boolean userValidVehicle(User u)throws InvalidEntryException{
+    public boolean userValidVehicle(Vehicle u)throws InvalidEntryException{
         Validations validate = new Validations();
 
         return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.WorkshopType(u.getVehicleType());

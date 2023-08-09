@@ -1,7 +1,6 @@
 package dao;
 
 import exception.DaoException;
-import model.User;
 import model.WorkShop;
 import util.ConnectionDb;
 import util.DTBException;
@@ -14,10 +13,12 @@ public class WorkShopDao {
 
     public static boolean insertWorkShop(WorkShop work) throws DaoException {
         // This method is used to create user data in db table
-        try {
+        String  query = "insert into workshops (name,phone,password,address,city,state,workShoptype) values (?,?,?,?,?,?,?)";
+
+        try (
             Connection connect = ConnectionDb.getConnection();
-            String  query = "insert into workshops (name,phone,password,address,city,state,workShoptype) values (?,?,?,?,?,?,?)";
-            PreparedStatement pre = connect.prepareStatement(query);
+                PreparedStatement pre = connect.prepareStatement(query);)
+        {
             pre.setString(1, work.getName());
             String num =  Long.toString(work.getNumber());
 
@@ -37,13 +38,17 @@ public class WorkShopDao {
     }
     public static WorkShop findWorkShopByNumber(long num) throws DaoException {
         ResultSet rs = null;
-        try{
-            WorkShop work = new WorkShop();
+        String query =  "Select * from Workshops where phone = ?";
+        WorkShop work = new WorkShop();
+        String number = Long.toString(num);
+
+        try(
+
             Connection connect = ConnectionDb.getConnection();
-            String query =  "Select * from Workshops where phone = ?";
-            String number = Long.toString(num);
-            Statement pre = connect.createStatement();
+
+
             PreparedStatement prep =  connect.prepareStatement(query);
+        ){
 
             prep.setString(1,number);
             rs = prep.executeQuery();
@@ -67,11 +72,14 @@ public class WorkShopDao {
         }
 
     }
-    public static boolean deleteWorkShopAccount(long number)throws DaoException{
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String query = "delete from workshops where phone = ? ;";
-            PreparedStatement pre = connect.prepareStatement(query);
+    public static boolean removeWorkShopAccount(long number)throws DaoException{
+        String query = "delete from workshops where phone = ? ;";
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement pre =  connect.prepareStatement(query);
+        ){
+
+
+
             String num = Long.toString(number);
             pre.setString(1,num);
             int i = pre.executeUpdate();
@@ -87,10 +95,9 @@ public class WorkShopDao {
     }
     public static boolean updateWorkShopPassword(Long num , String password)throws DaoException{
         // this method update the data of the user's password ;
-        try{
-            Connection connect = ConnectionDb.getConnection();
-            String query = "update workshops set password = ? where phone = ?";
-            PreparedStatement pre = connect.prepareStatement(query);
+        String query = "update workshops set password = ? where phone = ?";
+        try( Connection connect = ConnectionDb.getConnection();
+             PreparedStatement pre = connect.prepareStatement(query);){
             pre.setString(1,password);
             String number = Long.toString(num);
             pre.setString(2,number);
@@ -100,12 +107,10 @@ public class WorkShopDao {
             throw new DaoException(e);
         }
     }
-    public static List<WorkShop> findWorkshopsByArea(String area)throws DaoException{
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String query = "Select * from workshops where city = ? ";
-            PreparedStatement pre = connect.prepareStatement(query);
-            pre.setString(1, area);
+    public static List<WorkShop> getAllWorkShops()throws DaoException{
+        String query = "Select * from workshops";
+        try (Connection connect = ConnectionDb.getConnection();
+             PreparedStatement pre = connect.prepareStatement(query);){
             ResultSet rs =  pre.executeQuery();
             List<WorkShop> workshops = new ArrayList<>();
             while(rs.next()){
@@ -127,4 +132,5 @@ public class WorkShopDao {
             throw new DaoException(e);
         }
     }
+
 }

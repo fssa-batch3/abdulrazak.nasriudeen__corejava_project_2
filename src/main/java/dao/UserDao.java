@@ -8,6 +8,9 @@ import validation.UserValidation;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDao extends VehicleDao{
     public static boolean insertUser(User use) throws DaoException {
         // This method is used to create user data in db table
@@ -43,7 +46,7 @@ public class UserDao extends VehicleDao{
             throw new DaoException(e);
         }
     }
-    public static boolean deleteUserAccount(long number)throws DaoException{
+    public static boolean removeUser(long number)throws DaoException{
         try {
             Connection connect = ConnectionDb.getConnection();
             String query = "delete from user where phone = ? ;";
@@ -89,79 +92,38 @@ public class UserDao extends VehicleDao{
         }
 
     }
+    public static List<User> getAllUser() throws  DaoException{
+        ResultSet rs = null;
+        String query = "select * from user";
+        ArrayList<User> users = new ArrayList<>();
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement prep =  connect.prepareStatement(query);
 
 
-
-}
-class VehicleDao{
-
-    public static boolean addVehicle(User use) throws DaoException {
-        try {
-            UserValidation usValid = new UserValidation();
-            if(usValid.userValidVehicle(use)){
-
-
-            Connection connect = ConnectionDb.getConnection();
-            String  query = "insert into vehicles (model,company,vehicleNumber,vehicleType,user_id,year) values (?,?,?,?,?,?)";
-            PreparedStatement pre = connect.prepareStatement(query);
-            pre.setString(1,use.getVehicleModel());
-            pre.setString(2,use.getVehicleCompany());
-            pre.setString(3,use.getVehicleNumber());
-            pre.setInt(4,use.getVehicleType());
-            pre.setInt(5,use.getId());
-            pre.setInt(6,use.getVehicleYear());
-
-            int i = pre.executeUpdate();
-            return (i==1);}
-            else return false;
-        }catch (SQLException | DTBException | InvalidEntryException e){
-            throw new DaoException(e);
-        }
-
-
-    }
-    public static boolean deleteVehicle(int id) throws DaoException{
-        try {
-            Connection connect =  ConnectionDb.getConnection();
-            String query = "delete from vehicles where user_id = ?";
-            PreparedStatement pre =  connect.prepareStatement(query);
-            pre.setInt(1,id);
-            int i = pre.executeUpdate();
-            return i ==1 ;
-        } catch (DTBException | SQLException e) {
-            throw new DaoException(e);
-        }
-
-
-    }
-    public static User findVehicleByUserId(int id) throws DaoException{
-        try {
-            Connection connect =  ConnectionDb.getConnection();
-            String query = "select * from vehicles where user_id = ?";
-            PreparedStatement pre =  connect.prepareStatement(query);
-            pre.setInt(1,id);
-            ResultSet i = pre.executeQuery();
-            User u = new User();
-            while (i.next()){
-                u.setVehicleCompany(i.getString("company"));
-                u.setUser_id(i.getInt("user_id"));
-                u.setVehicleYear(i.getInt("year"));
-                u.setVehicleType(i.getInt("vehicleType"));
-                u.setVehicleModel(i.getString("model"));
-                u.setVehicleId(i.getInt("id"));
-                u.setVehicleNumber(i.getString("vehicleNumber"));
+        ){
+            rs = prep.executeQuery();
+            while(rs.next()){
+                User work = new User();
+                work.setName(rs.getString("name"));
+                long lNum = Long.parseLong(rs.getString("phone"));
+                work.setNumber(lNum);
+                work.setPassword(rs.getString("password"));
+                work.setId(rs.getInt("id"));
+                users.add(work);
 
 
             }
-            return u;
 
-        } catch (DTBException | SQLException e) {
+
+
+        }catch (SQLException | DTBException e){
             throw new DaoException(e);
         }
-
+        return users;
 
     }
-//
+
+
 
 }
 

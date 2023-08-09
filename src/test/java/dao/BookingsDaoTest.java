@@ -32,7 +32,7 @@ public class BookingsDaoTest {
     @AfterAll
     static  void deleteBookingTest(){
         try {
-            Assertions.assertTrue(BookingsDao.deleteBooking(3));
+            Assertions.assertTrue(BookingsDao.removeBooking(3));
         } catch (DaoException e) {
             throw new RuntimeException(e);
         }

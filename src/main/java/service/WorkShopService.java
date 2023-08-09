@@ -54,18 +54,5 @@ public class WorkShopService {
         }
 
     }
-    public static void main(String[]args){
-        WorkShop work = new WorkShop();
-        work.setAddress("123  Main Street");
-        work.setType(2);
-        work.setCity("chennai");
-        work.setState("Tamil nadu");
-        work.setName("auto mobiles ");
-        work.setNumber(8124311703L);
-        work.setPassword("auto123");
-//        registerWorkShop(work);
-       // loginWorkShop(8124311703L,"auto123");
-
-
-    }
+    
 }
