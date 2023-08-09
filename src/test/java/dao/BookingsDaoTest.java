@@ -23,7 +23,7 @@ public class BookingsDaoTest {
     @Test
     void updateBookingStatusTest(){
         try {
-            Assertions.assertTrue(BookingsDao.updateRequestSts(3));
+            Assertions.assertTrue(BookingsDao.updateRequestSts(3 , true));
         } catch (DaoException e) {
             throw new RuntimeException(e);
         }

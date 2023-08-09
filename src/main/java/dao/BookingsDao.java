@@ -57,13 +57,29 @@ public class BookingsDao {
 
     return i == 1 ; 
     }
-    public static  boolean updateRequestSts(int j) throws DaoException{
+    public static  boolean updateRequestSts(int j , boolean ch) throws DaoException{
         int i = 0 ;
-        String query = "update bookings set request_status = true where customer_id = ? ";
+        String query = "update bookings set request_status = ? where customer_id = ? ";
 
         try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query);) {
 
-            pre.setInt(1,j);
+            pre.setBoolean(1,ch);
+            pre.setInt(2,j);
+            i = pre.executeUpdate();
+            return i == 1 ;
+        }catch (SQLException | DTBException e){
+            throw new DaoException(e);
+
+        }
+    }
+    public static  boolean updateAcceptSts(int j , boolean ch) throws DaoException{
+        int i = 0 ;
+        String query = "update bookings set accept_status = ? where customer_id = ? ";
+
+        try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query);) {
+
+            pre.setBoolean(1,ch);
+            pre.setInt(2,j);
             i = pre.executeUpdate();
             return i == 1 ;
         }catch (SQLException | DTBException e){
@@ -129,4 +145,23 @@ public class BookingsDao {
             throw new DaoException(e);
         }
     }
+    public static  ArrayList<Integer> getAllWorkShopByArea(String area) throws DaoException{
+        String query = "Select * from workshops where city = ?";
+        try(Connection connection =  ConnectionDb.getConnection();PreparedStatement pre = connection.prepareStatement(query)){
+            pre.setString(1,area);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<Integer> arr = new ArrayList<>();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                arr.add(id);
+            }
+            return arr ;
+
+        }catch (DTBException | SQLException e){
+            throw new DaoException(e);
+        }
+
+    }
+
+
 }
