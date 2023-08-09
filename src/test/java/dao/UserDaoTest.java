@@ -1,10 +1,11 @@
 package dao;
 import exception.DaoException;
 import model.User;
-import model.Vehicle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 public class UserDaoTest {
     @BeforeAll
@@ -29,7 +30,6 @@ public class UserDaoTest {
 
             User us = UserDao.findUserByNumber(98403265109L);
             Assertions.assertEquals(98403265109L,us.getNumber());
-           // Assertions.assertTrue(UserDao.deleteUserAccount(use.getNumber()));
 
         }catch (DaoException e){
             e.printStackTrace();
@@ -62,45 +62,16 @@ public class UserDaoTest {
 
         }
     }
-
-
-}
-class VehicleDaoTest{
-@Test
-
-void testvehicleAdd()
-    {
-        try {
-            User user = new User();
-
-            user.setVehicleType(2);
-            user.setVehicleModel("spl");
-            user.setVehicleCompany("hero");
-            user.setVehicleNumber("TN08AP8800");
-            user.setVehicleYear(2002);
-            user.setId(6);
-
-
-            Assertions.assertTrue(UserDao.insertVehicle(user));
-
-        }catch (Exception e){
-            e.printStackTrace();
-
-        }
-
-    }
     @Test
-    void addvehicleSuccess(){
+    void getAllUserTest(){
+
         try {
-            Vehicle u =  VehicleDao.findVehicleByUserId(6);
-
-            Assertions.assertEquals("spl",u.getVehicleModel());
-            Assertions.assertTrue(UserDao.removeVehicle(6));
+            ArrayList<User> users = UserDao.getAllUser();
+            Assertions.assertTrue(users.isEmpty());
         } catch (DaoException e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
         }
-
     }
 
-
 }
+

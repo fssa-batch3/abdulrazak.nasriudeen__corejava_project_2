@@ -3,10 +3,6 @@ import exception.DaoException;
 import model.User;
 import util.ConnectionDb;
 import util.DTBException;
-import validation.InvalidEntryException;
-import validation.UserValidation;
-
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +10,7 @@ import java.util.List;
 public class UserDao extends VehicleDao{
     public static boolean insertUser(User use) throws DaoException {
         // This method is used to create user data in db table
-        String  query = "insert into user (name,phone,password) values (?,?,?)";
+        String  query = "insert into user (name,number,password) values (?,?,?)";
 
         try (Connection connect = ConnectionDb.getConnection();
              PreparedStatement pre = connect.prepareStatement(query);){
@@ -34,7 +30,7 @@ public class UserDao extends VehicleDao{
     }
     public static boolean updateUserPassword(Long num , String password)throws DaoException{
         // this method update the data of the user's password ;
-        String query = "update user set password = ? where phone = ?";
+        String query = "update user set password = ? where number = ?";
 
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement pre = connect.prepareStatement(query);){
@@ -49,7 +45,7 @@ public class UserDao extends VehicleDao{
         }
     }
     public static boolean removeUser(long number)throws DaoException{
-        String query = "delete from user where phone = ? ;";
+        String query = "delete from user where number = ? ;";
 
         try (Connection connect = ConnectionDb.getConnection();
              PreparedStatement pre = connect.prepareStatement(query);){
@@ -69,7 +65,7 @@ public class UserDao extends VehicleDao{
     }
     public static User findUserByNumber(long num) throws DaoException {
         ResultSet rs = null;
-        String query =  "Select * from User where phone = ?";
+        String query =  "Select * from user where number = ?";
         String number = Long.toString(num);
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement prep =  connect.prepareStatement(query);){
@@ -95,7 +91,7 @@ public class UserDao extends VehicleDao{
         }
 
     }
-    public static List<User> getAllUser() throws  DaoException{
+    public static ArrayList<User> getAllUser() throws  DaoException{
         ResultSet rs = null;
         String query = "select * from user";
         ArrayList<User> users = new ArrayList<>();

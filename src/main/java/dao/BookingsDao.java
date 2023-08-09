@@ -1,10 +1,8 @@
 package dao;
-
 import exception.DaoException;
 import model.Bookings;
 import util.ConnectionDb;
 import util.DTBException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -145,7 +143,7 @@ public class BookingsDao {
             throw new DaoException(e);
         }
     }
-    
+
 
 
 }

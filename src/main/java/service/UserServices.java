@@ -1,12 +1,9 @@
 package service;
 import exception.DaoException;
 import model.User;
-import model.Vehicle;
 import validation.UserValidation;
-
-import static dao.UserDao.findUserByNumber;
 import static dao.UserDao.insertUser;
-import static dao.UserDao.insertVehicle;
+
 
 public class UserServices {
 
