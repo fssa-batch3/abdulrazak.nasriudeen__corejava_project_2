@@ -72,11 +72,10 @@ public class UserDao extends VehicleDao{
         String query =  "Select * from User where phone = ?";
         String number = Long.toString(num);
         try( Connection connect = ConnectionDb.getConnection();
-
-             Statement pre = connect.createStatement();){
+             PreparedStatement prep =  connect.prepareStatement(query);){
             User work = new User();
 
-            PreparedStatement prep =  connect.prepareStatement(query);
+
 
             prep.setString(1,number);
             rs = prep.executeQuery();
