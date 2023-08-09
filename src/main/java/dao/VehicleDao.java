@@ -6,18 +6,16 @@ import util.ConnectionDb;
 import util.DTBException;
 import validation.InvalidEntryException;
 import validation.UserValidation;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class VehicleDao {
 
     public static boolean insertVehicle(Vehicle use) throws DaoException {
-        String  query = "insert into vehicles (model,company,vehicleNumber,vehicleType,user_id,year) values (?,?,?,?,?,?)";
+            String  query = "insert into vehicles (model,company,vehicle_number,vehicle_type,user_id,year) values (?,?,?,?,?,?)";
 
         try ( Connection connect = ConnectionDb.getConnection();
               PreparedStatement pre = connect.prepareStatement(query);){
@@ -63,10 +61,10 @@ public class VehicleDao {
                 u.setVehicleCompany(i.getString("company"));
                 u.setUser_id(i.getInt("user_id"));
                 u.setVehicleYear(i.getInt("year"));
-                u.setVehicleType(i.getInt("vehicleType"));
+                u.setVehicleType(i.getInt("vehicle_type"));
                 u.setVehicleModel(i.getString("model"));
                 u.setVehicleId(i.getInt("id"));
-                u.setVehicleNumber(i.getString("vehicleNumber"));
+                u.setVehicleNumber(i.getString("vehicle_number"));
             }
             return u;
 
@@ -76,7 +74,7 @@ public class VehicleDao {
 
 
     }
-    public static List<Vehicle> getAllVehicles()throws DaoException{
+    public static ArrayList<Vehicle> getAllVehicles()throws DaoException{
         String query = "Select * from vehicles";
         ArrayList<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();
@@ -88,10 +86,10 @@ public class VehicleDao {
                 u.setVehicleCompany(i.getString("company"));
                 u.setUser_id(i.getInt("user_id"));
                 u.setVehicleYear(i.getInt("year"));
-                u.setVehicleType(i.getInt("vehicleType"));
+                u.setVehicleType(i.getInt("vehicle_type"));
                 u.setVehicleModel(i.getString("model"));
                 u.setVehicleId(i.getInt("id"));
-                u.setVehicleNumber(i.getString("vehicleNumber"));
+                u.setVehicleNumber(i.getString("vehicle_number"));
                 vehicles.add(u);
             }
 
