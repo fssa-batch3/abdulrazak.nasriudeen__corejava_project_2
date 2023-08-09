@@ -1,13 +1,11 @@
 package dao;
-
 import exception.DaoException;
 import model.WorkShop;
 import util.ConnectionDb;
 import util.DTBException;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class WorkShopDao {
 
@@ -37,7 +35,7 @@ public class WorkShopDao {
 
     }
     public static WorkShop findWorkShopByNumber(long num) throws DaoException {
-        ResultSet rs = null;
+
         String query =  "Select * from workshop where number = ?";
         WorkShop work = new WorkShop();
         String number = Long.toString(num);
@@ -51,7 +49,7 @@ public class WorkShopDao {
         ){
 
             prep.setString(1,number);
-            rs = prep.executeQuery();
+            ResultSet    rs = prep.executeQuery();
             if(rs.next()){
                 work.setName(rs.getString("name"));
                 long lNum = Long.parseLong(rs.getString("phone"));

@@ -5,9 +5,8 @@ import util.ConnectionDb;
 import util.DTBException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class UserDao extends VehicleDao{
+public class UserDao{
     public static boolean insertUser(User use) throws DaoException {
         // This method is used to create user data in db table
         String  query = "insert into user (name,number,password) values (?,?,?)";
@@ -64,7 +63,7 @@ public class UserDao extends VehicleDao{
 
     }
     public static User findUserByNumber(long num) throws DaoException {
-        ResultSet rs = null;
+
         String query =  "Select * from user where number = ?";
         String number = Long.toString(num);
         try( Connection connect = ConnectionDb.getConnection();
@@ -74,7 +73,7 @@ public class UserDao extends VehicleDao{
 
 
             prep.setString(1,number);
-            rs = prep.executeQuery();
+            ResultSet   rs = prep.executeQuery();
             if(rs.next()){
                 work.setName(rs.getString("name"));
                 long lNum = Long.parseLong(rs.getString("phone"));
@@ -92,7 +91,7 @@ public class UserDao extends VehicleDao{
 
     }
     public static ArrayList<User> getAllUser() throws  DaoException{
-        ResultSet rs = null;
+
         String query = "select * from user";
         ArrayList<User> users = new ArrayList<>();
         try(Connection connect = ConnectionDb.getConnection();
@@ -100,7 +99,7 @@ public class UserDao extends VehicleDao{
 
 
         ){
-            rs = prep.executeQuery();
+            ResultSet  rs = prep.executeQuery();
             while(rs.next()){
                 User work = new User();
                 work.setName(rs.getString("name"));
