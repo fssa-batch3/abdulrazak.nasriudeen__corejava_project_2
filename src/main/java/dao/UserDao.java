@@ -14,10 +14,11 @@ import java.util.List;
 public class UserDao extends VehicleDao{
     public static boolean insertUser(User use) throws DaoException {
         // This method is used to create user data in db table
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String  query = "insert into user (name,phone,password) values (?,?,?)";
-            PreparedStatement pre = connect.prepareStatement(query);
+        String  query = "insert into user (name,phone,password) values (?,?,?)";
+
+        try (Connection connect = ConnectionDb.getConnection();
+             PreparedStatement pre = connect.prepareStatement(query);){
+
             pre.setString(1, use.getName());
             String num =  Long.toString(use.getNumber());
 
@@ -33,10 +34,11 @@ public class UserDao extends VehicleDao{
     }
     public static boolean updateUserPassword(Long num , String password)throws DaoException{
         // this method update the data of the user's password ;
-        try{
-            Connection connect = ConnectionDb.getConnection();
-            String query = "update user set password = ? where phone = ?";
-            PreparedStatement pre = connect.prepareStatement(query);
+        String query = "update user set password = ? where phone = ?";
+
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement pre = connect.prepareStatement(query);){
+
             pre.setString(1,password);
             String number = Long.toString(num);
             pre.setString(2,number);
@@ -47,10 +49,11 @@ public class UserDao extends VehicleDao{
         }
     }
     public static boolean removeUser(long number)throws DaoException{
-        try {
-            Connection connect = ConnectionDb.getConnection();
-            String query = "delete from user where phone = ? ;";
-            PreparedStatement pre = connect.prepareStatement(query);
+        String query = "delete from user where phone = ? ;";
+
+        try (Connection connect = ConnectionDb.getConnection();
+             PreparedStatement pre = connect.prepareStatement(query);){
+
             String num = Long.toString(number);
             pre.setString(1,num);
             int i = pre.executeUpdate();
@@ -66,12 +69,13 @@ public class UserDao extends VehicleDao{
     }
     public static User findUserByNumber(long num) throws DaoException {
         ResultSet rs = null;
-        try{
+        String query =  "Select * from User where phone = ?";
+        String number = Long.toString(num);
+        try( Connection connect = ConnectionDb.getConnection();
+
+             Statement pre = connect.createStatement();){
             User work = new User();
-            Connection connect = ConnectionDb.getConnection();
-            String query =  "Select * from User where phone = ?";
-            String number = Long.toString(num);
-            Statement pre = connect.createStatement();
+
             PreparedStatement prep =  connect.prepareStatement(query);
 
             prep.setString(1,number);
