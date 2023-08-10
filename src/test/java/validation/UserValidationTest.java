@@ -1,5 +1,6 @@
 package validation;
 import model.User;
+import model.Vehicle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,38 +31,38 @@ public class UserValidationTest {
             e.printStackTrace();
         }
     }
-//    @Test
-//    void validUserVehicleTest(){
-//        User use =  new User();
-//        use.setVehicleNumber("AP05BC0004");
-//        use.setVehicleType(2);
-//        use.setVehicleCompany("Hero");
-//        use.setVehicleYear(2000);
-//        use.setVehicleModel("Splendor");
-//        UserValidation useValidate =  new UserValidation();
-//        try {
-//            Assertions.assertTrue(useValidate.userValidVehicle(use));
-//        }catch (InvalidEntryException e){
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
-//    @Test
-//    void InvalidUserVehicleTest(){
-//        User use =  new User();
-//        use.setVehicleNumber("AP0BC0004");
-//        use.setVehicleType(1);
-//        use.setVehicleCompany("Hero");
-//        use.setVehicleYear(2027);
-//        use.setVehicleModel("Splendor");
-//        UserValidation useValidate =  new UserValidation();
-//        try {
-//            Assertions.assertFalse(useValidate.userValidVehicle(use));
-//        }catch (InvalidEntryException e){
-//            e.printStackTrace();
-//        }
-//    }
+    @Test
+    void validUserVehicleTest(){
+        Vehicle use =  new Vehicle();
+        use.setVehicleNumber("AP05BC0004");
+        use.setVehicleType(2);
+        use.setVehicleCompany("Hero");
+        use.setVehicleYear(2000);
+        use.setVehicleModel("Splendor");
+        UserValidation useValidate =  new UserValidation();
+        try {
+            Assertions.assertTrue(useValidate.userValidVehicle(use));
+        }catch (InvalidEntryException e){
+            e.printStackTrace();
+        }
+
+
+    }
+    @Test
+    void InvalidUserVehicleTest(){
+        Vehicle use =  new Vehicle();
+        use.setVehicleNumber("AP0BC0004");
+        use.setVehicleType(1);
+        use.setVehicleCompany("Hero");
+        use.setVehicleYear(2027);
+        use.setVehicleModel("Splendor");
+        UserValidation useValidate =  new UserValidation();
+        try {
+            Assertions.assertFalse(useValidate.userValidVehicle(use));
+        }catch (InvalidEntryException e){
+            e.printStackTrace();
+        }
+    }
 
 
 

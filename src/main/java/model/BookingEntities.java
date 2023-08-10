@@ -1,22 +1,13 @@
 package model;
 
-public abstract class BookingsEntities {
+public abstract class BookingEntities {
     private int bookingId;
     private  boolean requestStatus;
     private boolean AcceptStatus;
-
-
-
-    private int customerId;
     private int workShopId;
     private int vehicleId;
     private String problem;
     private String address ;
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
     public int getWorkShopId() {
         return workShopId;
     }
@@ -33,9 +24,7 @@ public abstract class BookingsEntities {
         this.workShopId = workShopId;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
+
 
     public boolean isAcceptStatus() {
         return AcceptStatus;
