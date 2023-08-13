@@ -1,5 +1,5 @@
 package dao;
-import exception.DaoException;
+import exception.DAOException;
 import model.Booking;
 import util.ConnectionDb;
 import util.DTBException;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class BookingDao {
 
-    public  boolean insertBooking(Booking book) throws DaoException{
+    public  boolean insertBooking(Booking book) throws DAOException {
         String query =  "insert into bookings (vehicle_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?)";
 
         try(Connection connect = ConnectionDb.getConnection();
@@ -28,11 +28,11 @@ public class BookingDao {
             int i =  pre.executeUpdate();
             return i==1;
         } catch (DTBException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
     }
-    public  boolean removeBooking(int id)throws DaoException{
+    public  boolean removeBooking(int id)throws DAOException {
 
         String query = "delete from bookings where vehicle_id = ?";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre =  connect.prepareStatement(query);) {
@@ -43,14 +43,14 @@ public class BookingDao {
             return i == 1 ;
 
         }catch (DTBException | SQLException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
 
 
         }
 
 
     }
-    public   boolean updateRequestSts(int j , boolean ch) throws DaoException{
+    public   boolean updateRequestSts(int j , boolean ch) throws DAOException {
 
         String query = "update bookings set request_status = ? where vehicle_id = ? ";
 
@@ -61,11 +61,11 @@ public class BookingDao {
           int  i = pre.executeUpdate();
             return i == 1 ;
         }catch (SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
 
         }
     }
-    public   boolean updateAcceptSts(int j , boolean ch) throws DaoException{
+    public   boolean updateAcceptSts(int j , boolean ch) throws DAOException {
 
         String query = "update bookings set accept_status = ? where vehicle_id = ? ";
 
@@ -76,11 +76,11 @@ public class BookingDao {
          int   i = pre.executeUpdate();
             return i == 1 ;
         }catch (SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
 
         }
     }
-    public  Booking getBookingsByVehicleId(int id) throws DaoException {
+    public  Booking getBookingsByVehicleId(int id) throws DAOException {
         Booking book = new Booking();
         String query = "select * from bookings where vehicle_id = ?";
         try(Connection connect = ConnectionDb.getConnection();
@@ -104,30 +104,10 @@ public class BookingDao {
             }
             return book;
         } catch (DTBException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
     }
-    public   ArrayList<Integer> findWorkshopByArea(String area) throws DaoException {
-        String query = "select * from workshop where city = ?";
 
-        try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement con = connect.prepareStatement(query);) {
-
-            con.setString(1,area);
-            ResultSet rs = con.executeQuery();
-            ArrayList<Integer> workshops= new ArrayList<>();
-            while(rs.next()){
-                int book = rs.getInt("id");
-
-                workshops.add(book);
-
-
-            }
-            return workshops;
-        } catch (DTBException | SQLException e) {
-            throw new DaoException(e);
-        }
-    }
 
 
 

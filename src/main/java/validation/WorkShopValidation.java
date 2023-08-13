@@ -1,7 +1,7 @@
 package validation;
 
 import dao.WorkShopDao;
-import exception.DaoException;
+import exception.DAOException;
 import model.WorkShop;
 
 public class WorkShopValidation {
@@ -20,7 +20,7 @@ public class WorkShopValidation {
                return  true;
            }
 
-       }}catch (InvalidEntryException | DaoException e){
+       }}catch (InvalidEntryException | DAOException e){
            e.printStackTrace();
        }
        return false;

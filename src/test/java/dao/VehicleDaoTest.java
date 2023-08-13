@@ -1,6 +1,6 @@
 package dao;
 
-import exception.DaoException;
+import exception.DAOException;
 import model.Vehicle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +23,7 @@ public class VehicleDaoTest {
         try{
             VehicleDao vehicle = new VehicleDao();
            Assertions.assertTrue(vehicle.insertVehicle(veh));
-        }catch (DaoException e){
+        }catch (DAOException e){
             e.printStackTrace();
         }
 
@@ -35,7 +35,7 @@ public class VehicleDaoTest {
             VehicleDao vehicle = new VehicleDao();
             Vehicle veh = vehicle.findVehicleByUserId(3);
             Assertions.assertEquals(2004,veh.getVehicleYear());
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -46,7 +46,7 @@ public class VehicleDaoTest {
             VehicleDao vehicle = new VehicleDao();
             ArrayList<Vehicle> arr = vehicle.getAllVehicles();
             Assertions.assertTrue(arr.size()!=0);
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -58,7 +58,7 @@ public class VehicleDaoTest {
         VehicleDao vehicle = new VehicleDao();
         try{
             Assertions.assertTrue(vehicle.removeVehicle(3));
-        }catch (DaoException e){ e.printStackTrace();}
+        }catch (DAOException e){ e.printStackTrace();}
     }
 
 

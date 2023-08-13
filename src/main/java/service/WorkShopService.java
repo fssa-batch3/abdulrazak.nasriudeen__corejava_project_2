@@ -1,6 +1,6 @@
 package service;
 import dao.WorkShopDao;
-import exception.DaoException;
+import exception.DAOException;
 import model.WorkShop;
 import validation.InvalidEntryException;
 import validation.WorkShopValidation;
@@ -20,7 +20,7 @@ public class WorkShopService {
 
 
 
-            }catch (DaoException e){
+            }catch (DAOException e){
                 e.printStackTrace();
             }
 
@@ -48,7 +48,7 @@ public class WorkShopService {
 
 
         }else System.out.println("Enter valid credentials");
-        }catch (InvalidEntryException | DaoException e){
+        }catch (InvalidEntryException | DAOException e){
             e.printStackTrace();
         }
 

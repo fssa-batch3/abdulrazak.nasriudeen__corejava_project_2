@@ -1,5 +1,5 @@
 package dao;
-import exception.DaoException;
+import exception.DAOException;
 import model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,7 +17,7 @@ public class UserDaoTest {
         UserDao userTest = new UserDao();
         try {
             userTest.insertUser(use);
-        }catch (DaoException e){
+        }catch (DAOException e){
             e.printStackTrace();
 
         }
@@ -32,7 +32,7 @@ public class UserDaoTest {
             User us = userTest.findUserByNumber(98403265109L);
             Assertions.assertEquals(98403265109L,us.getNumber());
 
-        }catch (DaoException e){
+        }catch (DAOException e){
             e.printStackTrace();
 
         }
@@ -47,7 +47,7 @@ public class UserDaoTest {
             Assertions.assertEquals("test",us.getPassword());
 
 
-        }catch (DaoException e){
+        }catch (DAOException e){
             e.printStackTrace();
 
         }
@@ -60,7 +60,7 @@ public class UserDaoTest {
 
             Assertions.assertTrue(userTest.removeUser(98403265109L));
 
-        }catch (DaoException e){
+        }catch (DAOException e){
             e.printStackTrace();
 
         }
@@ -72,7 +72,7 @@ public class UserDaoTest {
             UserDao userTest = new UserDao();
             ArrayList<User> users = userTest.getAllUser();
             Assertions.assertTrue(users.isEmpty());
-        } catch (DaoException e) {
+        } catch (DAOException e) {
            e.printStackTrace();
         }
     }

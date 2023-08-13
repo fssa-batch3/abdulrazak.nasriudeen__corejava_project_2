@@ -1,5 +1,5 @@
 package dao;
-import exception.DaoException;
+import exception.DAOException;
 import model.Vehicle;
 import util.ConnectionDb;
 import util.DTBException;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class VehicleDao {
 
-    public  boolean insertVehicle(Vehicle use) throws DaoException {
+    public  boolean insertVehicle(Vehicle use) throws DAOException {
             String  query = "insert into vehicles (model,company,vehicle_number,vehicle_type,user_id,year) values (?,?,?,?,?,?)";
 
         try ( Connection connect = ConnectionDb.getConnection();
@@ -31,12 +31,12 @@ public class VehicleDao {
                 return (i==1);}
             else return false;
         }catch (SQLException | DTBException | InvalidEntryException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
 
     }
-    public boolean removeVehicle(int id) throws DaoException{
+    public boolean removeVehicle(int id) throws DAOException {
         String query = "delete from vehicles where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query);){
@@ -44,12 +44,12 @@ public class VehicleDao {
             int i = pre.executeUpdate();
             return i ==1 ;
         } catch (DTBException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
 
     }
-    public  Vehicle findVehicleByUserId(int id) throws DaoException{
+    public  Vehicle findVehicleByUserId(int id) throws DAOException {
         String query = "select * from vehicles where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query);){
@@ -68,12 +68,12 @@ public class VehicleDao {
             return u;
 
         } catch (DTBException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
 
     }
-    public  ArrayList<Vehicle> getAllVehicles()throws DaoException{
+    public  ArrayList<Vehicle> getAllVehicles()throws DAOException {
         String query = "Select * from vehicles";
         ArrayList<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();
@@ -95,7 +95,7 @@ public class VehicleDao {
 
 
         }catch (DTBException | SQLException e) {
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
         return vehicles;
     }

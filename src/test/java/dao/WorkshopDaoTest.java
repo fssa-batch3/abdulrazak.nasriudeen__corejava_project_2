@@ -1,5 +1,5 @@
 package dao;
-import exception.DaoException;
+import exception.DAOException;
 import model.WorkShop;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +18,7 @@ public class WorkshopDaoTest {
         try {
             WorkShopDao work = new WorkShopDao();
             work.insertWorkShop(use);
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             e.printStackTrace();
 
         }
@@ -35,7 +35,7 @@ public class WorkshopDaoTest {
             Assertions.assertEquals(98403265105L, us.getNumber());
 
 
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             e.printStackTrace();
 
         }
@@ -50,7 +50,7 @@ public class WorkshopDaoTest {
             Assertions.assertEquals("test", us.getPassword());
 
 
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             e.printStackTrace();
 
         }
@@ -62,9 +62,20 @@ public class WorkshopDaoTest {
             WorkShopDao work  =  new WorkShopDao() ;
             ArrayList<WorkShop> workShop = work.getAllWorkShops();
             Assertions.assertTrue(workShop.size() != 0);
-        } catch (DaoException e) {
+        } catch (DAOException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Test
+    void getWorkshopByAreaTest(){
+        try {
+            WorkShopDao bookDao = new WorkShopDao();
+            ArrayList<Integer> arr = bookDao.findWorkshopByArea("chennai");
+            Assertions.assertEquals(14,arr.get(0));
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
         @AfterAll
@@ -74,7 +85,7 @@ public class WorkshopDaoTest {
                 WorkShopDao work  =  new WorkShopDao() ;
                 Assertions.assertTrue(work.removeWorkShopAccount(98403265105L));
 
-            }catch (DaoException e){
+            }catch (DAOException e){
                 e.printStackTrace();
 
             }

@@ -1,5 +1,5 @@
 package dao;
-import exception.DaoException;
+import exception.DAOException;
 import model.User;
 import util.ConnectionDb;
 import util.DTBException;
@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class UserDao {
-    public boolean insertUser(User use) throws DaoException {
+    public boolean insertUser(User use) throws DAOException {
         // This method is used to create user data in db table
         String  query = "insert into user (name,number,password) values (?,?,?)";
 
@@ -23,11 +23,11 @@ public class UserDao {
             int i = pre.executeUpdate();
             return (i==1);
         }catch (SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
     }
-    public  boolean updateUserPassword(Long num , String password)throws DaoException{
+    public  boolean updateUserPassword(Long num , String password)throws DAOException {
         // this method update the data of the user's password ;
         String query = "update user set password = ? where number = ?";
 
@@ -40,10 +40,10 @@ public class UserDao {
             int i = pre.executeUpdate();
             return i==1;
         }catch(SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
     }
-    public  boolean removeUser(long number)throws DaoException{
+    public  boolean removeUser(long number)throws DAOException {
         String query = "delete from user where number = ? ;";
 
         try (Connection connect = ConnectionDb.getConnection();
@@ -55,12 +55,12 @@ public class UserDao {
             return i == 1;
 
         }catch (SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
 
     }
-    public  User findUserByNumber(long num) throws DaoException {
+    public  User findUserByNumber(long num) throws DAOException {
 
         String query =  "Select * from user where number = ?";
         String number = Long.toString(num);
@@ -80,11 +80,11 @@ public class UserDao {
             return work;
 
         } catch (SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
 
     }
-    public  ArrayList<User> getAllUser() throws  DaoException{
+    public  ArrayList<User> getAllUser() throws DAOException {
 
         String query = "select * from user";
         ArrayList<User> users = new ArrayList<>();
@@ -107,7 +107,7 @@ public class UserDao {
 
 
         }catch (SQLException | DTBException e){
-            throw new DaoException(e);
+            throw new DAOException(e);
         }
         return users;
 

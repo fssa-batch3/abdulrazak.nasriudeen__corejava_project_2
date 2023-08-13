@@ -1,5 +1,5 @@
 package service;
-import exception.DaoException;
+import exception.DAOException;
 import exception.ValidationException;
 import model.User;
 import validation.UserValidation;
@@ -24,7 +24,7 @@ public class UserServices {
 
 
 
-            }catch (DaoException e){
+            }catch (DAOException e){
                 e.printStackTrace();
             }
 

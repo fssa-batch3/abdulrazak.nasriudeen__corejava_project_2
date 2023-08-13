@@ -1,5 +1,5 @@
 package validation;
-import exception.DaoException;
+import exception.DAOException;
 import model.Booking;
 import model.User;
 import dao.UserDao;
@@ -41,7 +41,7 @@ public class UserValidation {
             }else{
                 System.out.println("Enter a valid User Credentials ");
             }
-        }catch (InvalidEntryException | DaoException e){
+        }catch (InvalidEntryException | DAOException e){
             e.printStackTrace();
         }
         return false;
@@ -67,7 +67,7 @@ public class UserValidation {
             }else{
                 System.out.println("Enter a valid User Credentials ");
             }
-        }catch (InvalidEntryException | DaoException e){
+        }catch (InvalidEntryException | DAOException e){
             e.printStackTrace();
         }
         return false;
