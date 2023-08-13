@@ -20,15 +20,16 @@ public class UserValidation {
         return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.WorkshopType(u.getVehicleType());
 
     }
-    public boolean bookingValidation(Booking book)throws InvalidEntryException{
+    public boolean validBooking(Booking book)throws InvalidEntryException{
         Validations validate =  new  Validations();
-        return validate.stringValidation(book.getProblem())&&validate.stringValidation(book.getAddress())&&validate.stringValidation(book.getCity())&&validate.stringValidation(book.getState());
+        return validate.stringValidation(book.getProblem())&&validate.addressValidation(book.getAddress())&&validate.stringValidation(book.getCity())&&validate.stringValidation(book.getState());
     }
 
     public boolean validNewUser(User user){
         try {
             if (userCredentialValidate(user)){
-                User chkUser = UserDao.findUserByNumber(user.getNumber());
+                UserDao userDao = new UserDao();
+                User chkUser = userDao.findUserByNumber(user.getNumber());
                 if(chkUser.getName() == null ){
                     return true;
                 }else {
@@ -48,7 +49,8 @@ public class UserValidation {
     public boolean isUser(long num , String pass){
         try {
             if (userCredentialValidateLogin(num,pass)){
-                User chkUser = UserDao.findUserByNumber(num);
+                UserDao userDao = new UserDao();
+                User chkUser = userDao.findUserByNumber(num);
                 if(chkUser.getName() != null ){
                     if(chkUser.getPassword().equals(pass)){
                     System.out.print(chkUser.getName() + "Success fully logged in");}

@@ -1,14 +1,11 @@
 package service;
-
+import dao.WorkShopDao;
 import exception.DaoException;
-import model.User;
 import model.WorkShop;
 import validation.InvalidEntryException;
-import validation.UserValidation;
 import validation.WorkShopValidation;
 
-import static dao.WorkShopDao.findWorkShopByNumber;
-import static dao.WorkShopDao.insertWorkShop;
+
 
 
 public class WorkShopService {
@@ -16,7 +13,8 @@ public class WorkShopService {
         WorkShopValidation validate = new WorkShopValidation();
         if(validate.isValidWorkshop(user)){
             try {
-                boolean chk  = insertWorkShop(user);
+                WorkShopDao work =  new WorkShopDao() ;
+                boolean chk  = work.insertWorkShop(user);
                 if(chk)System.out.println("User registered successfully");
                 else System.out.println("User not registered successfully");
 
@@ -36,7 +34,8 @@ public class WorkShopService {
         WorkShopValidation validate = new WorkShopValidation();
         try{
         if(validate.isLogin(num,pass)){
-            WorkShop work = findWorkShopByNumber(num);
+            WorkShopDao workDao =  new WorkShopDao() ;
+            WorkShop work = workDao.findWorkShopByNumber(num);
             if(work.getNumber() == num){
             if(work.getPassword().equals(pass)){
                 System.out.println(work.getName()+" Succesfully logged in ");

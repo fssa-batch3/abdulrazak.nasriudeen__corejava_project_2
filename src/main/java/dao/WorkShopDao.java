@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class WorkShopDao {
 
-    public static boolean insertWorkShop(WorkShop work) throws DaoException {
+    public  boolean insertWorkShop(WorkShop work) throws DaoException {
         // This method is used to create user data in db table
         String  query = "insert into workshop (name,number,password,address,city,state,workshop_type) values (?,?,?,?,?,?,?)";
 
@@ -34,7 +34,7 @@ public class WorkShopDao {
         }
 
     }
-    public static WorkShop findWorkShopByNumber(long num) throws DaoException {
+    public  WorkShop findWorkShopByNumber(long num) throws DaoException {
 
         String query =  "Select * from workshop where number = ?";
         WorkShop work = new WorkShop();
@@ -70,7 +70,7 @@ public class WorkShopDao {
         }
 
     }
-    public static boolean removeWorkShopAccount(long number)throws DaoException{
+    public  boolean removeWorkShopAccount(long number)throws DaoException{
         String query = "delete from workshop where number = ? ;";
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement pre =  connect.prepareStatement(query);
@@ -91,7 +91,7 @@ public class WorkShopDao {
 
 
     }
-    public static boolean updateWorkShopPassword(Long num , String password)throws DaoException{
+    public  boolean updateWorkShopPassword(Long num , String password)throws DaoException{
         // this method update the data of the user's password ;
         String query = "update workshop set password = ? where number = ?";
         try( Connection connect = ConnectionDb.getConnection();
@@ -105,7 +105,7 @@ public class WorkShopDao {
             throw new DaoException(e);
         }
     }
-    public static ArrayList<WorkShop> getAllWorkShops()throws DaoException{
+    public  ArrayList<WorkShop> getAllWorkShops()throws DaoException{
         String query = "Select * from workshop";
         try (Connection connect = ConnectionDb.getConnection();
              PreparedStatement pre = connect.prepareStatement(query);){

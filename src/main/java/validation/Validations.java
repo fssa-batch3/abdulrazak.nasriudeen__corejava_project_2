@@ -1,5 +1,7 @@
 package validation;
 
+import exception.ValidationException;
+
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +11,17 @@ public  class Validations {
     static private final String passWord = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
     static private final String addressPattern = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
     static private final String vehicleNumberPattern = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
+
+
+
+    public static void rejectIfStringNullOrEmpty(String strInput) throws ValidationException {
+
+        if(strInput == null || "".equals(strInput.trim()) ){
+            throw new ValidationException("Invalid String input");
+        }
+
+    }
+
 
     public boolean stringValidation(String name) throws InvalidEntryException {
         Matcher match;

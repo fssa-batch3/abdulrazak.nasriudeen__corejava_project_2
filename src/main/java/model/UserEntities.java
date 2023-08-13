@@ -1,6 +1,6 @@
 package model;
 
-public abstract class UserEntities extends VehicleEntities {
+public abstract class UserEntities  {
     private int id;
     private String name;
     private long number;
@@ -21,7 +21,6 @@ public abstract class UserEntities extends VehicleEntities {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public int getId() {
         return id;

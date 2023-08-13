@@ -21,7 +21,8 @@ public class VehicleDaoTest {
         veh.setUser_id(3);
         veh.setVehicleYear(2004);
         try{
-           Assertions.assertTrue(VehicleDao.insertVehicle(veh));
+            VehicleDao vehicle = new VehicleDao();
+           Assertions.assertTrue(vehicle.insertVehicle(veh));
         }catch (DaoException e){
             e.printStackTrace();
         }
@@ -31,7 +32,8 @@ public class VehicleDaoTest {
     @Test
     void insertUserSuccess(){
         try {
-            Vehicle veh = VehicleDao.findVehicleByUserId(3);
+            VehicleDao vehicle = new VehicleDao();
+            Vehicle veh = vehicle.findVehicleByUserId(3);
             Assertions.assertEquals(2004,veh.getVehicleYear());
         } catch (DaoException e) {
             throw new RuntimeException(e);
@@ -41,7 +43,8 @@ public class VehicleDaoTest {
     @Test
     void getAllVehiclesTest(){
         try {
-            ArrayList<Vehicle> arr = VehicleDao.getAllVehicles();
+            VehicleDao vehicle = new VehicleDao();
+            ArrayList<Vehicle> arr = vehicle.getAllVehicles();
             Assertions.assertTrue(arr.size()!=0);
         } catch (DaoException e) {
             throw new RuntimeException(e);
@@ -52,9 +55,9 @@ public class VehicleDaoTest {
     @AfterAll
    static void removeVehicleTest()
     {
-
+        VehicleDao vehicle = new VehicleDao();
         try{
-            Assertions.assertTrue(VehicleDao.removeVehicle(3));
+            Assertions.assertTrue(vehicle.removeVehicle(3));
         }catch (DaoException e){ e.printStackTrace();}
     }
 

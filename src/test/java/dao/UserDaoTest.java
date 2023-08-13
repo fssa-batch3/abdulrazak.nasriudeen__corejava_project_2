@@ -14,8 +14,9 @@ public class UserDaoTest {
         use.setName("Abdul");
         use.setNumber(98403265109L);
         use.setPassword("1234");
+        UserDao userTest = new UserDao();
         try {
-            UserDao.insertUser(use);
+            userTest.insertUser(use);
         }catch (DaoException e){
             e.printStackTrace();
 
@@ -27,8 +28,8 @@ public class UserDaoTest {
     @Test
     void insertUserSuccess(){
         try {
-
-            User us = UserDao.findUserByNumber(98403265109L);
+            UserDao userTest = new UserDao();
+            User us = userTest.findUserByNumber(98403265109L);
             Assertions.assertEquals(98403265109L,us.getNumber());
 
         }catch (DaoException e){
@@ -39,9 +40,10 @@ public class UserDaoTest {
     @Test
     void testUpdatePassword(){
         try {
+            UserDao userTest = new UserDao();
 
-           Assertions.assertTrue(UserDao.updateUserPassword(98403265109L,"test"));
-            User us = UserDao.findUserByNumber(98403265109L);
+           Assertions.assertTrue(userTest.updateUserPassword(98403265109L,"test"));
+            User us = userTest.findUserByNumber(98403265109L);
             Assertions.assertEquals("test",us.getPassword());
 
 
@@ -54,8 +56,9 @@ public class UserDaoTest {
     void deleteUser()
     {
         try {
+            UserDao userTest = new UserDao();
 
-            Assertions.assertTrue(UserDao.removeUser(98403265109L));
+            Assertions.assertTrue(userTest.removeUser(98403265109L));
 
         }catch (DaoException e){
             e.printStackTrace();
@@ -66,7 +69,8 @@ public class UserDaoTest {
     void getAllUserTest(){
 
         try {
-            ArrayList<User> users = UserDao.getAllUser();
+            UserDao userTest = new UserDao();
+            ArrayList<User> users = userTest.getAllUser();
             Assertions.assertTrue(users.isEmpty());
         } catch (DaoException e) {
            e.printStackTrace();

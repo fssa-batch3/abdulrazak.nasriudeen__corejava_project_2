@@ -1,9 +1,8 @@
 package validation;
 
+import dao.WorkShopDao;
 import exception.DaoException;
 import model.WorkShop;
-
-import static dao.WorkShopDao.findWorkShopByNumber;
 
 public class WorkShopValidation {
    public boolean credentialValidate(WorkShop work) throws InvalidEntryException{
@@ -15,7 +14,8 @@ public class WorkShopValidation {
    public boolean isValidWorkshop(WorkShop work){
        try{
        if(credentialValidate(work)){
-           WorkShop chkWork = findWorkShopByNumber(work.getNumber());
+           WorkShopDao workDao = new WorkShopDao();
+           WorkShop chkWork = workDao.findWorkShopByNumber(work.getNumber());
            if(chkWork.getName() == null){
                return  true;
            }

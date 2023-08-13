@@ -6,8 +6,8 @@ import util.DTBException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class UserDao{
-    public static boolean insertUser(User use) throws DaoException {
+public class UserDao {
+    public boolean insertUser(User use) throws DaoException {
         // This method is used to create user data in db table
         String  query = "insert into user (name,number,password) values (?,?,?)";
 
@@ -27,7 +27,7 @@ public class UserDao{
         }
 
     }
-    public static boolean updateUserPassword(Long num , String password)throws DaoException{
+    public  boolean updateUserPassword(Long num , String password)throws DaoException{
         // this method update the data of the user's password ;
         String query = "update user set password = ? where number = ?";
 
@@ -43,7 +43,7 @@ public class UserDao{
             throw new DaoException(e);
         }
     }
-    public static boolean removeUser(long number)throws DaoException{
+    public  boolean removeUser(long number)throws DaoException{
         String query = "delete from user where number = ? ;";
 
         try (Connection connect = ConnectionDb.getConnection();
@@ -54,23 +54,19 @@ public class UserDao{
             int i = pre.executeUpdate();
             return i == 1;
 
-
-
         }catch (SQLException | DTBException e){
             throw new DaoException(e);
         }
 
 
     }
-    public static User findUserByNumber(long num) throws DaoException {
+    public  User findUserByNumber(long num) throws DaoException {
 
         String query =  "Select * from user where number = ?";
         String number = Long.toString(num);
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement prep =  connect.prepareStatement(query);){
             User work = new User();
-
-
 
             prep.setString(1,number);
             ResultSet   rs = prep.executeQuery();
@@ -80,8 +76,6 @@ public class UserDao{
                 work.setNumber(lNum);
                 work.setPassword(rs.getString("password"));
                 work.setId(rs.getInt("id"));
-
-
             }
             return work;
 
@@ -90,14 +84,12 @@ public class UserDao{
         }
 
     }
-    public static ArrayList<User> getAllUser() throws  DaoException{
+    public  ArrayList<User> getAllUser() throws  DaoException{
 
         String query = "select * from user";
         ArrayList<User> users = new ArrayList<>();
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement prep =  connect.prepareStatement(query);
-
-
         ){
             ResultSet  rs = prep.executeQuery();
             while(rs.next()){

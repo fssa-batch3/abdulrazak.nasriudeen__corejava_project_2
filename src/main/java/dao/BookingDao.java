@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class BookingDao {
 
-    public static boolean insertBooking(Booking book) throws DaoException{
+    public  boolean insertBooking(Booking book) throws DaoException{
         String query =  "insert into bookings (vehicle_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?)";
 
         try(Connection connect = ConnectionDb.getConnection();
@@ -32,7 +32,7 @@ public class BookingDao {
         }
 
     }
-    public static boolean removeBooking(int id)throws DaoException{
+    public  boolean removeBooking(int id)throws DaoException{
 
         String query = "delete from bookings where vehicle_id = ?";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre =  connect.prepareStatement(query);) {
@@ -50,7 +50,7 @@ public class BookingDao {
 
 
     }
-    public static  boolean updateRequestSts(int j , boolean ch) throws DaoException{
+    public   boolean updateRequestSts(int j , boolean ch) throws DaoException{
 
         String query = "update bookings set request_status = ? where vehicle_id = ? ";
 
@@ -65,7 +65,7 @@ public class BookingDao {
 
         }
     }
-    public static  boolean updateAcceptSts(int j , boolean ch) throws DaoException{
+    public   boolean updateAcceptSts(int j , boolean ch) throws DaoException{
 
         String query = "update bookings set accept_status = ? where vehicle_id = ? ";
 
@@ -80,7 +80,7 @@ public class BookingDao {
 
         }
     }
-    public static Booking getBookingsByVehicleId(int id) throws DaoException {
+    public  Booking getBookingsByVehicleId(int id) throws DaoException {
         Booking book = new Booking();
         String query = "select * from bookings where vehicle_id = ?";
         try(Connection connect = ConnectionDb.getConnection();
@@ -107,7 +107,7 @@ public class BookingDao {
             throw new DaoException(e);
         }
     }
-    public static  ArrayList<Integer> findWorkshopByArea(String area) throws DaoException {
+    public   ArrayList<Integer> findWorkshopByArea(String area) throws DaoException {
         String query = "select * from workshop where city = ?";
 
         try( Connection connect = ConnectionDb.getConnection();

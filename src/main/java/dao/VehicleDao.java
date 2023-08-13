@@ -1,5 +1,4 @@
 package dao;
-
 import exception.DaoException;
 import model.Vehicle;
 import util.ConnectionDb;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 public class VehicleDao {
 
-    public static boolean insertVehicle(Vehicle use) throws DaoException {
+    public  boolean insertVehicle(Vehicle use) throws DaoException {
             String  query = "insert into vehicles (model,company,vehicle_number,vehicle_type,user_id,year) values (?,?,?,?,?,?)";
 
         try ( Connection connect = ConnectionDb.getConnection();
@@ -37,7 +36,7 @@ public class VehicleDao {
 
 
     }
-    public static boolean removeVehicle(int id) throws DaoException{
+    public boolean removeVehicle(int id) throws DaoException{
         String query = "delete from vehicles where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query);){
@@ -50,7 +49,7 @@ public class VehicleDao {
 
 
     }
-    public static Vehicle findVehicleByUserId(int id) throws DaoException{
+    public  Vehicle findVehicleByUserId(int id) throws DaoException{
         String query = "select * from vehicles where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query);){
@@ -74,7 +73,7 @@ public class VehicleDao {
 
 
     }
-    public static ArrayList<Vehicle> getAllVehicles()throws DaoException{
+    public  ArrayList<Vehicle> getAllVehicles()throws DaoException{
         String query = "Select * from vehicles";
         ArrayList<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();

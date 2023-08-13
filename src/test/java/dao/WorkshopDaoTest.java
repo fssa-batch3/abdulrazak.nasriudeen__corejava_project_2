@@ -16,7 +16,8 @@ public class WorkshopDaoTest {
         use.setNumber(98403265105L);
         use.setPassword("1234");
         try {
-            WorkShopDao.insertWorkShop(use);
+            WorkShopDao work = new WorkShopDao();
+            work.insertWorkShop(use);
         } catch (DaoException e) {
             e.printStackTrace();
 
@@ -28,8 +29,9 @@ public class WorkshopDaoTest {
     @Test
     void insertWorkShopSuccess() {
         try {
+            WorkShopDao work  =  new WorkShopDao() ;
 
-            WorkShop us = WorkShopDao.findWorkShopByNumber(98403265105L);
+            WorkShop us = work.findWorkShopByNumber(98403265105L);
             Assertions.assertEquals(98403265105L, us.getNumber());
 
 
@@ -42,9 +44,9 @@ public class WorkshopDaoTest {
     @Test
     void testUpdatePassword() {
         try {
-
-            Assertions.assertTrue(WorkShopDao.updateWorkShopPassword(98403265105L, "test"));
-            WorkShop us = WorkShopDao.findWorkShopByNumber(98403265105L);
+            WorkShopDao work  =  new WorkShopDao() ;
+            Assertions.assertTrue(work.updateWorkShopPassword(98403265105L, "test"));
+            WorkShop us = work.findWorkShopByNumber(98403265105L);
             Assertions.assertEquals("test", us.getPassword());
 
 
@@ -57,7 +59,8 @@ public class WorkshopDaoTest {
     @Test
     void getAllWorkShops() {
         try {
-            ArrayList<WorkShop> workShop = WorkShopDao.getAllWorkShops();
+            WorkShopDao work  =  new WorkShopDao() ;
+            ArrayList<WorkShop> workShop = work.getAllWorkShops();
             Assertions.assertTrue(workShop.size() != 0);
         } catch (DaoException e) {
             throw new RuntimeException(e);
@@ -68,8 +71,8 @@ public class WorkshopDaoTest {
        static void deleteWorkshop()
         {
             try {
-
-                Assertions.assertTrue(WorkShopDao.removeWorkShopAccount(98403265105L));
+                WorkShopDao work  =  new WorkShopDao() ;
+                Assertions.assertTrue(work.removeWorkShopAccount(98403265105L));
 
             }catch (DaoException e){
                 e.printStackTrace();
