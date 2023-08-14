@@ -7,7 +7,6 @@ import exception.DAOException;
 import exception.InvalidEntryException;
 import model.Vehicle;
 import validation.UserValidation;
-
 import java.util.ArrayList;
 
 

@@ -17,7 +17,7 @@ public class VehicleDao {
             String  query = "insert into vehicles (model,company,vehicle_number,vehicle_type,user_id,year) values (?,?,?,?,?,?)";
 
         try ( Connection connect = ConnectionDb.getConnection();
-              PreparedStatement pre = connect.prepareStatement(query);){
+              PreparedStatement pre = connect.prepareStatement(query)){
             UserValidation usValid = new UserValidation();
             if(usValid.userValidVehicle(use)){
                 pre.setString(1,use.getVehicleModel());
@@ -39,7 +39,7 @@ public class VehicleDao {
     public boolean removeVehicle(int id) throws DAOException {
         String query = "delete from vehicles where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
-              PreparedStatement pre =  connect.prepareStatement(query);){
+              PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             int i = pre.executeUpdate();
             return i ==1 ;
@@ -52,7 +52,7 @@ public class VehicleDao {
     public  Vehicle findVehicleByUserId(int id) throws DAOException {
         String query = "select * from vehicles where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
-              PreparedStatement pre =  connect.prepareStatement(query);){
+              PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet i = pre.executeQuery();
             Vehicle u = new Vehicle();
@@ -76,7 +76,7 @@ public class VehicleDao {
     public  Vehicle findVehicleById(int id) throws DAOException {
         String query = "select * from vehicles where id  = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
-              PreparedStatement pre =  connect.prepareStatement(query);){
+              PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet i = pre.executeQuery();
             Vehicle u = new Vehicle();
@@ -101,7 +101,7 @@ public class VehicleDao {
         String query = "Select * from vehicles";
         ArrayList<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();
-              PreparedStatement pre =  connect.prepareStatement(query);){
+              PreparedStatement pre =  connect.prepareStatement(query)){
             ResultSet i = pre.executeQuery();
 
             while (i.next()){

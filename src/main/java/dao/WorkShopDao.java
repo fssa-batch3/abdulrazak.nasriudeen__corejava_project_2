@@ -15,7 +15,7 @@ public class WorkShopDao {
 
         try (
             Connection connect = ConnectionDb.getConnection();
-                PreparedStatement pre = connect.prepareStatement(query);)
+                PreparedStatement pre = connect.prepareStatement(query))
         {
             pre.setString(1, work.getName());
             String num =  Long.toString(work.getNumber());
@@ -45,7 +45,7 @@ public class WorkShopDao {
             Connection connect = ConnectionDb.getConnection();
 
 
-            PreparedStatement prep =  connect.prepareStatement(query);
+            PreparedStatement prep =  connect.prepareStatement(query)
         ){
 
             prep.setString(1,number);
@@ -73,7 +73,7 @@ public class WorkShopDao {
     public  boolean removeWorkShopAccount(long number)throws DAOException {
         String query = "delete from workshop where number = ? ;";
         try(Connection connect = ConnectionDb.getConnection();
-            PreparedStatement pre =  connect.prepareStatement(query);
+            PreparedStatement pre =  connect.prepareStatement(query)
         ){
 
 
@@ -95,7 +95,7 @@ public class WorkShopDao {
         // this method update the data of the user's password ;
         String query = "update workshop set password = ? where number = ?";
         try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement pre = connect.prepareStatement(query);){
+             PreparedStatement pre = connect.prepareStatement(query)){
             pre.setString(1,password);
             String number = Long.toString(num);
             pre.setString(2,number);
@@ -108,7 +108,7 @@ public class WorkShopDao {
     public  ArrayList<WorkShop> getAllWorkShops()throws DAOException {
         String query = "Select * from workshop";
         try (Connection connect = ConnectionDb.getConnection();
-             PreparedStatement pre = connect.prepareStatement(query);){
+             PreparedStatement pre = connect.prepareStatement(query)){
             ResultSet rs =  pre.executeQuery();
             ArrayList<WorkShop> workshops = new ArrayList<>();
             while(rs.next()){
@@ -134,7 +134,7 @@ public class WorkShopDao {
         String query = "select * from workshop where city = ?";
 
         try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement con = connect.prepareStatement(query);) {
+             PreparedStatement con = connect.prepareStatement(query)) {
 
             con.setString(1,area);
             ResultSet rs = con.executeQuery();

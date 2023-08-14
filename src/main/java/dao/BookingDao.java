@@ -13,7 +13,7 @@ public class BookingDao {
         String query =  "insert into bookings (vehicle_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?)";
 
         try(Connection connect = ConnectionDb.getConnection();
-            PreparedStatement pre =  connect.prepareStatement(query);) {
+            PreparedStatement pre =  connect.prepareStatement(query)) {
             pre.setInt(1,book.getVehicleId());
             pre.setInt(2,book.getWorkShopId());
             pre.setBoolean(3,book.isRequestStatus());
@@ -32,7 +32,7 @@ public class BookingDao {
     public  boolean removeBooking(int id)throws DAOException {
 
         String query = "delete from bookings where vehicle_id = ?";
-        try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre =  connect.prepareStatement(query);) {
+        try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre =  connect.prepareStatement(query)) {
 
 
             pre.setInt(1,id);
@@ -51,7 +51,7 @@ public class BookingDao {
 
         String query = "update bookings set request_status = ? where vehicle_id = ? ";
 
-        try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query);) {
+        try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query)) {
 
             pre.setBoolean(1,ch);
             pre.setInt(2,j);
@@ -66,7 +66,7 @@ public class BookingDao {
 
         String query = "update bookings set accept_status = ? where vehicle_id = ? ";
 
-        try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query);) {
+        try (Connection connect = ConnectionDb.getConnection();PreparedStatement pre = connect.prepareStatement(query)) {
 
             pre.setBoolean(1,ch);
             pre.setInt(2,j);
@@ -82,7 +82,7 @@ public class BookingDao {
         String query = "select * from bookings where vehicle_id = ?";
         try(Connection connect = ConnectionDb.getConnection();
 
-            PreparedStatement con = connect.prepareStatement(query);) {
+            PreparedStatement con = connect.prepareStatement(query)) {
 
             con.setInt(1,id);
             ResultSet rs = con.executeQuery();

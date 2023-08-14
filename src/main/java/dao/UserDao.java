@@ -12,7 +12,7 @@ public class UserDao {
         String  query = "insert into user (name,number,password) values (?,?,?)";
 
         try (Connection connect = ConnectionDb.getConnection();
-             PreparedStatement pre = connect.prepareStatement(query);){
+             PreparedStatement pre = connect.prepareStatement(query)){
 
             pre.setString(1, use.getName());
             String num =  Long.toString(use.getNumber());
@@ -32,7 +32,7 @@ public class UserDao {
         String query = "update user set password = ? where number = ?";
 
         try(Connection connect = ConnectionDb.getConnection();
-            PreparedStatement pre = connect.prepareStatement(query);){
+            PreparedStatement pre = connect.prepareStatement(query)){
 
             pre.setString(1,password);
             String number = Long.toString(num);
@@ -47,7 +47,7 @@ public class UserDao {
         String query = "delete from user where number = ? ;";
 
         try (Connection connect = ConnectionDb.getConnection();
-             PreparedStatement pre = connect.prepareStatement(query);){
+             PreparedStatement pre = connect.prepareStatement(query)){
 
             String num = Long.toString(number);
             pre.setString(1,num);
@@ -65,7 +65,7 @@ public class UserDao {
         String query =  "Select * from user where number = ?";
         String number = Long.toString(num);
         try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement prep =  connect.prepareStatement(query);){
+             PreparedStatement prep =  connect.prepareStatement(query)){
             User work = new User();
 
             prep.setString(1,number);
@@ -89,7 +89,7 @@ public class UserDao {
         String query = "select * from user";
         ArrayList<User> users = new ArrayList<>();
         try(Connection connect = ConnectionDb.getConnection();
-            PreparedStatement prep =  connect.prepareStatement(query);
+            PreparedStatement prep =  connect.prepareStatement(query)
         ){
             ResultSet  rs = prep.executeQuery();
             while(rs.next()){
