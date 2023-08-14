@@ -8,13 +8,12 @@ import  dao.UserDao;
 import java.util.ArrayList;
 public class UserServices {
 
-    public void registerUser(User user) throws ServiceException {
+    public boolean registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
         if(validate.validNewUser(user)){
             try {
                 UserDao use = new UserDao();
-                boolean chk  = use.insertUser(user);
-                if(chk)System.out.println("User registered successfully");
+                return use.insertUser(user);
 
 
 
@@ -23,6 +22,7 @@ public class UserServices {
             }
 
         }
+        return  false;
     }
     public int loginUser(Long num , String pass) throws  ServiceException{
         UserValidation validate = new UserValidation();
