@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public  class Validations {
     static private final String nameRegex = "^[A-Za-z\\s]+$";
-    static private final String passWord = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
+    static private final String password = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
     static private final String addressPattern = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
     static private final String vehicleNumberPattern = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
 
@@ -63,7 +63,7 @@ public  class Validations {
         Matcher match;
         try {
             //if(s == null) return false;
-            Pattern pt = Pattern.compile(passWord);
+            Pattern pt = Pattern.compile(password);
             match = pt.matcher(s);
             return match.matches();
         } catch (Exception e) {
