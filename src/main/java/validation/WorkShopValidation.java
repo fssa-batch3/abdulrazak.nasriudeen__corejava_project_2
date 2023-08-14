@@ -3,6 +3,7 @@ package validation;
 import dao.WorkShopDao;
 import exception.DAOException;
 import exception.InvalidEntryException;
+import exception.ValidationException;
 import model.WorkShop;
 
 public class WorkShopValidation {
@@ -30,6 +31,34 @@ public class WorkShopValidation {
        Validations validate =  new Validations();
        return validate.numberValidation(num)&&validate.passWordValidation(pass);
    }
+   public int getWorkShop(long num , String pass) throws ValidationException{
+           try {
+               if(isLogin(num,pass)){
+               WorkShopDao workDao =  new WorkShopDao() ;
+               WorkShop work = workDao.findWorkShopByNumber(num);
+               if(work.getNumber() ==  num ){
+                   if(work.getPassword().equals(pass)){
+                       return work.getId();
+                   }
+                   else{
+                       throw  new InvalidEntryException("invalid Password");
+                   }
+
+               }
+               else{
+                   throw  new InvalidEntryException("invalid Number");
+               }
+
+           }} catch (DAOException | InvalidEntryException e) {
+               throw new ValidationException(e);
+           }
+       return  0 ;
+
+       }
+
+
+
+
 
 
 }

@@ -52,7 +52,7 @@ public class WorkShopDao {
             ResultSet    rs = prep.executeQuery();
             if(rs.next()){
                 work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("phone"));
+                long lNum = Long.parseLong(rs.getString("number"));
                 work.setNumber(lNum);
                 work.setPassword(rs.getString("password"));
                 work.setId(rs.getInt("id"));
@@ -130,7 +130,7 @@ public class WorkShopDao {
             throw new DAOException(e);
         }
     }
-    public   ArrayList<Integer> findWorkshopByArea(String area) throws DAOException {
+    public   ArrayList<Integer> findWorkshopsByArea(String area) throws DAOException {
         String query = "select * from workshop where city = ?";
 
         try( Connection connect = ConnectionDb.getConnection();
@@ -150,6 +150,54 @@ public class WorkShopDao {
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
         }
+    }
+    public WorkShop getWorkShopsById(int id ) throws DAOException{
+        String query =  "Select * from workshop where id = ?";
+        try(Connection connection = ConnectionDb.getConnection();PreparedStatement pre  =  connection.prepareStatement(query)){
+            pre.setInt(1,id);
+            ResultSet rs =  pre.executeQuery();
+            WorkShop work = new WorkShop();
+            while(rs.next()){
+
+                work.setName(rs.getString("name"));
+                work.setCity(rs.getString("city"));
+                String num  = rs.getString("number");
+
+                work.setNumber(Long.parseLong(num));
+                work.setAddress(rs.getString("address"));
+                work.setState(rs.getString("state"));
+                work.setType(rs.getInt("workshop_type"));
+                work.setId(rs.getInt("id"));
+
+            }
+            return work ;
+
+
+        }catch (DTBException | SQLException e){
+            throw  new DAOException(e);
+        }
+
+
+    }
+    public ArrayList<Integer> getWorkshopsByType(int t) throws DAOException{
+        String query = "select * from workshop where workshop_type = ?";
+
+        try( Connection connect = ConnectionDb.getConnection();
+             PreparedStatement con = connect.prepareStatement(query)) {
+
+            con.setInt(1,t);
+            ResultSet rs = con.executeQuery();
+            ArrayList<Integer> workshops= new ArrayList<>();
+            while(rs.next()){
+                int book = rs.getInt("id");
+                workshops.add(book);
+            }
+            return workshops;
+        } catch (DTBException | SQLException e) {
+            throw new DAOException(e);
+        }
+
+
     }
 
 }

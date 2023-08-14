@@ -1,15 +1,15 @@
 package service;
 import dao.WorkShopDao;
 import exception.DAOException;
-import model.WorkShop;
 import exception.InvalidEntryException;
+import exception.ServiceException;
+import exception.ValidationException;
+import model.WorkShop;
+import validation.Validations;
 import validation.WorkShopValidation;
-
-
-
-
+import java.util.ArrayList;
 public class WorkShopService {
-    public static void registerWorkShop(WorkShop user){
+    public  void registerWorkShop(WorkShop user)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
         if(validate.isValidWorkshop(user)){
             try {
@@ -21,37 +21,71 @@ public class WorkShopService {
 
 
             }catch (DAOException e){
-                e.printStackTrace();
+               throw  new ServiceException(e) ;
             }
 
         }else{
-            System.out.println("enter valid credentials");
+            throw  new ServiceException("invalid credentials ");
         }
 
 
     }
-    public static void loginWorkShop(long num,String pass){
+    public int loginWorkShop(long num,String pass) throws ServiceException {
         WorkShopValidation validate = new WorkShopValidation();
-        try{
-        if(validate.isLogin(num,pass)){
-            WorkShopDao workDao =  new WorkShopDao() ;
-            WorkShop work = workDao.findWorkShopByNumber(num);
-            if(work.getNumber() == num){
-            if(work.getPassword().equals(pass)){
-                System.out.println(work.getName()+" Succesfully logged in ");
-            }else{
-                System.out.println("Incorrect PassWord");
-            }}else{
-                System.out.println("User not present");
-
-            }
-
-
-        }else System.out.println("Enter valid credentials");
-        }catch (InvalidEntryException | DAOException e){
-            e.printStackTrace();
+        try {
+           return validate.getWorkShop(num , pass);
+        } catch (ValidationException e) {
+            throw new ServiceException(e);
+        }
+    }
+    public ArrayList<WorkShop> getAllWorkShop() throws ServiceException{
+        WorkShopDao work  = new WorkShopDao();
+        try {
+            return work.getAllWorkShops();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
 
     }
+    public ArrayList<Integer> getWorkShopByArea(String city){
+        Validations validate =  new Validations();
+        WorkShopDao dao =  new WorkShopDao() ;
+        ArrayList<Integer> workShop  =  new ArrayList<>();
+        try {
+            if(validate.stringValidation(city)){
+                workShop =  dao.findWorkshopsByArea(city);
+            }
+        } catch (InvalidEntryException | DAOException e) {
+            throw new RuntimeException(e);
+        }
+        return workShop ;
+    }
+    public WorkShop getWorkShopById(int id) throws ServiceException{
+        WorkShopDao dao =  new WorkShopDao() ;
+        try {
+            return dao.getWorkShopsById(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+
+    }
+    public ArrayList<Integer> getWorkShopByType(int type) throws ServiceException {
+        Validations validate = new Validations();
+        ArrayList<Integer> arr = new ArrayList<>();
+        WorkShopDao dao = new WorkShopDao();
+        try {
+
+            if (validate.WorkshopType(type)) {
+                arr = dao.getWorkshopsByType(type);
+            }
+            return arr ;
+        }catch (DAOException e){
+            throw new ServiceException(e);
+        }
+
+    }
+
+
 
 }

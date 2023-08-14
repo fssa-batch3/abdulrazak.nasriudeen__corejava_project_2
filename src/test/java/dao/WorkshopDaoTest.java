@@ -70,7 +70,7 @@ public class WorkshopDaoTest {
     void getWorkshopByAreaTest(){
         try {
             WorkShopDao bookDao = new WorkShopDao();
-            ArrayList<Integer> arr = bookDao.findWorkshopByArea("chennai");
+            ArrayList<Integer> arr = bookDao.findWorkshopsByArea("chennai");
             Assertions.assertEquals(14,arr.get(0));
         } catch (DAOException e) {
             throw new RuntimeException(e);
