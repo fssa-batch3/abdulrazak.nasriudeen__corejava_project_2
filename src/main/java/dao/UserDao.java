@@ -60,6 +60,30 @@ public class UserDao {
 
 
     }
+    public  User findUserById(int id) throws DAOException {
+
+        String query =  "Select * from user where id = ?";
+
+        try( Connection connect = ConnectionDb.getConnection();
+             PreparedStatement prep =  connect.prepareStatement(query)){
+            User work = new User();
+
+            prep.setInt(1,id);
+            ResultSet   rs = prep.executeQuery();
+            if(rs.next()){
+                work.setName(rs.getString("name"));
+                long lNum = Long.parseLong(rs.getString("number"));
+                work.setNumber(lNum);
+                work.setPassword(rs.getString("password"));
+                work.setId(rs.getInt("id"));
+            }
+            return work;
+
+        } catch (SQLException | DTBException e){
+            throw new DAOException(e);
+        }
+
+    }
     public  User findUserByNumber(long num) throws DAOException {
 
         String query =  "Select * from user where number = ?";
@@ -72,7 +96,7 @@ public class UserDao {
             ResultSet   rs = prep.executeQuery();
             if(rs.next()){
                 work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("phone"));
+                long lNum = Long.parseLong(rs.getString("number"));
                 work.setNumber(lNum);
                 work.setPassword(rs.getString("password"));
                 work.setId(rs.getInt("id"));
@@ -95,7 +119,7 @@ public class UserDao {
             while(rs.next()){
                 User work = new User();
                 work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("phone"));
+                long lNum = Long.parseLong(rs.getString("number"));
                 work.setNumber(lNum);
                 work.setPassword(rs.getString("password"));
                 work.setId(rs.getInt("id"));

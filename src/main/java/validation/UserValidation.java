@@ -1,6 +1,7 @@
 package validation;
 import exception.DAOException;
 import exception.InvalidEntryException;
+import exception.ValidationException;
 import model.Booking;
 import model.User;
 import dao.UserDao;
@@ -44,31 +45,31 @@ public class UserValidation {
         }
         return false;
     }
-    public boolean isUser(long num , String pass){
+    public int isUser(long num , String pass) throws ValidationException {
         try {
             if (userCredentialValidateLogin(num,pass)){
                 UserDao userDao = new UserDao();
                 User chkUser = userDao.findUserByNumber(num);
                 if(chkUser.getName() != null ){
                     if(chkUser.getPassword().equals(pass)){
-                    System.out.print(chkUser.getName() + "Success fully logged in");}
-                    else{
-                        System.out.println("Invalid Password");
+                    return chkUser.getId();
                     }
-                    return true;
+                    else{
+                        throw new InvalidEntryException("Password is incorrect");
+                    }
+
                 }else {
-                    System.out.println("Sorry,mobile number is not found ");
-                    return false;
+                    throw new InvalidEntryException("User is not present");
                 }
 
 
-            }else{
-                System.out.println("Enter a valid User Credentials ");
             }
-        }catch (InvalidEntryException | DAOException e){
-            e.printStackTrace();
+
         }
-        return false;
+        catch (InvalidEntryException | DAOException e){
+            throw   new ValidationException(e);
+        }
+        return 0;// invalid credentials
 
     }
 

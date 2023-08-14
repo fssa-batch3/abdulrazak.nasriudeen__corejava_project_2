@@ -8,7 +8,7 @@ public class TestValidations {
     @Test
     void testNameValidation(){
         Validations validate = new Validations();
-        String name = "Abdul Raza ";
+        String name = "Abdul RazaK";
         try {
             Assertions.assertTrue(validate.stringValidation(name));
 

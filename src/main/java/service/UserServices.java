@@ -1,20 +1,14 @@
 package service;
 import exception.DAOException;
+import exception.ServiceException;
 import exception.ValidationException;
 import model.User;
 import validation.UserValidation;
-import validation.Validations;
-
 import  dao.UserDao;
-
-
+import java.util.ArrayList;
 public class UserServices {
 
-    public static void registerUser(User user) throws ValidationException {
-
-        Validations.rejectIfStringNullOrEmpty(user.getName());
-        Validations.rejectIfStringNullOrEmpty(user.getPassword());
-
+    public void registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
         if(validate.validNewUser(user)){
             try {
@@ -25,17 +19,41 @@ public class UserServices {
 
 
             }catch (DAOException e){
-                e.printStackTrace();
+                throw new ServiceException(e);
             }
 
         }
-
     }
-    public static void loginUser(Long num , String pass){
+    public int loginUser(Long num , String pass) throws  ServiceException{
         UserValidation validate = new UserValidation();
-        validate.isUser(num,pass);
+        try {
+           return validate.isUser(num,pass);
+        } catch (ValidationException e) {
+            throw new ServiceException(e);
+        }
+
 
     }
+    public User getUserById(int id) throws  ServiceException{
+        UserDao use = new UserDao();
+
+        try {
+            return use.findUserById(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+    public ArrayList <User> getAllUsers() throws ServiceException {
+        UserDao use = new UserDao();
+        try {
+           return use.getAllUser();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+    }
+
+
 
 
 
