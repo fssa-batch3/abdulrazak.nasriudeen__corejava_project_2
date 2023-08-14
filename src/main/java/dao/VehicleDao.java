@@ -73,6 +73,30 @@ public class VehicleDao {
 
 
     }
+    public  Vehicle findVehicleById(int id) throws DAOException {
+        String query = "select * from vehicles where id  = ?";
+        try ( Connection connect =  ConnectionDb.getConnection();
+              PreparedStatement pre =  connect.prepareStatement(query);){
+            pre.setInt(1,id);
+            ResultSet i = pre.executeQuery();
+            Vehicle u = new Vehicle();
+            while (i.next()){
+                u.setVehicleCompany(i.getString("company"));
+                u.setUser_id(i.getInt("user_id"));
+                u.setVehicleYear(i.getInt("year"));
+                u.setVehicleType(i.getInt("vehicle_type"));
+                u.setVehicleModel(i.getString("model"));
+                u.setVehicleId(i.getInt("id"));
+                u.setVehicleNumber(i.getString("vehicle_number"));
+            }
+            return u;
+
+        } catch (DTBException | SQLException e) {
+            throw new DAOException(e);
+        }
+
+
+    }
     public  ArrayList<Vehicle> getAllVehicles()throws DAOException {
         String query = "Select * from vehicles";
         ArrayList<Vehicle> vehicles =  new ArrayList<>();
