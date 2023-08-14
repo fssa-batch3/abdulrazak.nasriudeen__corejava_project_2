@@ -1,15 +1,15 @@
 package util;
 
 
+import exception.DTBException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class ConnectionDb {
 
-    public static Connection getConnection() throws DTBException{
+    public static Connection getConnection() throws DTBException {
         Connection connect = null ;
         String DB_URL;
         String DB_USER;

@@ -1,5 +1,6 @@
 package validation;
 import exception.DAOException;
+import exception.InvalidEntryException;
 import model.Booking;
 import model.User;
 import dao.UserDao;
@@ -33,13 +34,10 @@ public class UserValidation {
                 if(chkUser.getName() == null ){
                     return true;
                 }else {
-                    System.out.println("Sorry user already present");
                     return false;
                 }
 
 
-            }else{
-                System.out.println("Enter a valid User Credentials ");
             }
         }catch (InvalidEntryException | DAOException e){
             e.printStackTrace();
@@ -55,7 +53,7 @@ public class UserValidation {
                     if(chkUser.getPassword().equals(pass)){
                     System.out.print(chkUser.getName() + "Success fully logged in");}
                     else{
-                        System.out.println("Invalid Pa ssword");
+                        System.out.println("Invalid Password");
                     }
                     return true;
                 }else {

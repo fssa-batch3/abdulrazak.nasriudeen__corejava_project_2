@@ -2,7 +2,7 @@ package dao;
 import exception.DAOException;
 import model.User;
 import util.ConnectionDb;
-import util.DTBException;
+import exception.DTBException;
 import java.sql.*;
 import java.util.ArrayList;
 

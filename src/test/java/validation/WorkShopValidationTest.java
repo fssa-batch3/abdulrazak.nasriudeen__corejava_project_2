@@ -1,8 +1,8 @@
 package validation;
 
+import exception.InvalidEntryException;
 import model.WorkShop;
 import org.junit.jupiter.api.Assertions;
-import validation.WorkShopValidation;
 import org.junit.jupiter.api.Test;
 
 public class WorkShopValidationTest {

@@ -1,7 +1,7 @@
 package util;
+import exception.DTBException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import util.ConnectionDb;
 
 import java.sql.Connection;
 

@@ -2,16 +2,13 @@ package dao;
 import exception.DAOException;
 import model.Booking;
 import util.ConnectionDb;
-import util.DTBException;
+import exception.DTBException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-
 public class BookingDao {
-
     public  boolean insertBooking(Booking book) throws DAOException {
         String query =  "insert into bookings (vehicle_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?)";
 
@@ -107,6 +104,28 @@ public class BookingDao {
             throw new DAOException(e);
         }
     }
+    public ArrayList<Integer> findBookingNearByArea(String area) throws DAOException {
+        ArrayList<Integer> bookings = new ArrayList<>();
+        String query = "Select * from bookings where city = ? AND is_live = true";
+        try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre = connect.prepareStatement(query)) {
+            pre.setString(1 , area);
+            ResultSet rs =  pre.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("booking_id");
+                bookings.add(id);
+            }
+
+        } catch (DTBException | SQLException e) {
+            throw new DAOException(e);
+
+        }
+        return bookings ;
+    }
+
+
+
+
+
 
 
 

@@ -2,7 +2,7 @@ package service;
 import dao.WorkShopDao;
 import exception.DAOException;
 import model.WorkShop;
-import validation.InvalidEntryException;
+import exception.InvalidEntryException;
 import validation.WorkShopValidation;
 
 

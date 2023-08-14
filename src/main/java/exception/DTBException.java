@@ -1,4 +1,4 @@
-package util;
+package exception;
 
 public class DTBException extends  Exception{
     public DTBException(String msg){

@@ -2,10 +2,11 @@ package validation;
 
 import dao.WorkShopDao;
 import exception.DAOException;
+import exception.InvalidEntryException;
 import model.WorkShop;
 
 public class WorkShopValidation {
-   public boolean credentialValidate(WorkShop work) throws InvalidEntryException{
+   public boolean credentialValidate(WorkShop work) throws InvalidEntryException {
        Validations validate =  new Validations();
 
 

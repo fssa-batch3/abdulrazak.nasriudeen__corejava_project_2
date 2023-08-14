@@ -1,4 +1,5 @@
 package validation;
+import exception.InvalidEntryException;
 import model.User;
 import model.Vehicle;
 import org.junit.jupiter.api.Assertions;

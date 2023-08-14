@@ -1,4 +1,4 @@
-package validation;
+package exception;
 
 
 public class InvalidEntryException extends Exception {

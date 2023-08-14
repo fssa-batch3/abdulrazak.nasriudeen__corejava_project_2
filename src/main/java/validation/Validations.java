@@ -1,7 +1,6 @@
 package validation;
-
+import exception.InvalidEntryException;
 import exception.ValidationException;
-
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,18 +20,20 @@ public  class Validations {
         }
 
     }
-
-
-    public boolean stringValidation(String name) throws InvalidEntryException {
+    public boolean stringValidation(String str) throws InvalidEntryException {
         Matcher match;
+
+
         try {
             Pattern pat = Pattern.compile(nameRegex);
-            if (name == null) {
+            if (str == null) {
                 return false;
+            }if (str.length() > 15){
+                return  false ;
             }
-            match = pat.matcher(name);
+            match = pat.matcher(str);
         } catch (Exception e) {
-            throw new InvalidEntryException(e, "Invalid name");
+            throw new InvalidEntryException(e, "Invalid String");
         }
         return match.matches();
     }
@@ -96,7 +97,7 @@ public  class Validations {
 
             match = pat.matcher(num);
         } catch (Exception e) {
-            throw new InvalidEntryException(e, "Invalid address");
+            throw new InvalidEntryException(e, "Invalid vehicle number");
         }
         return match.matches();
 
