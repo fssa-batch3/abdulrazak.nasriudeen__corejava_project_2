@@ -7,16 +7,12 @@ import validation.UserValidation;
 import  dao.UserDao;
 import java.util.ArrayList;
 public class UserServices {
-
     public boolean registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
         if(validate.validNewUser(user)){
             try {
                 UserDao use = new UserDao();
                 return use.insertUser(user);
-
-
-
             }catch (DAOException e){
                 throw new ServiceException(e);
             }

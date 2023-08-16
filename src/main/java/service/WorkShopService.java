@@ -47,7 +47,7 @@ public class WorkShopService {
         }
 
     }
-    public ArrayList<Integer> getWorkShopByArea(String city){
+    public ArrayList<Integer> getWorkShopByArea(String city) throws ServiceException{
         Validations validate =  new Validations();
         WorkShopDao dao =  new WorkShopDao() ;
         ArrayList<Integer> workShop  =  new ArrayList<>();
@@ -56,7 +56,7 @@ public class WorkShopService {
                 workShop =  dao.findWorkshopsByArea(city);
             }
         } catch (InvalidEntryException | DAOException e) {
-            throw new RuntimeException(e);
+            throw new ServiceException(e);
         }
         return workShop ;
     }
