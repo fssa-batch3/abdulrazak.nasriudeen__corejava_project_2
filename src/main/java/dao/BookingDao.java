@@ -9,6 +9,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 public class BookingDao {
+
+   public Booking assignBooking(ResultSet rs){
+       try {
+           Booking book = new Booking();
+           while(rs.next()){
+               book.setBookingId(rs.getInt("booking_id"));
+               book.setCity(rs.getString("city"));
+               book.setVehicleId(rs.getInt("vehicle_id"));
+               book.setState(rs.getString("state"));
+               book.setAddress(rs.getString("address"));
+               book.setWorkShopId(rs.getInt("workshop_id"));
+               book.setProblem(rs.getString("problem"));
+               book.setAcceptStatus(rs.getBoolean("accept_status"));
+               book.setRequestStatus(rs.getBoolean("request_status"));
+               book.setLive(rs.getBoolean("is_live"));
+
+
+           }
+           return  book ;
+       } catch (SQLException e) {
+           throw new RuntimeException(e);
+       }
+
+   }
+
     public  boolean insertBooking(Booking book) throws DAOException {
         String query =  "insert into bookings (vehicle_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?)";
 
@@ -33,16 +58,11 @@ public class BookingDao {
 
         String query = "delete from bookings where vehicle_id = ?";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre =  connect.prepareStatement(query)) {
-
-
             pre.setInt(1,id);
         int  i =  pre.executeUpdate()  ;
             return i == 1 ;
-
         }catch (DTBException | SQLException e){
             throw new DAOException(e);
-
-
         }
 
 
@@ -78,7 +98,6 @@ public class BookingDao {
         }
     }
     public  Booking getBookingsByVehicleId(int id) throws DAOException {
-        Booking book = new Booking();
         String query = "select * from bookings where vehicle_id = ?";
         try(Connection connect = ConnectionDb.getConnection();
 
@@ -86,20 +105,8 @@ public class BookingDao {
 
             con.setInt(1,id);
             ResultSet rs = con.executeQuery();
-            while(rs.next()){
-                book.setBookingId(rs.getInt("booking_id"));
-                book.setCity(rs.getString("city"));
-                book.setVehicleId(rs.getInt("vehicle_id"));
-                book.setState(rs.getString("state"));
-                book.setAddress(rs.getString("address"));
-                book.setWorkShopId(rs.getInt("workshop_id"));
-                book.setProblem(rs.getString("problem"));
-                book.setAcceptStatus(rs.getBoolean("accept_status"));
-                book.setRequestStatus(rs.getBoolean("request_status"));
 
-
-            }
-            return book;
+            return assignBooking(rs);
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
         }
@@ -114,12 +121,24 @@ public class BookingDao {
                 int id = rs.getInt("booking_id");
                 bookings.add(id);
             }
-
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
 
         }
         return bookings ;
+    }
+    public Booking getBookingById(int id) throws DAOException{
+        String query =  "Select * from bookings where booking_id = ? ";
+        try (Connection connect =  ConnectionDb.getConnection();PreparedStatement pre =  connect.prepareStatement(query)){
+            pre.setInt(1,id);
+            ResultSet rs =  pre.executeQuery();
+
+
+            return assignBooking(rs);
+        }catch (DTBException | SQLException e){
+            throw  new DAOException(e);
+        }
+
     }
 
 

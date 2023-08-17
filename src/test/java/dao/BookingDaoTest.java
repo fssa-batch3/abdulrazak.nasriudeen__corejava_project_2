@@ -5,11 +5,8 @@ import model.Booking;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
 public class BookingDaoTest {
-   @Test
+    @Test
      void insertBookingTest(){
         Booking book  = new Booking();
 
@@ -17,7 +14,7 @@ public class BookingDaoTest {
         book.setAddress("123123");
         book.setCity("chennai");
         book.setState("TamilNadu");
-        book.setProblem("punChre");
+        book.setProblem("punchre");
 
 
         try {
@@ -51,18 +48,13 @@ public class BookingDaoTest {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
     @AfterAll
    static void removeBooking(){
         try {
             BookingDao bookDao = new BookingDao();
             Assertions.assertTrue(bookDao.removeBooking(1));
         } catch (DAOException e) {
-            throw new RuntimeException(e);
-        }
+            throw new RuntimeException(e);}
     }
 
 

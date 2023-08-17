@@ -8,6 +8,16 @@ public abstract class BookingEntities {
     private int vehicleId;
     private String problem;
     private String address ;
+    private boolean isLive ;
+
+    public boolean isLive() {
+        return isLive;
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
+    }
+
     public int getWorkShopId() {
         return workShopId;
     }

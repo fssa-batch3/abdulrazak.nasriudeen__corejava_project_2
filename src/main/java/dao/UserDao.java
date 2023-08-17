@@ -7,6 +7,22 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class UserDao {
+
+    public User assignUser(ResultSet rs) throws DAOException{
+        User user  = new User();
+        try {
+            if(rs.next()){
+                user.setName(rs.getString("name"));
+                long lNum = Long.parseLong(rs.getString("number"));
+                user.setNumber(lNum);
+                user.setPassword(rs.getString("password"));
+                user.setId(rs.getInt("id"));
+            }
+            return user;
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
     public boolean insertUser(User use) throws DAOException {
         // This method is used to create user data in db table
         String  query = "insert into user (name,number,password) values (?,?,?)";
@@ -66,18 +82,12 @@ public class UserDao {
 
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement prep =  connect.prepareStatement(query)){
-            User work = new User();
+
 
             prep.setInt(1,id);
             ResultSet   rs = prep.executeQuery();
-            if(rs.next()){
-                work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("number"));
-                work.setNumber(lNum);
-                work.setPassword(rs.getString("password"));
-                work.setId(rs.getInt("id"));
-            }
-            return work;
+
+            return assignUser(rs);
 
         } catch (SQLException | DTBException e){
             throw new DAOException(e);
@@ -90,18 +100,12 @@ public class UserDao {
         String number = Long.toString(num);
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement prep =  connect.prepareStatement(query)){
-            User work = new User();
+
 
             prep.setString(1,number);
             ResultSet   rs = prep.executeQuery();
-            if(rs.next()){
-                work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("number"));
-                work.setNumber(lNum);
-                work.setPassword(rs.getString("password"));
-                work.setId(rs.getInt("id"));
-            }
-            return work;
+
+            return assignUser(rs);
 
         } catch (SQLException | DTBException e){
             throw new DAOException(e);
@@ -117,15 +121,8 @@ public class UserDao {
         ){
             ResultSet  rs = prep.executeQuery();
             while(rs.next()){
-                User work = new User();
-                work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("number"));
-                work.setNumber(lNum);
-                work.setPassword(rs.getString("password"));
-                work.setId(rs.getInt("id"));
+                User work = assignUser(rs);
                 users.add(work);
-
-
             }
 
 

@@ -11,9 +11,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class VehicleDao {
 
-    public  boolean insertVehicle(Vehicle use) throws DAOException {
+public class VehicleDao {
+    public  Vehicle assignVehicle(ResultSet rs) throws DAOException{
+        Vehicle vehicle = new Vehicle();
+        try {
+            if (rs.next()){
+                vehicle.setVehicleCompany(rs.getString("company"));
+                vehicle.setUser_id(rs.getInt("user_id"));
+                vehicle.setVehicleYear(rs.getInt("year"));
+                vehicle.setVehicleType(rs.getInt("vehicle_type"));
+                vehicle.setVehicleModel(rs.getString("model"));
+                vehicle.setVehicleId(rs.getInt("id"));
+                vehicle.setVehicleNumber(rs.getString("vehicle_number"));
+            }
+            return vehicle ;
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }public  boolean insertVehicle(Vehicle use) throws DAOException {
             String  query = "insert into vehicles (model,company,vehicle_number,vehicle_type,user_id,year) values (?,?,?,?,?,?)";
 
         try ( Connection connect = ConnectionDb.getConnection();
@@ -54,18 +70,10 @@ public class VehicleDao {
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
-            ResultSet i = pre.executeQuery();
-            Vehicle u = new Vehicle();
-            while (i.next()){
-                u.setVehicleCompany(i.getString("company"));
-                u.setUser_id(i.getInt("user_id"));
-                u.setVehicleYear(i.getInt("year"));
-                u.setVehicleType(i.getInt("vehicle_type"));
-                u.setVehicleModel(i.getString("model"));
-                u.setVehicleId(i.getInt("id"));
-                u.setVehicleNumber(i.getString("vehicle_number"));
-            }
-            return u;
+            ResultSet rs = pre.executeQuery();
+
+
+            return assignVehicle(rs);
 
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
@@ -78,18 +86,9 @@ public class VehicleDao {
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
-            ResultSet i = pre.executeQuery();
-            Vehicle u = new Vehicle();
-            while (i.next()){
-                u.setVehicleCompany(i.getString("company"));
-                u.setUser_id(i.getInt("user_id"));
-                u.setVehicleYear(i.getInt("year"));
-                u.setVehicleType(i.getInt("vehicle_type"));
-                u.setVehicleModel(i.getString("model"));
-                u.setVehicleId(i.getInt("id"));
-                u.setVehicleNumber(i.getString("vehicle_number"));
-            }
-            return u;
+            ResultSet rs = pre.executeQuery();
+
+            return assignVehicle(rs);
 
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
@@ -102,18 +101,11 @@ public class VehicleDao {
         ArrayList<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
-            ResultSet i = pre.executeQuery();
+            ResultSet rs = pre.executeQuery();
 
-            while (i.next()){
-                Vehicle u =  new Vehicle();
-                u.setVehicleCompany(i.getString("company"));
-                u.setUser_id(i.getInt("user_id"));
-                u.setVehicleYear(i.getInt("year"));
-                u.setVehicleType(i.getInt("vehicle_type"));
-                u.setVehicleModel(i.getString("model"));
-                u.setVehicleId(i.getInt("id"));
-                u.setVehicleNumber(i.getString("vehicle_number"));
-                vehicles.add(u);
+            while (rs.next()){
+               Vehicle vehicle  = assignVehicle(rs);
+                vehicles.add(vehicle);
             }
 
 
