@@ -15,8 +15,6 @@ public  class Validations {
 
     public boolean stringValidation(String str) throws InvalidEntryException {
         Matcher match;
-
-
         try {
             Pattern pat = Pattern.compile(nameRegex);
             if (str == null) {
