@@ -1,25 +1,18 @@
 package validation;
 import exception.InvalidEntryException;
-import exception.ValidationException;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public  class Validations {
     static private final String nameRegex = "^[A-Za-z\\s]+$";
-    static private final String password = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
+    static private final String pass = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
     static private final String addressPattern = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
     static private final String vehicleNumberPattern = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
 
 
 
-    public static void rejectIfStringNullOrEmpty(String strInput) throws ValidationException {
 
-        if(strInput == null || "".equals(strInput.trim()) ){
-            throw new ValidationException("Invalid String input");
-        }
-
-    }
     public boolean stringValidation(String str) throws InvalidEntryException {
         Matcher match;
 
@@ -39,17 +32,13 @@ public  class Validations {
     }
 
     public boolean numberValidation(Long number) throws InvalidEntryException {
-        Matcher match;
+
         try {
 
             String num = Long.toString(number);
 
             //  Pattern pat = Pattern.compile(numberRegex);
-            if (num.length() == 10) {
-                return true;
-            } else {
-                return false;
-            }
+            return num.length() == 10;
 
 
         } catch (Exception e) {
@@ -63,7 +52,7 @@ public  class Validations {
         Matcher match;
         try {
             //if(s == null) return false;
-            Pattern pt = Pattern.compile(password);
+            Pattern pt = Pattern.compile(pass);
             match = pt.matcher(s);
             return match.matches();
         } catch (Exception e) {
@@ -71,11 +60,7 @@ public  class Validations {
         }
     }
     public boolean WorkshopType(int i ){
-        if(i == 2 || i == 3 || i ==4){
-            return true;
-        }else{
-            return false;
-        }
+        return i == 2 || i == 3 || i == 4;
     }
     public  boolean addressValidation(String address) throws InvalidEntryException {
         Matcher match;
@@ -108,9 +93,7 @@ public  class Validations {
             if (year.length() != 4) return false;
             LocalDate currentDate = LocalDate.now();
             int currentYear = currentDate.getYear();
-            if (yr <= currentYear)
-                return true;
-            else return false;
+            return yr <= currentYear;
 
         } catch (Exception e) {
             throw new InvalidEntryException(e);
