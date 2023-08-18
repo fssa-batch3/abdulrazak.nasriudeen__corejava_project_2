@@ -1,17 +1,45 @@
 package service;
+import dao.UserDao;
+import exception.DAOException;
 import exception.ServiceException;
 import model.User;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 public class UserServiceTest {
+    @BeforeAll
+    static  void createUser(){
+        User use = new User("Razak",9840326515L,"abd123");
+        UserServices user  = new UserServices();
+        try {
+            Assertions.assertTrue(user.registerUser(use));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    @Test
+    void createUserSuccess(){
+        UserDao userDao = new UserDao();
+        try {
+            User us = userDao.findUserByNumber(9840326515L);
+            Assertions.assertEquals("Razak",us.getName());
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
 
     @Test
     void createUserTestFail (){
-        User use = new User();
-        use.setName("Abdul");
-        use.setNumber(98403265109L);
-        use.setPassword("123456");
+        User use = new User("Abdul",98403265109L,"123456");
         UserServices user =  new UserServices();
         try {
             Assertions.assertFalse(user.registerUser(use));
@@ -74,6 +102,17 @@ public class UserServiceTest {
             throw new RuntimeException(e);
         }
 
+
+    }
+
+    @AfterAll
+    static void deleteTestUser(){
+        UserDao dao  = new UserDao();
+        try {
+            Assertions.assertTrue(dao.removeUser(9840326515L));
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

@@ -9,6 +9,24 @@ public abstract class BookingEntities {
     private String problem;
     private String address ;
     private boolean isLive ;
+    private Vehicle vehicle;
+    private  WorkShop workShop;
+
+    public WorkShop getWorkShop() {
+        return workShop;
+    }
+
+    public void setWorkShop(WorkShop workShop) {
+        this.workShop = workShop;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
 
     public boolean isLive() {
         return isLive;

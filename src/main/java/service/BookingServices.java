@@ -12,6 +12,7 @@ public class BookingServices {
         BookingDao dao =  new BookingDao();
         try {
             if(validate.validBooking(book)){
+
                return dao.insertBooking(book);
 
             }

@@ -10,9 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 public class BookingDao {
 
-   public Booking assignBooking(ResultSet rs){
+   public Booking assignBooking(ResultSet rs) throws DAOException{
        try {
            Booking book = new Booking();
+           VehicleDao vehicle =  new VehicleDao();
+           WorkShopDao work  =  new WorkShopDao();
            while(rs.next()){
                book.setBookingId(rs.getInt("booking_id"));
                book.setCity(rs.getString("city"));
@@ -24,12 +26,12 @@ public class BookingDao {
                book.setAcceptStatus(rs.getBoolean("accept_status"));
                book.setRequestStatus(rs.getBoolean("request_status"));
                book.setLive(rs.getBoolean("is_live"));
-
-
+               book.setVehicle(vehicle.assignVehicle(rs));
+               book.setWorkShop(work.assignWorkShop(rs));
            }
            return  book ;
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
+       } catch (SQLException | DAOException e) {
+           throw new DAOException(e);
        }
 
    }
@@ -98,7 +100,8 @@ public class BookingDao {
         }
     }
     public  Booking getBookingsByVehicleId(int id) throws DAOException {
-        String query = "select * from bookings where vehicle_id = ?";
+       String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where vehicle_id = ? ";
+
         try(Connection connect = ConnectionDb.getConnection();
 
             PreparedStatement con = connect.prepareStatement(query)) {
@@ -113,7 +116,7 @@ public class BookingDao {
     }
     public ArrayList<Integer> findBookingNearByArea(String area) throws DAOException {
         ArrayList<Integer> bookings = new ArrayList<>();
-        String query = "Select * from bookings where city = ? AND is_live = true";
+        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where city = ? AND is_live = true";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement pre = connect.prepareStatement(query)) {
             pre.setString(1 , area);
             ResultSet rs =  pre.executeQuery();
@@ -128,7 +131,7 @@ public class BookingDao {
         return bookings ;
     }
     public Booking getBookingById(int id) throws DAOException{
-        String query =  "Select * from bookings where booking_id = ? ";
+        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where booking_id = ? ";
         try (Connection connect =  ConnectionDb.getConnection();PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs =  pre.executeQuery();

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class VehicleDao {
     public  Vehicle assignVehicle(ResultSet rs) throws DAOException{
         Vehicle vehicle = new Vehicle();
+        UserDao userDao = new UserDao();
         try {
             if (rs.next()){
                 vehicle.setVehicleCompany(rs.getString("company"));
@@ -25,6 +26,7 @@ public class VehicleDao {
                 vehicle.setVehicleId(rs.getInt("id"));
                 vehicle.setVehicleNumber(rs.getString("vehicle_number"));
             }
+            vehicle.setUser(userDao.assignUser(rs));
             return vehicle ;
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -66,7 +68,7 @@ public class VehicleDao {
 
     }
     public  Vehicle findVehicleByUserId(int id) throws DAOException {
-        String query = "select * from vehicles where user_id = ?";
+        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
@@ -82,7 +84,7 @@ public class VehicleDao {
 
     }
     public  Vehicle findVehicleById(int id) throws DAOException {
-        String query = "select * from vehicles where id  = ?";
+        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where id  = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
@@ -118,4 +120,3 @@ public class VehicleDao {
 //
 
 }
-
