@@ -13,7 +13,7 @@ public class WorkShopValidation {
 
        return validate.stringValidation(work.getName())&&validate.numberValidation(work.getNumber())&&validate.passWordValidation(work.getPassword())&&validate.addressValidation(work.getAddress())&&validate.stringValidation(work.getCity())&&validate.stringValidation(work.getState())&&validate.WorkshopType(work.getType());
    }
-   public boolean isValidWorkshop(WorkShop work){
+   public boolean isValidWorkshop(WorkShop work) throws ValidationException {
        try{
        if(credentialValidate(work)){
            WorkShopDao workDao = new WorkShopDao();
@@ -23,7 +23,7 @@ public class WorkShopValidation {
            }
 
        }}catch (InvalidEntryException | DAOException e){
-           e.printStackTrace();
+          throw new ValidationException(e);
        }
        return false;
    }

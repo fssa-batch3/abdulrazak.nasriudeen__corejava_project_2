@@ -9,15 +9,16 @@ import java.util.ArrayList;
 public class UserServices {
     public boolean registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
-        if(validate.validNewUser(user)){
-            try {
-                UserDao use = new UserDao();
+        try {
+            UserDao use = new UserDao();
+            if(validate.validNewUser(user)){
                 return use.insertUser(user);
-            }catch (DAOException e){
-                throw new ServiceException(e);
             }
 
+        }catch (DAOException | ValidationException e){
+            throw new ServiceException(e);
         }
+
         return  false;
     }
     public int loginUser(Long num , String pass) throws  ServiceException{

@@ -11,25 +11,25 @@ import java.util.ArrayList;
 public class WorkShopService {
     public  void registerWorkShop(WorkShop user)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
-        if(validate.isValidWorkshop(user)){
+
             try {
-                WorkShopDao work =  new WorkShopDao() ;
-                boolean chk  = work.insertWorkShop(user);
-                if(chk)System.out.println("User registered successfully");
-                else System.out.println("User not registered successfully");
+                if(validate.isValidWorkshop(user)) {
+                    WorkShopDao work = new WorkShopDao();
+                    boolean chk = work.insertWorkShop(user);
+                    if (chk) System.out.println("User registered successfully");
+                    else System.out.println("User not registered successfully");
+                }
 
 
 
-            }catch (DAOException e){
+            }catch (DAOException | ValidationException e){
                throw  new ServiceException(e) ;
             }
 
-        }else{
-            throw  new ServiceException("invalid credentials ");
         }
 
 
-    }
+    
     public int loginWorkShop(long num,String pass) throws ServiceException {
         WorkShopValidation validate = new WorkShopValidation();
         try {

@@ -27,7 +27,7 @@ public class UserValidation {
         return validate.stringValidation(book.getProblem())&&validate.addressValidation(book.getAddress())&&validate.stringValidation(book.getCity())&&validate.stringValidation(book.getState());
     }
 
-    public boolean validNewUser(User user){
+    public boolean validNewUser(User user) throws  ValidationException{
         try {
             if (userCredentialValidate(user)){
                 UserDao userDao = new UserDao();
@@ -41,7 +41,7 @@ public class UserValidation {
 
             }
         }catch (InvalidEntryException | DAOException e){
-            e.printStackTrace();
+            throw   new ValidationException(e);
         }
         return false;
     }
