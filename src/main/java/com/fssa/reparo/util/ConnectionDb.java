@@ -1,16 +1,13 @@
 package com.fssa.reparo.util;
-
-
 import com.fssa.reparo.exception.DTBException;
 import io.github.cdimascio.dotenv.Dotenv;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConnectionDb {
 
     public static Connection getConnection() throws DTBException {
-        Connection connect = null ;
+        Connection connect;
         String DB_URL;
         String DB_USER;
         String DB_PASSWORD;
@@ -27,6 +24,7 @@ public class ConnectionDb {
         }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            assert DB_URL != null;
             connect = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (Exception e) {
             throw new DTBException("Problem with the connection to the data base",e);
