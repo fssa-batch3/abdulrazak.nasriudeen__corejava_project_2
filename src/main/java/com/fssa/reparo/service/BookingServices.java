@@ -12,14 +12,15 @@ public class BookingServices {
         BookingDao dao =  new BookingDao();
         try {
             if(validate.validBooking(book)){
-
                return dao.insertBooking(book);
-
             }
             return false;
         } catch (InvalidEntryException | DAOException e) {
             throw new ServiceException(e);
         }
-
+    }
+    public boolean updateBookingStatus(boolean status , int id){
+        
+        return true;
     }
 }

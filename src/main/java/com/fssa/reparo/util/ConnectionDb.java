@@ -29,10 +29,6 @@ public class ConnectionDb {
         } catch (Exception e) {
             throw new DTBException("Problem with the connection to the data base",e);
         }
-
-
-
-
         return  connect ;
     }
 

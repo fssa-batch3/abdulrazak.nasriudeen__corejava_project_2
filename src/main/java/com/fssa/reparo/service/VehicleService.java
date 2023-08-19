@@ -1,6 +1,4 @@
 package com.fssa.reparo.service;
-
-
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.dao.VehicleDao;
 import com.fssa.reparo.exception.DAOException;
@@ -8,10 +6,8 @@ import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.model.Vehicle;
 import com.fssa.reparo.validation.UserValidation;
 import java.util.ArrayList;
-
-
 public  class VehicleService  {
-    public boolean createVehicle(Vehicle vehicle) throws ServiceException {
+    public boolean addVehicle(Vehicle vehicle) throws ServiceException {
         UserValidation validate =  new UserValidation();
         VehicleDao vehicleDao = new VehicleDao();
         try {
@@ -21,9 +17,6 @@ public  class VehicleService  {
                   return vehicleDao.insertVehicle(vehicle);
                 }
                 return false;
-
-
-
             }
             return false;
         } catch (InvalidEntryException | DAOException e) {
