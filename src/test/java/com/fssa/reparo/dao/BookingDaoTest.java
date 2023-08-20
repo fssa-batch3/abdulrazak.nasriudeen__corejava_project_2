@@ -42,7 +42,7 @@ public class BookingDaoTest {
     void updateAcceptStatus(){
         try {
             BookingDao bookDao = new BookingDao();
-            Assertions.assertTrue(bookDao.updateAcceptSts(1,true));
+            Assertions.assertTrue(bookDao.updateAcceptSts(1,2,true));
             Booking book = bookDao.getBookingsByVehicleId(1);
             Assertions.assertTrue(book.isAcceptStatus());
         } catch (DAOException e) {

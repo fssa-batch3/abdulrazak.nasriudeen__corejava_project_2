@@ -7,20 +7,30 @@ import com.fssa.reparo.model.Booking;
 import com.fssa.reparo.validation.BookingValidation;
 
 public class BookingServices {
+    protected BookingDao bookingDao ;
     public  boolean createBooking(Booking book) throws  ServiceException{
         BookingValidation validate = new BookingValidation();
-        BookingDao dao =  new BookingDao();
         try {
             if(validate.validBooking(book)){
-               return dao.insertBooking(book);
+               return bookingDao.insertBooking(book);
             }
             return false;
         } catch (InvalidEntryException | DAOException e) {
             throw new ServiceException(e);
         }
     }
-    public boolean updateBookingStatus(boolean status , int id){
-        
-        return true;
+    public boolean updateRequestStatus(boolean status , int id) throws ServiceException{
+        try {
+            return bookingDao.updateRequestSts(id,status);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+    public boolean updateAcceptStatus(int booking_id , int workshop_id , boolean status)throws ServiceException{
+        try {
+            return bookingDao.updateAcceptSts(booking_id,workshop_id,status);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 }
