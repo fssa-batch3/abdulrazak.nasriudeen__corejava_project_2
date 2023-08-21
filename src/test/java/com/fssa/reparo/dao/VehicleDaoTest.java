@@ -1,6 +1,5 @@
 package com.fssa.reparo.dao;
 
-import com.fssa.reparo.dao.VehicleDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.Vehicle;
 import org.junit.jupiter.api.AfterAll;
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class VehicleDaoTest {
 
@@ -19,7 +18,7 @@ public class VehicleDaoTest {
         veh.setVehicleModel("spl");
         veh.setVehicleType(3);
         veh.setVehicleNumber("TN03PU1002");
-        veh.setUser_id(3);
+        veh.setUserId(3);
         veh.setVehicleYear(2004);
         try{
             VehicleDao vehicle = new VehicleDao();
@@ -45,7 +44,7 @@ public class VehicleDaoTest {
     void getAllVehiclesTest(){
         try {
             VehicleDao vehicle = new VehicleDao();
-            ArrayList<Vehicle> arr = vehicle.getAllVehicles();
+            List<Vehicle> arr = vehicle.getAllVehicles();
             Assertions.assertNotEquals(0,arr.size());
         } catch (DAOException e) {
             throw new RuntimeException(e);

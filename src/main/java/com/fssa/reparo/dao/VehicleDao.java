@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class VehicleDao {
@@ -19,7 +20,7 @@ public class VehicleDao {
         try {
             if (rs.next()){
                 vehicle.setVehicleCompany(rs.getString("company"));
-                vehicle.setUser_id(rs.getInt("user_id"));
+                vehicle.setUserId(rs.getInt("user_id"));
                 vehicle.setVehicleYear(rs.getInt("year"));
                 vehicle.setVehicleType(rs.getInt("vehicle_type"));
                 vehicle.setVehicleModel(rs.getString("model"));
@@ -42,7 +43,7 @@ public class VehicleDao {
                 pre.setString(2,use.getVehicleCompany());
                 pre.setString(3,use.getVehicleNumber());
                 pre.setInt(4,use.getVehicleType());
-                pre.setInt(5,use.getUser_id());
+                pre.setInt(5,use.getUserId());
                 pre.setInt(6,use.getVehicleYear());
 
                 int i = pre.executeUpdate();
@@ -98,9 +99,9 @@ public class VehicleDao {
 
 
     }
-    public  ArrayList<Vehicle> getAllVehicles()throws DAOException {
+    public List<Vehicle> getAllVehicles()throws DAOException {
         String query = "Select * from vehicles";
-        ArrayList<Vehicle> vehicles =  new ArrayList<>();
+        List<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             ResultSet rs = pre.executeQuery();

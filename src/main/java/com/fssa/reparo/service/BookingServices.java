@@ -29,12 +29,12 @@ public class BookingServices {
             throw new ServiceException(e);
         }
     }
-    public boolean updateAcceptStatus(boolean status,int workShopId , int bookingId){
+    public boolean updateAcceptStatus(boolean status,int workShopId , int bookingId) throws ServiceException{
             try {
 
                 return bookingDao.updateAcceptSts(bookingId,workShopId,status);
             } catch (DAOException e) {
-                throw new RuntimeException(e);
+                throw new ServiceException(e);
             }
     }
 

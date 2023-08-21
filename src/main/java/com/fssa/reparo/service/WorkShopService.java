@@ -8,6 +8,8 @@ import com.fssa.reparo.model.WorkShop;
 import com.fssa.reparo.validation.Validations;
 import com.fssa.reparo.validation.WorkShopValidation;
 import java.util.ArrayList;
+import java.util.List;
+
 public class WorkShopService {
     public  void registerWorkShop(WorkShop user)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
@@ -38,7 +40,7 @@ public class WorkShopService {
             throw new ServiceException(e);
         }
     }
-    public ArrayList<WorkShop> getAllWorkShop() throws ServiceException{
+    public List<WorkShop> getAllWorkShop() throws ServiceException{
         WorkShopDao work  = new WorkShopDao();
         try {
             return work.getAllWorkShops();
@@ -47,10 +49,10 @@ public class WorkShopService {
         }
 
     }
-    public ArrayList<Integer> getWorkShopByArea(String city) throws ServiceException{
+    public List<Integer> getWorkShopByArea(String city) throws ServiceException{
         Validations validate =  new Validations();
         WorkShopDao dao =  new WorkShopDao() ;
-        ArrayList<Integer> workShop  =  new ArrayList<>();
+        List<Integer> workShop  =  new ArrayList<>();
         try {
             if(validate.stringValidation(city)){
                 workShop =  dao.findWorkshopsByArea(city);

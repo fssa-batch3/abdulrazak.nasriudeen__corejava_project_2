@@ -3,7 +3,7 @@ package com.fssa.reparo.model;
 public abstract class BookingEntities {
     private int bookingId;
     private  boolean requestStatus;
-    private boolean AcceptStatus;
+    private boolean acceptStatus;
     private int workShopId;
     private int vehicleId;
     private String problem;
@@ -55,11 +55,11 @@ public abstract class BookingEntities {
 
 
     public boolean isAcceptStatus() {
-        return AcceptStatus;
+        return acceptStatus;
     }
 
     public void setAcceptStatus(boolean acceptStatus) {
-        AcceptStatus = acceptStatus;
+        this.acceptStatus = acceptStatus;
     }
 
     public boolean isRequestStatus() {

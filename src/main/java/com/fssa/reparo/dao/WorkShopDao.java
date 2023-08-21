@@ -5,6 +5,8 @@ import com.fssa.reparo.util.ConnectionDb;
 import com.fssa.reparo.exception.DTBException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+
 public class WorkShopDao {
 
     public WorkShop assignWorkShop(ResultSet rs)throws DAOException{
@@ -99,7 +101,7 @@ public class WorkShopDao {
 
     }
     public  boolean updateWorkShopPassword(Long num , String password)throws DAOException {
-        // this method update the data of the user's password ;
+
         String query = "update workshop set password = ? where number = ?";
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement pre = connect.prepareStatement(query)){
@@ -112,12 +114,12 @@ public class WorkShopDao {
             throw new DAOException(e);
         }
     }
-    public  ArrayList<WorkShop> getAllWorkShops()throws DAOException {
+    public List<WorkShop> getAllWorkShops()throws DAOException {
         String query = "Select * from workshop";
         try (Connection connect = ConnectionDb.getConnection();
              PreparedStatement pre = connect.prepareStatement(query)){
             ResultSet rs =  pre.executeQuery();
-            ArrayList<WorkShop> workshops = new ArrayList<>();
+            List<WorkShop> workshops = new ArrayList<>();
             while(rs.next()){
                 WorkShop work = assignWorkShop(rs);
                 workshops.add(work);
@@ -128,7 +130,7 @@ public class WorkShopDao {
             throw new DAOException(e);
         }
     }
-    public   ArrayList<Integer> findWorkshopsByArea(String area) throws DAOException {
+    public   List<Integer> findWorkshopsByArea(String area) throws DAOException {
         String query = "select * from workshop where city = ?";
 
         try( Connection connect = ConnectionDb.getConnection();

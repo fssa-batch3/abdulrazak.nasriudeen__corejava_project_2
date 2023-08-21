@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
 public class BookingDao {
    public Booking assignBooking(ResultSet rs) throws DAOException{
        try {
@@ -120,8 +122,8 @@ public class BookingDao {
             throw new DAOException(e);
         }
     }
-    public ArrayList<Integer> findBookingNearByArea(String area) throws DAOException {
-        ArrayList<Integer> bookings = new ArrayList<>();
+    public List<Integer> findBookingNearByArea(String area) throws DAOException {
+        List<Integer> bookings = new ArrayList<>();
         String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where city = ? AND is_live = true";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt = connect.prepareStatement(query)) {
             preStmt.setString(1 , area);

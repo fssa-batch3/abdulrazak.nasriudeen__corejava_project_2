@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoTest {
     @BeforeAll
@@ -70,7 +71,7 @@ public class UserDaoTest {
 
         try {
             UserDao userTest = new UserDao();
-            ArrayList<User> users = userTest.getAllUser();
+            List<User> users = userTest.getAllUser();
             Assertions.assertFalse(users.isEmpty());
         } catch (DAOException e) {
            e.printStackTrace();

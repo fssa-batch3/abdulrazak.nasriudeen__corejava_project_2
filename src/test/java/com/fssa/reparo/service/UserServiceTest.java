@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
+
 public class UserServiceTest {
     @BeforeAll
     static  void createUser(){
@@ -96,7 +98,7 @@ public class UserServiceTest {
     void getAllUsersTestSuccess(){
         UserServices user =  new UserServices();
         try {
-            ArrayList<User> users = user.getAllUsers();
+            List<User> users = user.getAllUsers();
             Assertions.assertFalse(users.isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);

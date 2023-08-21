@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WorkshopDaoTest {
 
@@ -61,7 +62,7 @@ public class WorkshopDaoTest {
     void getAllWorkShops() {
         try {
             WorkShopDao work  =  new WorkShopDao() ;
-            ArrayList<WorkShop> workShop = work.getAllWorkShops();
+            List<WorkShop> workShop = work.getAllWorkShops();
             Assertions.assertNotEquals(0,workShop.size());
         } catch (DAOException e) {
             throw new RuntimeException(e);
@@ -71,7 +72,7 @@ public class WorkshopDaoTest {
     void getWorkshopByAreaTest(){
         try {
             WorkShopDao bookDao = new WorkShopDao();
-            ArrayList<Integer> arr = bookDao.findWorkshopsByArea("chennai");
+            List<Integer> arr = bookDao.findWorkshopsByArea("chennai");
             Assertions.assertEquals(14,arr.get(0));
         } catch (DAOException e) {
             throw new RuntimeException(e);

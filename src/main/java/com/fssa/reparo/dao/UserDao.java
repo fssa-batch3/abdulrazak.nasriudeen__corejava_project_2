@@ -5,6 +5,7 @@ import com.fssa.reparo.util.ConnectionDb;
 import com.fssa.reparo.exception.DTBException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDao {
 
@@ -44,7 +45,7 @@ public class UserDao {
 
     }
     public  boolean updateUserPassword(Long num , String password)throws DAOException {
-        // this method update the data of the user's password ;
+
         String query = "update user set password = ? where number = ?";
 
         try(Connection connect = ConnectionDb.getConnection();
@@ -112,10 +113,10 @@ public class UserDao {
         }
 
     }
-    public  ArrayList<User> getAllUser() throws DAOException {
+    public List<User> getAllUser() throws DAOException {
 
         String query = "select * from user";
-        ArrayList<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement prep =  connect.prepareStatement(query)
         ){

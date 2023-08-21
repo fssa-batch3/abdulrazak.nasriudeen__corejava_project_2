@@ -6,6 +6,8 @@ import com.fssa.reparo.model.User;
 import com.fssa.reparo.validation.UserValidation;
 import com.fssa.reparo.dao.UserDao;
 import java.util.ArrayList;
+import java.util.List;
+
 public class UserServices {
     public boolean registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
@@ -40,7 +42,7 @@ public class UserServices {
             throw new ServiceException(e);
         }
     }
-    public ArrayList <User> getAllUsers() throws ServiceException {
+    public List<User> getAllUsers() throws ServiceException {
         UserDao use = new UserDao();
         try {
            return use.getAllUser();

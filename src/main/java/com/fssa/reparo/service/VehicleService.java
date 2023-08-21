@@ -5,14 +5,16 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.model.Vehicle;
 import com.fssa.reparo.validation.UserValidation;
-import java.util.ArrayList;
+
+import java.util.List;
+
 public  class VehicleService  {
     public boolean addVehicle(Vehicle vehicle) throws ServiceException {
         UserValidation validate =  new UserValidation();
         VehicleDao vehicleDao = new VehicleDao();
         try {
             if(validate.userValidVehicle(vehicle)){
-                Vehicle  present =  vehicleDao.findVehicleByUserId(vehicle.getUser_id());
+                Vehicle  present =  vehicleDao.findVehicleByUserId(vehicle.getUserId());
                 if(!present.getVehicleNumber().equals(vehicle.getVehicleNumber())){
                   return vehicleDao.insertVehicle(vehicle);
                 }
@@ -43,7 +45,7 @@ public  class VehicleService  {
 
 
     }
-    public ArrayList<Vehicle> getAllVehicles() throws  ServiceException{
+    public List<Vehicle> getAllVehicles() throws  ServiceException{
         VehicleDao vehicleDao = new VehicleDao();
         try {
             return vehicleDao.getAllVehicles();
