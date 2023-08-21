@@ -26,11 +26,5 @@ public class BookingServices {
             throw new ServiceException(e);
         }
     }
-    public boolean updateAcceptStatus(int booking_id , int workshop_id , boolean status)throws ServiceException{
-        try {
-            return bookingDao.updateAcceptSts(booking_id,workshop_id,status);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
+   
 }
