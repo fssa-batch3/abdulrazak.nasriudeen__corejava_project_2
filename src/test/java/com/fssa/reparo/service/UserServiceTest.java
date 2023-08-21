@@ -7,10 +7,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 import java.util.List;
 
-public class UserServiceTest {
+ class UserServiceTest {
     @BeforeAll
     static  void createUser(){
         User use = new User("Razak",9840326515L,"abd123");

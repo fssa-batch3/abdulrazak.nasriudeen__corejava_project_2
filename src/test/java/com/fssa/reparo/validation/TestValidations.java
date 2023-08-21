@@ -1,10 +1,9 @@
 package com.fssa.reparo.validation;
-import com.fssa.reparo.validation.Validations;
 import com.fssa.reparo.exception.InvalidEntryException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TestValidations {
+ class TestValidations {
 
     @Test
     void testNameValidation(){
@@ -80,14 +79,14 @@ public class TestValidations {
     @Test
     void testWorkshopType(){
         Validations validate = new Validations();
-        Assertions.assertTrue(validate.WorkshopType(2));
+        Assertions.assertTrue(validate.workshopType(2));
 
 
     }
     @Test
     void testInvalidWorkshopType(){
         Validations validate = new Validations();
-        Assertions.assertFalse(validate.WorkshopType(6));
+        Assertions.assertFalse(validate.workshopType(6));
 
 
     }

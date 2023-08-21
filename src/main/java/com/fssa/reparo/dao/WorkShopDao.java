@@ -179,7 +179,7 @@ public class WorkShopDao {
 
 
     }
-    public ArrayList<Integer> getWorkshopsByType(int t) throws DAOException{
+    public List<Integer> getWorkshopsByType(int t) throws DAOException{
         String query = "select * from workshop where workshop_type = ?";
 
         try( Connection connect = ConnectionDb.getConnection();
@@ -187,7 +187,7 @@ public class WorkShopDao {
 
             con.setInt(1,t);
             ResultSet rs = con.executeQuery();
-            ArrayList<Integer> workshops= new ArrayList<>();
+            List<Integer> workshops= new ArrayList<>();
             while(rs.next()){
                 int book = rs.getInt("id");
                 workshops.add(book);

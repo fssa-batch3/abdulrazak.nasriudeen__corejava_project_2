@@ -1,12 +1,10 @@
 package com.fssa.reparo.dao;
-
-import com.fssa.reparo.dao.BookingDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.Booking;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-public class BookingDaoTest {
+ class BookingDaoTest {
     @Test
      void insertBookingTest(){
         Booking book  = new Booking();

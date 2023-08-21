@@ -5,7 +5,6 @@ import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.User;
 import com.fssa.reparo.validation.UserValidation;
 import com.fssa.reparo.dao.UserDao;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserServices {

@@ -72,13 +72,13 @@ public class WorkShopService {
 
 
     }
-    public ArrayList<Integer> getWorkShopByType(int type) throws ServiceException {
+    public List<Integer> getWorkShopByType(int type) throws ServiceException {
         Validations validate = new Validations();
-        ArrayList<Integer> arr = new ArrayList<>();
+        List<Integer> arr = new ArrayList<>();
         WorkShopDao dao = new WorkShopDao();
         try {
 
-            if (validate.WorkshopType(type)) {
+            if (validate.workshopType(type)) {
                 arr = dao.getWorkshopsByType(type);
             }
             return arr ;

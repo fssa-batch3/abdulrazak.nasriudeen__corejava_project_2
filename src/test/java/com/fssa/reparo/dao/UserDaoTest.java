@@ -1,14 +1,14 @@
 package com.fssa.reparo.dao;
-import com.fssa.reparo.dao.UserDao;
+
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
+
 import java.util.List;
 
-public class UserDaoTest {
+ class UserDaoTest {
     @BeforeAll
     static void testUserInsert(){
         User use = new User();

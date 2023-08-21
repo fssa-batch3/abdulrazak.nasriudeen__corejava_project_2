@@ -1,15 +1,14 @@
 package com.fssa.reparo.dao;
-import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.WorkShop;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
+
 import java.util.List;
 
-public class WorkshopDaoTest {
+ class WorkshopDaoTest {
 
     @BeforeAll
     static void testWorkShopInsert() {

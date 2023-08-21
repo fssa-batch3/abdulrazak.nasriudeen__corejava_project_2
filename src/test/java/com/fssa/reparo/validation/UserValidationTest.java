@@ -6,7 +6,7 @@ import com.fssa.reparo.model.Vehicle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class UserValidationTest {
+ class UserValidationTest {
     @Test
     void userCredentialTestValidate(){
         User user =  new User();

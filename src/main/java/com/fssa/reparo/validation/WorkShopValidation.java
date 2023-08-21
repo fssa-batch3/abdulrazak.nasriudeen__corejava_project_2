@@ -11,7 +11,7 @@ public class WorkShopValidation {
        Validations validate =  new Validations();
 
 
-       return validate.stringValidation(work.getName())&&validate.numberValidation(work.getNumber())&&validate.passWordValidation(work.getPassword())&&validate.addressValidation(work.getAddress())&&validate.stringValidation(work.getCity())&&validate.stringValidation(work.getState())&&validate.WorkshopType(work.getType());
+       return validate.stringValidation(work.getName())&&validate.numberValidation(work.getNumber())&&validate.passWordValidation(work.getPassword())&&validate.addressValidation(work.getAddress())&&validate.stringValidation(work.getCity())&&validate.stringValidation(work.getState())&&validate.workshopType(work.getType());
    }
    public boolean isValidWorkshop(WorkShop work) throws ValidationException {
        try{

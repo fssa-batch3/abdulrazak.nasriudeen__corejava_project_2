@@ -19,7 +19,7 @@ public class UserValidation {
     public boolean userValidVehicle(Vehicle u)throws InvalidEntryException{
         Validations validate = new Validations();
 
-        return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.WorkshopType(u.getVehicleType());
+        return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.workshopType(u.getVehicleType());
 
     }
     public boolean validBooking(Booking book)throws InvalidEntryException{
@@ -32,11 +32,7 @@ public class UserValidation {
             if (userCredentialValidate(user)){
                 UserDao userDao = new UserDao();
                 User chkUser = userDao.findUserByNumber(user.getNumber());
-                if(chkUser.getName() == null ){
-                    return true;
-                }else {
-                    return false;
-                }
+                return chkUser.getName() == null;
 
 
             }

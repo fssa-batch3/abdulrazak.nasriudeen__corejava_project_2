@@ -1,12 +1,10 @@
 package com.fssa.reparo.validation;
-
-import com.fssa.reparo.validation.WorkShopValidation;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.model.WorkShop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class WorkShopValidationTest {
+ class WorkShopValidationTest {
 
     @Test
     void validWorkShop(){

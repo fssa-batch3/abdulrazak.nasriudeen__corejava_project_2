@@ -5,10 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public  class Validations {
-    static private final String NAME_REGEX = "^[A-Za-z\\s]+$";
-    static private final String PASS = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
-    static private final String ADDRESS_PATTERN = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
-    static private final String VEHICLE_NUMBER_PATTERN = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
+    private static  final String NAME_REGEX = "^[A-Za-z\\s]+$";
+    private static  final String PASS = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
+    private static  final String ADDRESS_PATTERN = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
+    private static  final String VEHICLE_NUMBER_PATTERN = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
 
 
 
@@ -19,7 +19,8 @@ public  class Validations {
             Pattern pat = Pattern.compile(NAME_REGEX);
             if (str == null) {
                 return false;
-            }if (str.length() > 15){
+            }
+            if (str.length() > 15){
                 return  false ;
             }
             match = pat.matcher(str);
@@ -34,8 +35,6 @@ public  class Validations {
         try {
 
             String num = Long.toString(number);
-
-            //  Pattern pat = Pattern.compile(numberRegex);
             return num.length() == 10;
 
 
@@ -49,7 +48,7 @@ public  class Validations {
     public boolean passWordValidation(String s) throws InvalidEntryException {
         Matcher match;
         try {
-            //if(s == null) return false;
+
             Pattern pt = Pattern.compile(PASS);
             match = pt.matcher(s);
             return match.matches();
@@ -57,7 +56,7 @@ public  class Validations {
             throw new InvalidEntryException(e, "Invalid Password");
         }
     }
-    public boolean WorkshopType(int i ){
+    public boolean workshopType(int i ){
         return i == 2 || i == 3 || i == 4;
     }
     public  boolean addressValidation(String address) throws InvalidEntryException {
