@@ -62,7 +62,7 @@ public class WorkshopDaoTest {
         try {
             WorkShopDao work  =  new WorkShopDao() ;
             ArrayList<WorkShop> workShop = work.getAllWorkShops();
-            Assertions.assertTrue(workShop.size() != 0);
+            Assertions.assertNotEquals(0,workShop.size());
         } catch (DAOException e) {
             throw new RuntimeException(e);
         }

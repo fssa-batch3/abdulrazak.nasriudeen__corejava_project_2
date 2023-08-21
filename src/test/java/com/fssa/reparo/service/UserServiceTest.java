@@ -62,7 +62,7 @@ public class UserServiceTest {
     void loginTestFail(){
         UserServices user =  new UserServices();
         try {
-            Assertions.assertFalse(user.loginUser(9840326510L ,"abd123")!=10);
+            Assertions.assertNotEquals(10,user.loginUser(9840326510L ,"abd123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

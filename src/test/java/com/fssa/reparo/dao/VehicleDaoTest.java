@@ -46,7 +46,7 @@ public class VehicleDaoTest {
         try {
             VehicleDao vehicle = new VehicleDao();
             ArrayList<Vehicle> arr = vehicle.getAllVehicles();
-            Assertions.assertTrue(arr.size()!=0);
+            Assertions.assertNotEquals(0,arr.size());
         } catch (DAOException e) {
             throw new RuntimeException(e);
         }
