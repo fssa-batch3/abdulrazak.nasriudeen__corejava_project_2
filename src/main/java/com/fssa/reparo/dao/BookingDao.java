@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 public class BookingDao {
-    private final String joinQuery = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id)";
-
    public Booking assignBooking(ResultSet rs) throws DAOException{
        try {
            Booking book = new Booking();
@@ -109,7 +107,7 @@ public class BookingDao {
         }
     }
     public  Booking getBookingsByVehicleId(int vehicleId) throws DAOException {
-       String query = joinQuery + " where vehicle_id = ? ";
+       String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where vehicle_id = ? ";
 
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement con = connect.prepareStatement(query)) {
@@ -124,7 +122,7 @@ public class BookingDao {
     }
     public ArrayList<Integer> findBookingNearByArea(String area) throws DAOException {
         ArrayList<Integer> bookings = new ArrayList<>();
-        String query = joinQuery + " where city = ? AND is_live = true";
+        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where city = ? AND is_live = true";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt = connect.prepareStatement(query)) {
             preStmt.setString(1 , area);
             ResultSet rs =  preStmt.executeQuery();
@@ -139,7 +137,7 @@ public class BookingDao {
         return bookings ;
     }
     public Booking getBookingById(int id) throws DAOException{
-        String query = joinQuery + " where booking_id = ? ";
+        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where booking_id = ? ";
         try (Connection connect =  ConnectionDb.getConnection();PreparedStatement preStmt =  connect.prepareStatement(query)){
             preStmt.setInt(1,id);
             ResultSet rs =  preStmt.executeQuery();
