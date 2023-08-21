@@ -26,5 +26,5 @@ public class BookingServices {
             throw new ServiceException(e);
         }
     }
-   
+
 }
