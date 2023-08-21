@@ -10,5 +10,8 @@ public class BookingValidation {
         return validate.stringValidation(book.getCity()) && validate.addressValidation(book.getAddress())&&validate.stringValidation(book.getState())&&validate.stringValidation(book.getProblem());
 
     }
+    public boolean validId(int id){
+        return id>0;
+    }
 
 }

@@ -8,8 +8,9 @@ import com.fssa.reparo.validation.BookingValidation;
 
 public class BookingServices {
     protected BookingDao bookingDao ;
+    protected  BookingValidation validate;
     public  boolean createBooking(Booking book) throws  ServiceException{
-        BookingValidation validate = new BookingValidation();
+
         try {
             if(validate.validBooking(book)){
                return bookingDao.insertBooking(book);
@@ -20,11 +21,21 @@ public class BookingServices {
         }
     }
     public boolean updateRequestStatus(boolean status , int id) throws ServiceException{
+
         try {
-            return bookingDao.updateRequestSts(id,status);
+            if(validate.validId(id)) return bookingDao.updateRequestSts(id,status);
+            return  false;
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
+    }
+    public boolean updateAcceptStatus(boolean status,int workShopId , int bookingId){
+            try {
+
+                return bookingDao.updateAcceptSts(bookingId,workShopId,status);
+            } catch (DAOException e) {
+                throw new RuntimeException(e);
+            }
     }
 
 }

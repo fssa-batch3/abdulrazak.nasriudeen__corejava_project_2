@@ -91,14 +91,14 @@ public class BookingDao {
 
         }
     }
-    public   boolean updateAcceptSts(int bookingId , int workshop_id , boolean status) throws DAOException {
+    public   boolean updateAcceptSts(int bookingId , int workshopId , boolean status) throws DAOException {
 
         String query = "update bookings set accept_status = ?,workshop_id = ? where booking_id = ? ";
 
         try (Connection connect = ConnectionDb.getConnection();PreparedStatement preStmt = connect.prepareStatement(query)) {
 
             preStmt.setBoolean(1,status);
-            preStmt.setInt(2,workshop_id);
+            preStmt.setInt(2,workshopId);
             preStmt.setInt(3,bookingId);
             return preStmt.executeUpdate() == 1 ;
         }catch (SQLException | DTBException e){
