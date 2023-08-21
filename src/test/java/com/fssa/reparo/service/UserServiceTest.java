@@ -3,7 +3,6 @@ import com.fssa.reparo.dao.UserDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.User;
-import com.fssa.reparo.service.UserServices;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -53,7 +52,7 @@ public class UserServiceTest {
     void loginTestSuccess(){
         UserServices user =  new UserServices();
         try {
-           Assertions.assertEquals(10,user.loginUser(9840326510L ,"abd123"));
+            Assertions.assertEquals(10,user.loginUser(9840326510L ,"abd123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -74,7 +73,7 @@ public class UserServiceTest {
         UserServices user =  new UserServices();
 
         try {
-        User use = user.getUserById(10);
+            User use = user.getUserById(10);
             Assertions.assertEquals("Abdul",use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
