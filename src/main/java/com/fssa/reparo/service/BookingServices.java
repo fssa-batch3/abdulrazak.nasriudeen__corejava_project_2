@@ -3,6 +3,7 @@ import com.fssa.reparo.dao.BookingDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
+import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
 import com.fssa.reparo.validation.BookingValidation;
 
@@ -16,16 +17,16 @@ public class BookingServices {
                return bookingDao.insertBooking(book);
             }
             return false;
-        } catch (InvalidEntryException | DAOException e) {
+        } catch (ValidationException | DAOException e) {
             throw new ServiceException(e);
         }
     }
     public boolean updateRequestStatus(boolean status , int id) throws ServiceException{
 
         try {
-            if(validate.validId(id)) return bookingDao.updateRequestSts(id,status);
+            if(validate.validUserId(id)) return bookingDao.updateRequestSts(id,status);
             return  false;
-        } catch (DAOException e) {
+        } catch (DAOException | ValidationException e) {
             throw new ServiceException(e);
         }
     }
