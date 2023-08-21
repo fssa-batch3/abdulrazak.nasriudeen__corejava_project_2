@@ -5,10 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public  class Validations {
-    static private final String nameRegex = "^[A-Za-z\\s]+$";
-    static private final String pass = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
-    static private final String addressPattern = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
-    static private final String vehicleNumberPattern = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
+    static private final String NAME_REGEX = "^[A-Za-z\\s]+$";
+    static private final String PASS = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
+    static private final String ADDRESS_PATTERN = "^[a-zA-Z0-9\\s.,'#\\-]+(\\s[A-Za-z0-9\\-#]+)?$";
+    static private final String VEHICLE_NUMBER_PATTERN = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$";
 
 
 
@@ -16,7 +16,7 @@ public  class Validations {
     public boolean stringValidation(String str) throws InvalidEntryException {
         Matcher match;
         try {
-            Pattern pat = Pattern.compile(nameRegex);
+            Pattern pat = Pattern.compile(NAME_REGEX);
             if (str == null) {
                 return false;
             }if (str.length() > 15){
@@ -50,7 +50,7 @@ public  class Validations {
         Matcher match;
         try {
             //if(s == null) return false;
-            Pattern pt = Pattern.compile(pass);
+            Pattern pt = Pattern.compile(PASS);
             match = pt.matcher(s);
             return match.matches();
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public  class Validations {
     public  boolean addressValidation(String address) throws InvalidEntryException {
         Matcher match;
         try {
-            Pattern pat = Pattern.compile(addressPattern);
+            Pattern pat = Pattern.compile(ADDRESS_PATTERN);
 
             match = pat.matcher(address);
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public  class Validations {
     public boolean vehicleNumberValidation(String num ) throws  InvalidEntryException{
         Matcher match;
         try {
-            Pattern pat = Pattern.compile(vehicleNumberPattern);
+            Pattern pat = Pattern.compile(VEHICLE_NUMBER_PATTERN);
 
             match = pat.matcher(num);
         } catch (Exception e) {

@@ -1,11 +1,10 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.WorkShop;
-import com.fssa.reparo.service.WorkShopService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 public class WorkShopServiceTest {
-   
+
     @Test
     void loginWorkshopTest(){
         WorkShopService serv = new WorkShopService();
