@@ -26,8 +26,9 @@ public class VehicleDao {
                 vehicle.setVehicleModel(rs.getString("model"));
                 vehicle.setVehicleId(rs.getInt("id"));
                 vehicle.setVehicleNumber(rs.getString("vehicle_number"));
+                vehicle.setUser(userDao.assignUser(rs));
             }
-            vehicle.setUser(userDao.assignUser(rs));
+
             return vehicle ;
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -69,7 +70,7 @@ public class VehicleDao {
 
     }
     public  Vehicle findVehicleByUserId(int id) throws DAOException {
-        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where user_id = ?";
+        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.user_id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
@@ -85,7 +86,7 @@ public class VehicleDao {
 
     }
     public  Vehicle findVehicleById(int id) throws DAOException {
-        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where id  = ?";
+        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.id = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);

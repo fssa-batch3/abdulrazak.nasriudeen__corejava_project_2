@@ -12,13 +12,13 @@ public class UserDao {
     public User assignUser(ResultSet rs) throws DAOException{
         User user  = new User();
         try {
-            if(rs.next()){
+
                 user.setName(rs.getString("name"));
                 long lNum = Long.parseLong(rs.getString("number"));
                 user.setNumber(lNum);
                 user.setPassword(rs.getString("password"));
                 user.setId(rs.getInt("id"));
-            }
+
             return user;
         } catch (SQLException e) {
             throw new DAOException(e);

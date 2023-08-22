@@ -72,5 +72,13 @@ public class UserValidation {
             throw new ValidationException(e);
         }
     }
+    public boolean validUserId(int id) throws ValidationException{
+        try {
+            User user =  userDao.findUserById(id);
+            return user.getName()!=null;
+        } catch (DAOException e) {
+            throw new ValidationException(e);
+        }
+    }
 
 }
