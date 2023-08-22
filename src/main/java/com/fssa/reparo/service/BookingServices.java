@@ -52,11 +52,11 @@ public class BookingServices {
         }
 
     }
-    public List<Booking> getAllBookings(){
+    public List<Booking> getAllBookings() throws  ServiceException{
         try {
             return bookingDao.getAllBookings();
         } catch (DAOException e) {
-            throw new RuntimeException(e);
+            throw new ServiceException(e);
         }
     }
 
