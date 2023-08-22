@@ -6,7 +6,7 @@ import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
 import com.fssa.reparo.validation.BookingValidation;
 import com.fssa.reparo.validation.WorkShopValidation;
-
+import java.util.List;
 public class BookingServices {
     protected BookingDao bookingDao ;
     protected  BookingValidation bookingValidation;
@@ -41,6 +41,23 @@ public class BookingServices {
             } catch (DAOException |ValidationException e) {
                 throw new ServiceException(e);
             }
+    }
+    public Booking getBookingById(int id)throws ServiceException{
+        try {
+            Booking booking = new Booking();
+            if(bookingValidation.isBookingId(id)) booking =  bookingDao.getBookingById(id);
+            return booking;
+        } catch (ValidationException |DAOException e) {
+            throw new ServiceException(e);
+        }
+
+    }
+    public List<Booking> getAllBookings(){
+        try {
+            return bookingDao.getAllBookings();
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

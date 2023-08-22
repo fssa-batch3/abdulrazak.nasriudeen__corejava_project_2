@@ -3,10 +3,8 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.Booking;
 import com.fssa.reparo.util.ConnectionDb;
 import com.fssa.reparo.exception.DTBException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class BookingDao {
            Booking book = new Booking();
            VehicleDao vehicle =  new VehicleDao();
            WorkShopDao work  =  new WorkShopDao();
-           while(rs.next()){
+           if(rs.next()){
                book.setBookingId(rs.getInt("booking_id"));
                book.setCity(rs.getString("city"));
                book.setVehicleId(rs.getInt("vehicle_id"));
@@ -52,17 +50,6 @@ public class BookingDao {
             preStmt.setString(8,book.getState());
             return preStmt.executeUpdate()==1;
         } catch (DTBException | SQLException e) {
-            throw new DAOException(e);
-        }
-
-    }
-    public boolean  updateWorkshopId(int workshopId , int bookingId)throws  DAOException{
-       String query = "update bookings set workshop_id = ? where booking_id = ?";
-        try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt =  connect.prepareStatement(query)) {
-            preStmt.setInt(1,workshopId);
-            preStmt.setInt(2,bookingId);
-            return preStmt.executeUpdate() == 1;
-        }catch (DTBException | SQLException e){
             throw new DAOException(e);
         }
 
@@ -108,7 +95,7 @@ public class BookingDao {
 
         }
     }
-    public  Booking getBookingsByVehicleId(int vehicleId) throws DAOException {
+    public  Booking getBookingByVehicleId(int vehicleId) throws DAOException {
        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where vehicle_id = ? ";
 
         try(Connection connect = ConnectionDb.getConnection();
@@ -151,13 +138,22 @@ public class BookingDao {
         }
 
     }
+    public List<Booking> getAllBookings()throws DAOException {
+        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where booking_id = ? ";
+
+        List<Booking> bookings = new ArrayList<>();
+        try (Connection connect = ConnectionDb.getConnection(); Statement statement = connect.createStatement();ResultSet result = statement.executeQuery(query)) {
+            while (result.next()) {
+                Booking book = assignBooking(result);
+                bookings.add(book);
+            }
+            return bookings;
+        } catch (SQLException | DTBException ex) {
+            throw new DAOException(ex);
+        }
 
 
-
-
-
-
-
+    }
 
 
 }

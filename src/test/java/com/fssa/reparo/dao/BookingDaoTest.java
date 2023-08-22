@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
         try {
             BookingDao bookDao = new BookingDao();
             Assertions.assertTrue(bookDao.updateRequestSts(1,true));
-            Booking book1 = bookDao.getBookingsByVehicleId(1);
+            Booking book1 = bookDao.getBookingByVehicleId(1);
             Assertions.assertTrue(book1.isRequestStatus());
         } catch (DAOException e) {
             throw new RuntimeException(e);
@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
         try {
             BookingDao bookDao = new BookingDao();
             Assertions.assertTrue(bookDao.updateAcceptSts(1,2,true));
-            Booking book = bookDao.getBookingsByVehicleId(1);
+            Booking book = bookDao.getBookingByVehicleId(1);
             Assertions.assertTrue(book.isAcceptStatus());
         } catch (DAOException e) {
             throw new RuntimeException(e);
