@@ -8,7 +8,7 @@ import com.fssa.reparo.dao.UserDao;
 import com.fssa.reparo.model.Vehicle;
 
 public class UserValidation {
-    protected UserDao userDao ;
+    protected UserDao userDao  =  new UserDao();
     public boolean userCredentialValidate(User user) throws InvalidEntryException {
         Validations validate = new Validations();
     return validate.stringValidation(user.getName()) && validate.numberValidation(user.getNumber())&&validate.passWordValidation(user.getPassword());

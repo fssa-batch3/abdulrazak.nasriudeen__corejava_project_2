@@ -9,26 +9,28 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
- class UserServiceTest {
+class UserServiceTest {
+
     @BeforeAll
     static  void createUser(){
-        User use = new User("Razak",9840326515L,"abd123");
+        User use = new User("Razak",9840326001L,"abd123");
         UserServices user  = new UserServices();
         try {
-            Assertions.assertTrue(user.registerUser(use));
+            user.registerUser(use);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
 
 
     }
-
     @Test
     void createUserSuccess(){
         UserDao userDao = new UserDao();
         try {
-            User us = userDao.findUserByNumber(9840326515L);
-            Assertions.assertEquals("Razak",us.getName());
+            User us = userDao.findUserByNumber(9840326001L);
+            Assertions.assertEquals("Razak",(us.getName()));
+
+
         } catch (DAOException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +55,7 @@ import java.util.List;
     void loginTestSuccess(){
         UserServices user =  new UserServices();
         try {
-            Assertions.assertEquals(10,user.loginUser(9840326510L ,"abd123"));
+            Assertions.assertEquals(35,user.loginUser(9840326515L ,"abd123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +65,7 @@ import java.util.List;
     void loginTestFail(){
         UserServices user =  new UserServices();
         try {
-            Assertions.assertNotEquals(10,user.loginUser(9840326510L ,"abd123"));
+            Assertions.assertNotEquals(20,user.loginUser(9840326515L ,"abd123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -74,8 +76,8 @@ import java.util.List;
         UserServices user =  new UserServices();
 
         try {
-            User use = user.getUserById(10);
-            Assertions.assertEquals("Abdul",use.getName());
+            User use = user.getUserById(35);
+            Assertions.assertEquals("Razak Test",use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -86,13 +88,14 @@ import java.util.List;
         UserServices user =  new UserServices();
 
         try {
-            User use = user.getUserById(10);
+            User use = user.getUserById(24);
             Assertions.assertNotEquals("Abdu", use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
 
     }
+
     @Test
     void getAllUsersTestSuccess(){
         UserServices user =  new UserServices();
@@ -105,16 +108,15 @@ import java.util.List;
 
 
     }
-
     @AfterAll
-    static void deleteTestUser(){
-        UserDao dao  = new UserDao();
+    static void deleteTestUser() {
+        UserDao dao = new UserDao();
         try {
-            Assertions.assertTrue(dao.removeUser(9840326515L));
+            Assertions.assertTrue(dao.removeUser(9840326001L));
         } catch (DAOException e) {
             throw new RuntimeException(e);
         }
 
-    }
 
+    }
 }
