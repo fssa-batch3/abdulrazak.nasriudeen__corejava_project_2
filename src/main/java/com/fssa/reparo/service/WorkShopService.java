@@ -11,17 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkShopService {
-    public  void registerWorkShop(WorkShop user)throws ServiceException{
+    public  boolean registerWorkShop(WorkShop user)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
 
             try {
                 if(validate.isValidWorkshop(user)) {
                     WorkShopDao work = new WorkShopDao();
-                    boolean chk = work.insertWorkShop(user);
-                    if (chk) System.out.println("User registered successfully");
-                    else System.out.println("User not registered successfully");
-                }
+                    return work.insertWorkShop(user);
 
+                }
+                return false;
 
 
             }catch (DAOException | ValidationException e){

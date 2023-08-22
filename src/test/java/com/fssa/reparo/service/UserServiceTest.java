@@ -13,7 +13,10 @@ class UserServiceTest {
 
     @BeforeAll
     static  void createUser(){
-        User use = new User("Razak",9840326001L,"abd123");
+        User use = new User();
+        use.setName("Razak");
+        use.setNumber(9840326001L);
+        use.setPassword("abd123");
         UserServices user  = new UserServices();
         try {
             user.registerUser(use);
