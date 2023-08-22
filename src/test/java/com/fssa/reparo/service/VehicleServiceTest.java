@@ -4,9 +4,7 @@ import com.fssa.reparo.model.User;
 import com.fssa.reparo.model.Vehicle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 class VehicleServiceTest {
     protected VehicleService  vehicleService = new VehicleService();
     @Test

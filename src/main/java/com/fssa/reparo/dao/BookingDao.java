@@ -36,18 +36,16 @@ public class BookingDao {
    }
 
     public  boolean insertBooking(Booking book) throws DAOException {
-        String query =  "insert into bookings (vehicle_id,workshop_id,request_status,accept_status,problem,address,city,state) values (?,?,?,?,?,?,?,?)";
+        String query =  "insert into bookings (vehicle_id,request_status,problem,address,city,state) values (?,?,?,?,?,?)";
 
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement preStmt =  connect.prepareStatement(query)) {
             preStmt.setInt(1,book.getVehicleId());
-            preStmt.setInt(2,book.getWorkShopId());
-            preStmt.setBoolean(3,book.isRequestStatus());
-            preStmt.setBoolean(4,book.isAcceptStatus());
-            preStmt.setString(5,book.getProblem());
-            preStmt.setString(6,book.getAddress());
-            preStmt.setString(7,book.getCity());
-            preStmt.setString(8,book.getState());
+            preStmt.setBoolean(2,book.isRequestStatus());
+            preStmt.setString(3,book.getProblem());
+            preStmt.setString(4,book.getAddress());
+            preStmt.setString(5,book.getCity());
+            preStmt.setString(6,book.getState());
             return preStmt.executeUpdate()==1;
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
@@ -126,7 +124,7 @@ public class BookingDao {
         return bookings ;
     }
     public Booking getBookingById(int id) throws DAOException{
-        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where booking_id = ? ";
+        String query = "SELECT * FROM (bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id)  where bookings.booking_id = ?";
         try (Connection connect =  ConnectionDb.getConnection();PreparedStatement preStmt =  connect.prepareStatement(query)){
             preStmt.setInt(1,id);
             ResultSet rs =  preStmt.executeQuery();

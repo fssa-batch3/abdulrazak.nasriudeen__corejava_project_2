@@ -20,7 +20,7 @@ public class BookingValidation {
         BookingDao dao = new BookingDao();
         try {
             Booking book = dao.getBookingById(id);
-            return book.getVehicle()!=null;
+            return book.getBookingId()!=0;
         } catch (DAOException e) {
             throw new ValidationException(e);
         }

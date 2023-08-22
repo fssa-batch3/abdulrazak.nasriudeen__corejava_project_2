@@ -8,9 +8,9 @@ import com.fssa.reparo.validation.BookingValidation;
 import com.fssa.reparo.validation.WorkShopValidation;
 import java.util.List;
 public class BookingServices {
-    protected BookingDao bookingDao ;
-    protected  BookingValidation bookingValidation;
-    protected WorkShopValidation workshopValidate ;
+    protected BookingDao bookingDao =  new BookingDao();
+    protected  BookingValidation bookingValidation =  new BookingValidation();
+    protected WorkShopValidation workshopValidate = new WorkShopValidation();
 
 
     public  boolean createBooking(Booking book) throws  ServiceException{
