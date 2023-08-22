@@ -5,7 +5,7 @@ import com.fssa.reparo.model.Booking;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BookingValidationTest {
+ class BookingValidationTest {
     protected BookingValidation bookingValidate =  new BookingValidation();
     @Test
     void bookingCredentialsTest(){

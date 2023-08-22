@@ -4,7 +4,7 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
- class BookingValidation {
+public class BookingValidation {
 
     public boolean validBooking(Booking book) throws ValidationException {
         Validations  validate =  new Validations();
