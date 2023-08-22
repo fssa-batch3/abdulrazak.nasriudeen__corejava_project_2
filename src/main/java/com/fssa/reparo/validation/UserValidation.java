@@ -1,4 +1,5 @@
 package com.fssa.reparo.validation;
+import com.fssa.reparo.dao.VehicleDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
@@ -62,10 +63,11 @@ public class UserValidation {
         return 0;// invalid credentials
 
     }
-    public boolean validUserId(int id) throws ValidationException{
+    public boolean validVehicleId(int id) throws ValidationException{
         try {
-            User use =  userDao.findUserById(id);
-            return  use.getName()!=null;
+            VehicleDao vehicleDao =  new VehicleDao();
+            Vehicle vehicle =  vehicleDao.findVehicleById(id);
+            return  vehicle.getVehicleNumber()!=null;
         } catch (DAOException e) {
             throw new ValidationException(e);
         }

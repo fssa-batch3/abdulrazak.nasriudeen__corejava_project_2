@@ -156,28 +156,12 @@ public class WorkShopDao {
         try(Connection connection = ConnectionDb.getConnection();PreparedStatement pre  =  connection.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs =  pre.executeQuery();
-            WorkShop work = new WorkShop();
-            while(rs.next()){
-
-                work.setName(rs.getString("name"));
-                work.setCity(rs.getString("city"));
-                String num  = rs.getString("number");
-
-                work.setNumber(Long.parseLong(num));
-                work.setAddress(rs.getString("address"));
-                work.setState(rs.getString("state"));
-                work.setType(rs.getInt("workshop_type"));
-                work.setId(rs.getInt("id"));
-
-            }
-            return work ;
+            return assignWorkShop(rs) ;
 
 
         }catch (DTBException | SQLException e){
             throw  new DAOException(e);
         }
-
-
     }
     public List<Integer> getWorkshopsByType(int t) throws DAOException{
         String query = "select * from workshop where workshop_type = ?";

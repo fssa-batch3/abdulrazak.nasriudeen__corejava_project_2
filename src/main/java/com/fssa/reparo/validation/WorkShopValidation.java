@@ -55,6 +55,18 @@ public class WorkShopValidation {
        return  0 ;
 
        }
+       public boolean isWorkshopId(int id) throws ValidationException{
+       WorkShopDao workDao = new WorkShopDao();
+           try {
+               WorkShop work = workDao.getWorkShopsById(id);
+               return work.getName()!=null;
+           } catch (DAOException e) {
+               throw new ValidationException(e);
+           }
+
+
+       }
+
 
 
 
