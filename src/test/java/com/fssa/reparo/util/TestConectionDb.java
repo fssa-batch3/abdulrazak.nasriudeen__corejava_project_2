@@ -20,7 +20,5 @@ import java.sql.Connection;
 
         }
         Assertions.assertTrue(chk,"DataBase is Connected");
-
-
     }
 }

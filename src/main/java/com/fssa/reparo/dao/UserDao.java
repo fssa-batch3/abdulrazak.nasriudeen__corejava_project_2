@@ -44,6 +44,7 @@ public class UserDao {
         }
 
     }
+
     public  boolean updateUserPassword(Long num , String password)throws DAOException {
 
         String query = "update user set password = ? where number = ?";
