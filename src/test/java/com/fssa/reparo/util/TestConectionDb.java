@@ -12,10 +12,11 @@ import java.sql.Connection;
         boolean chk = false;
         try {
             Connection connect = ConnectionDb.getConnection();
+
+
             chk =  true;
         }catch (DTBException e){
-
-            chk =  false;
+          e.printStackTrace();
 
 
         }
