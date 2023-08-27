@@ -11,13 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkShopService {
-    public  boolean registerWorkShop(WorkShop user)throws ServiceException{
+
+    /**
+     * Registers a workshop by validating the input and inserting it into the database.
+     *
+     * @param Workshop The Workshop object to be registered.
+     * @return True if the workshop is successfully registered, false otherwise.
+     * @throws ServiceException If there is an issue with database access or validation.
+     */
+    public  boolean registerWorkShop(WorkShop Workshop)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
 
             try {
-                if(validate.isValidWorkshop(user)) {
+                if(validate.isValidWorkshop(Workshop)) {
                     WorkShopDao work = new WorkShopDao();
-                    return work.insertWorkShop(user);
+                    return work.insertWorkShop(Workshop);
 
                 }
                 return false;
@@ -30,7 +38,17 @@ public class WorkShopService {
         }
 
 
-
+    /**
+     * Logs in a workshop user by validating the credentials.
+     *
+     * @param num The user's Phone   number.
+     * @param pass The user's password.
+     * @return The result of the login attempt:
+     *         - Positive workshop ID if login is successful.
+     *         - Negative values for various login failure cases, e.g.:
+     *           -1 if validation fails.
+     * @throws ServiceException If there is an issue with validation.
+     */
     public int loginWorkShop(long num,String pass) throws ServiceException {
         WorkShopValidation validate = new WorkShopValidation();
         try {
@@ -39,6 +57,12 @@ public class WorkShopService {
             throw new ServiceException(e);
         }
     }
+    /**
+     * Retrieves a list of all workshops stored in the database.
+     *
+     * @return A List of WorkShop objects representing all workshops in the database.
+     * @throws ServiceException If there is an issue with accessing the database.
+     */
     public List<WorkShop> getAllWorkShop() throws ServiceException{
         WorkShopDao work  = new WorkShopDao();
         try {
@@ -48,6 +72,15 @@ public class WorkShopService {
         }
 
     }
+
+    /**
+     * Retrieves a list of workshop IDs based on the specified city (area).
+     *
+     * @param city The city (area) for which workshops are to be retrieved.
+     * @return A List of integers representing workshop IDs in the specified city.
+     *         The list may be empty if no workshops are found in the given city.
+     * @throws ServiceException If there is an issue with input validation or accessing the database.
+     */
     public List<Integer> getWorkShopByArea(String city) throws ServiceException{
         Validations validate =  new Validations();
         WorkShopDao dao =  new WorkShopDao() ;
@@ -61,6 +94,14 @@ public class WorkShopService {
         }
         return workShop ;
     }
+
+    /**
+     * Retrieves a workshop based on the specified ID.
+     *
+     * @param id The ID of the workshop to be retrieved.
+     * @return A WorkShop object representing the workshop with the specified ID.
+     * @throws ServiceException If there is an issue with accessing the database.
+     */
     public WorkShop getWorkShopById(int id) throws ServiceException{
         WorkShopDao dao =  new WorkShopDao() ;
         try {
@@ -71,6 +112,14 @@ public class WorkShopService {
 
 
     }
+    /**
+     * Retrieves a list of workshop IDs based on the specified workshop type.
+     *
+     * @param type The type of workshop for which to retrieve workshop IDs.
+     * @return A List of integers representing workshop IDs of the specified type.
+     *         The list may be empty if no workshops of the given type are found.
+     * @throws ServiceException If there is an issue with input validation or accessing the database.
+     */
     public List<Integer> getWorkShopByType(int type) throws ServiceException {
         Validations validate = new Validations();
         List<Integer> arr = new ArrayList<>();
