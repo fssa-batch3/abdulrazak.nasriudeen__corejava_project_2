@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 class UserServiceTest {
+    private final UserServices userServices =  new UserServices();
 
     @BeforeAll
     static  void createUser(){
@@ -46,9 +47,8 @@ class UserServiceTest {
     @Test
     void createUserTestFail (){
         User use = new User("Abdul",98403265109L,"123456");
-        UserServices user =  new UserServices();
         try {
-            Assertions.assertFalse(user.registerUser(use));
+            Assertions.assertFalse(userServices.registerUser(use));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -56,9 +56,8 @@ class UserServiceTest {
     }
     @Test
     void loginTestSuccess(){
-        UserServices user =  new UserServices();
         try {
-            Assertions.assertEquals(35,user.loginUser(9840326515L ,"abd123"));
+            Assertions.assertEquals(35,userServices.loginUser(9840326515L ,"pas123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -66,9 +65,8 @@ class UserServiceTest {
     }
     @Test
     void loginTestFail(){
-        UserServices user =  new UserServices();
         try {
-            Assertions.assertNotEquals(20,user.loginUser(9840326515L ,"abd123"));
+            Assertions.assertNotEquals(20,userServices.loginUser(9840326515L ,"pas123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -76,10 +74,9 @@ class UserServiceTest {
     }
     @Test
     void getUserByIdTestSuccess(){
-        UserServices user =  new UserServices();
 
         try {
-            User use = user.getUserById(35);
+            User use = userServices.getUserById(35);
             Assertions.assertEquals("Razak Test",use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -88,10 +85,8 @@ class UserServiceTest {
     }
     @Test
     void getUserByIdTestFail(){
-        UserServices user =  new UserServices();
-
         try {
-            User use = user.getUserById(24);
+            User use = userServices.getUserById(24);
             Assertions.assertNotEquals("Abdu", use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -101,15 +96,31 @@ class UserServiceTest {
 
     @Test
     void getAllUsersTestSuccess(){
-        UserServices user =  new UserServices();
         try {
-            List<User> users = user.getAllUsers();
+            List<User> users = userServices.getAllUsers();
             Assertions.assertFalse(users.isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
 
 
+    }
+
+    @Test
+    void updateUserPassword(){
+        try {
+          Assertions.assertTrue(userServices.updateUserPassword("pas123",9840326515L));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    void updateUserPasswordFail(){
+        try {
+            Assertions.assertFalse(userServices.updateUserPassword("chennai",9840326515L));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
     }
     @AfterAll
     static void deleteTestUser() {

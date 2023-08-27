@@ -46,18 +46,17 @@ public class UserDao {
 
     }
 
-    public  boolean updateUserPassword(Long num , String password)throws DAOException {
+    public  boolean updateUserPassword(int  id , String password)throws DAOException {
 
-        String query = "update user set password = ? where number = ?";
+        String query = "update user set password = ? where id = ?";
 
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement pre = connect.prepareStatement(query)){
 
             pre.setString(1,password);
-            String number = Long.toString(num);
-            pre.setString(2,number);
-            int i = pre.executeUpdate();
-            return i==1;
+
+            pre.setInt(2,id);
+            return pre.executeUpdate()==1;
         }catch(SQLException | DTBException e){
             throw new DAOException(e);
         }
@@ -139,7 +138,19 @@ public class UserDao {
         return users;
 
     }
+    public boolean updateLoginStatus(int id, boolean status) throws DAOException {
+        String query = "update user set is_login = ? where id = ?";
 
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement pre = connect.prepareStatement(query)){
+
+            pre.setBoolean(1,status);
+            pre.setInt(2,id);
+            return pre.executeUpdate()==1;
+        }catch(SQLException | DTBException e){
+            throw new DAOException(e);
+        }
+    }
 
 
 }

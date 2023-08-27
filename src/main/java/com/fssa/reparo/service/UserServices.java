@@ -1,5 +1,6 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.exception.DAOException;
+import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.User;
@@ -8,6 +9,9 @@ import com.fssa.reparo.dao.UserDao;
 import java.util.List;
 
 public class UserServices {
+    private final UserDao userDao=  new UserDao();
+    private final UserValidation userValidation=  new UserValidation();
+
 
 
 
@@ -21,9 +25,9 @@ public class UserServices {
     public boolean registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
         try {
-            UserDao use = new UserDao();
+
             if(validate.validNewUser(user)){
-                return use.insertUser(user);
+                return userDao.insertUser(user);
             }
 
         }catch (DAOException | ValidationException e){
@@ -66,10 +70,10 @@ public class UserServices {
      * @throws ServiceException If there is an issue with accessing the database.
      */
     public User getUserById(int id) throws  ServiceException{
-        UserDao use = new UserDao();
+
 
         try {
-            return use.findUserById(id);
+            return userDao.findUserById(id);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -81,12 +85,38 @@ public class UserServices {
      * @throws ServiceException If there is an issue with accessing the database.
      */
     public List<User> getAllUsers() throws ServiceException {
-        UserDao use = new UserDao();
+
         try {
-           return use.getAllUser();
+           return userDao.getAllUser();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
+
+    }
+    /**
+     * updates the password of the user with provided phone number.
+     *
+     * @param number The phone number of the user to be found.
+     * @return true if the password is updated else false if it occurs any issues.
+     * @throws ServiceException If there are issues while querying the database.
+     */
+    public boolean updateUserPassword(String newPassword , long number) throws ServiceException{
+
+
+        try {
+            if(userValidation.userCredentialValidateLogin(number, newPassword)) {
+                User user = userDao.findUserByNumber(number);
+                if (userValidation.validUserId(user.getId())) {
+                    return userDao.updateUserPassword(user.getId(), newPassword);
+                }
+            }
+
+
+          return false;
+        } catch (DAOException | ValidationException | InvalidEntryException e) {
+            throw new ServiceException(e);
+        }
+
 
     }
 

@@ -43,7 +43,7 @@ import java.util.List;
         try {
             UserDao userTest = new UserDao();
 
-           Assertions.assertTrue(userTest.updateUserPassword(98403265109L,"test"));
+           Assertions.assertTrue(userTest.updateUserPassword(9840326,"test"));
             User us = userTest.findUserByNumber(98403265109L);
             Assertions.assertEquals("test",us.getPassword());
 

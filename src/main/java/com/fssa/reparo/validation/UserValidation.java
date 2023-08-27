@@ -43,6 +43,7 @@ public class UserValidation {
                 User chkUser = userDao.findUserByNumber(num);
                 if(chkUser.getName() != null ){
                     if(chkUser.getPassword().equals(pass)){
+                        userDao.updateLoginStatus(chkUser.getId(), true);
                     return chkUser.getId();
                     }
                     else{
