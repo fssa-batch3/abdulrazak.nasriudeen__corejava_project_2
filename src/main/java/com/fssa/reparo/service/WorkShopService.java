@@ -15,17 +15,17 @@ public class WorkShopService {
     /**
      * Registers a workshop by validating the input and inserting it into the database.
      *
-     * @param Workshop The Workshop object to be registered.
+     * @param workshop The Workshop object to be registered.
      * @return True if the workshop is successfully registered, false otherwise.
      * @throws ServiceException If there is an issue with database access or validation.
      */
-    public  boolean registerWorkShop(WorkShop Workshop)throws ServiceException{
+    public  boolean registerWorkShop(WorkShop workshop)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
 
             try {
-                if(validate.isValidWorkshop(Workshop)) {
+                if(validate.isValidWorkshop(workshop)) {
                     WorkShopDao work = new WorkShopDao();
-                    return work.insertWorkShop(Workshop);
+                    return work.insertWorkShop(workshop);
 
                 }
                 return false;
