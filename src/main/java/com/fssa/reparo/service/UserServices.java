@@ -120,6 +120,26 @@ public class UserServices {
 
     }
 
+    /**
+     * updates the password of the user with provided phone number.
+     *
+     * @param id The id of the user to be found.
+     * @return true if the password is updated else false if it occurs any issues.
+     * @throws ServiceException If there are issues while querying the database.
+     */
+    public boolean logOutUser(int id) throws ServiceException{
+        try {
+           if(userValidation.userIsLogin(id)){
+               return userDao.updateLoginStatus(id,false);
+           }
+            return false;
+        } catch (ValidationException |DAOException e) {
+            // If any exception Occurs throws as Service Exception.
+            throw new ServiceException(e);
+        }
+
+    }
+
 
 
 

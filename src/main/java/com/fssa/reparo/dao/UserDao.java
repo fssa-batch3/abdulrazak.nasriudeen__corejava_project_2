@@ -18,6 +18,7 @@ public class UserDao {
                 user.setNumber(lNum);
                 user.setPassword(rs.getString("password"));
                 user.setId(rs.getInt("id"));
+                user.setLogin(rs.getBoolean("is_login"));
               }
 
             return user;

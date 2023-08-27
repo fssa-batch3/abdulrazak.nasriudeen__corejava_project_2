@@ -122,6 +122,26 @@ class UserServiceTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    void logoutSuccessTest(){
+        try {
+            Assertions.assertTrue(userServices.logOutUser(35));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    void logoutFailTest(){
+        try {
+            Assertions.assertFalse(userServices.logOutUser(20));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     @AfterAll
     static void deleteTestUser() {
         UserDao dao = new UserDao();

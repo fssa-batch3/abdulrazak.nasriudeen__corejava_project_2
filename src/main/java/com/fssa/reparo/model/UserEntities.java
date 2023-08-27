@@ -5,6 +5,15 @@ public abstract class UserEntities  {
     private String name;
     private long number;
     private String password;
+    private boolean isLogin;
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
 
     public void setId(int id) {
         this.id = id;

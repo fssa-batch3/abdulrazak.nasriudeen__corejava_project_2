@@ -78,6 +78,18 @@ public class UserValidation {
             User user =  userDao.findUserById(id);
             return user.getName()!=null;
         } catch (DAOException e) {
+            throw new ValidationException("User not Present");
+        }
+    }
+    public boolean userIsLogin(int id) throws ValidationException{
+        try {
+            if(validUserId(id)){
+                User user =  userDao.findUserById(id);
+                return user.isLogin();
+            }
+            return false;
+
+        } catch (DAOException | ValidationException e) {
             throw new ValidationException(e);
         }
     }
