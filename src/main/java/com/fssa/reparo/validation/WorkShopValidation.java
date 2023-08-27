@@ -7,8 +7,9 @@ import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.WorkShop;
 
 public class WorkShopValidation {
+    private final Validations  validate = new Validations();
    public boolean credentialValidate(WorkShop work) throws InvalidEntryException {
-       Validations validate =  new Validations();
+
 
 
        return validate.stringValidation(work.getName())&&validate.numberValidation(work.getNumber())&&validate.passWordValidation(work.getPassword())&&validate.addressValidation(work.getAddress())&&validate.stringValidation(work.getCity())&&validate.stringValidation(work.getState())&&validate.workshopType(work.getType());
@@ -27,17 +28,14 @@ public class WorkShopValidation {
        }
        return false;
    }
-   public boolean isLogin(long num , String pass) throws InvalidEntryException{
-       Validations validate =  new Validations();
-       return validate.numberValidation(num)&&validate.passWordValidation(pass);
-   }
    public int getWorkShop(long num , String pass) throws ValidationException{
            try {
-               if(isLogin(num,pass)){
+               if(validate.loginCredentialValidation(num,pass)){
                WorkShopDao workDao =  new WorkShopDao() ;
                WorkShop work = workDao.findWorkShopByNumber(num);
                if(work.getNumber() ==  num ){
                    if(work.getPassword().equals(pass)){
+                      if(workDao.updateLoginStatus(work.getId(),true))
                        return work.getId();
                    }
                    else{
@@ -66,6 +64,7 @@ public class WorkShopValidation {
 
 
        }
+
 
 
 

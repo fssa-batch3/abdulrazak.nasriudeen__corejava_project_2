@@ -1,4 +1,5 @@
 package com.fssa.reparo.service;
+import com.fssa.reparo.dao.UserDao;
 import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
@@ -9,8 +10,9 @@ import com.fssa.reparo.validation.Validations;
 import com.fssa.reparo.validation.WorkShopValidation;
 import java.util.ArrayList;
 import java.util.List;
-
 public class WorkShopService {
+    private final WorkShopDao workShopDao = new WorkShopDao();
+    private final WorkShopValidation  workShopValidation = new WorkShopValidation();
 
     /**
      * Registers a workshop by validating the input and inserting it into the database.
@@ -25,7 +27,7 @@ public class WorkShopService {
             try {
                 if(validate.isValidWorkshop(workshop)) {
                     WorkShopDao work = new WorkShopDao();
-                    return work.insertWorkShop(workshop);
+                    return work.insertWorkShop(workshop );
 
                 }
                 return false;
@@ -55,6 +57,17 @@ public class WorkShopService {
            return validate.getWorkShop(num , pass);
         } catch (ValidationException e) {
             throw new ServiceException(e);
+        }
+    }
+    public boolean logOutWorkShop(int id) throws ServiceException{
+        try {
+            WorkShop work = workShopDao.getWorkShopsById(id);
+            if(work.getId()!= 0 && work.isLogin()){
+            return workShopDao.updateLoginStatus(id,false);
+            }
+            return false;
+        } catch (DAOException e) {
+            throw new ServiceException("User is not present");
         }
     }
     /**
@@ -133,6 +146,26 @@ public class WorkShopService {
         }catch (DAOException e){
             throw new ServiceException(e);
         }
+
+    }
+    public boolean updateWorkshopPassword(long number , String newPassword)throws ServiceException{
+        try {
+
+            Validations validate = new Validations();
+            if(validate.loginCredentialValidation(number,newPassword)) {
+                WorkShop workShop = workShopDao.findWorkShopByNumber(number);
+                if (workShop.getId() != 0) {
+                    return workShopDao.updateWorkShopPassword(workShop.getId(), newPassword);
+
+                }
+
+            }
+            return false;
+
+        } catch (DAOException |InvalidEntryException e) {
+            throw new ServiceException(e);
+        }
+
 
     }
 

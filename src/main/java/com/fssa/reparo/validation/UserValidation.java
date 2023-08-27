@@ -9,16 +9,17 @@ import com.fssa.reparo.model.Vehicle;
 
 public class UserValidation {
     protected UserDao userDao  =  new UserDao();
+    private final Validations validate = new Validations();
     public boolean userCredentialValidate(User user) throws InvalidEntryException {
-        Validations validate = new Validations();
+
     return validate.stringValidation(user.getName()) && validate.numberValidation(user.getNumber())&&validate.passWordValidation(user.getPassword());
     }
     public boolean userCredentialValidateLogin(long num , String pass) throws InvalidEntryException {
-        Validations validate = new Validations();
+
         return validate.numberValidation(num)&&validate.passWordValidation(pass);
     }
     public boolean userValidVehicle(Vehicle u)throws InvalidEntryException{
-        Validations validate = new Validations();
+
 
         return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.workshopType(u.getVehicleType());
 
@@ -39,7 +40,7 @@ public class UserValidation {
     }
     public int isUser(long num , String pass) throws ValidationException {
         try {
-            if (userCredentialValidateLogin(num,pass)){
+            if (validate.loginCredentialValidation(num,pass)){
                 User chkUser = userDao.findUserByNumber(num);
                 if(chkUser.getName() != null ){
                     if(chkUser.getPassword().equals(pass)){

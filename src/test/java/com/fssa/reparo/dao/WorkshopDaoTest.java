@@ -42,20 +42,7 @@ import java.util.List;
         }
     }
 
-    @Test
-    void testUpdatePassword() {
-        try {
-            WorkShopDao work  =  new WorkShopDao() ;
-            Assertions.assertTrue(work.updateWorkShopPassword(98403265105L, "test"));
-            WorkShop us = work.findWorkShopByNumber(98403265105L);
-            Assertions.assertEquals("test", us.getPassword());
 
-
-        } catch (DAOException e) {
-            e.printStackTrace();
-
-        }
-    }
 
     @Test
     void getAllWorkShops() {

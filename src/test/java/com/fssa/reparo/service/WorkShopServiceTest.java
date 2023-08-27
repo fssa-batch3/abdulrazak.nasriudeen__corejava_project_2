@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
     @Test
     void loginWorkshopTest(){
         try{
-            Assertions.assertEquals(18,workService.loginWorkShop(9840326580L,"abd234"));
+            Assertions.assertEquals(18,workService.loginWorkShop(9840326580L,"abd123"));
         }catch (ServiceException e){
             throw new RuntimeException(e);
 
@@ -39,10 +39,18 @@ import org.junit.jupiter.api.Test;
 
     }
     @Test
-    void getWorkShopByAreaTest(){
-        WorkShopService ser   = new WorkShopService();
+    void logoutWorkShopTest(){
         try {
-            Assertions.assertFalse(ser.getWorkShopByArea("chennai").isEmpty());
+            Assertions.assertTrue(workService.logOutWorkShop(18));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    void getWorkShopByAreaTest(){
+
+        try {
+            Assertions.assertFalse(workService.getWorkShopByArea("chennai").isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -51,9 +59,9 @@ import org.junit.jupiter.api.Test;
     }
     @Test
     void getWorkShopByTypeTest(){
-        WorkShopService ser   = new WorkShopService();
+
         try {
-            Assertions.assertFalse(ser.getWorkShopByType(2).isEmpty());
+            Assertions.assertFalse(workService.getWorkShopByType(2).isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -62,9 +70,9 @@ import org.junit.jupiter.api.Test;
     }
     @Test
     void getAllWorkShopTest(){
-        WorkShopService ser   = new WorkShopService();
+
         try {
-            Assertions.assertFalse(ser.getAllWorkShop().isEmpty());
+            Assertions.assertFalse(workService.getAllWorkShop().isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -73,15 +81,33 @@ import org.junit.jupiter.api.Test;
     }
     @Test
     void getWorkShopByIdTest(){
-        WorkShopService ser   = new WorkShopService();
+
         try {
-            WorkShop work = ser.getWorkShopById(18);
+            WorkShop work = workService.getWorkShopById(18);
             Assertions.assertEquals("Auto mobiles", work.getName() );
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
 
     }
+    @Test
+    void updatePasswordTest(){
+        try {
+            Assertions.assertTrue(workService.updateWorkshopPassword(9840326580L,"abd123"));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+     @Test
+     void updatePasswordTestFails(){
+         try {
+             Assertions.assertFalse(workService.updateWorkshopPassword(9840326580L,"Test"));
+         } catch (ServiceException e) {
+             throw new RuntimeException(e);
+         }
+
+     }
     @AfterAll
      static void removeWorkshop(){
         WorkShopDao workDao =  new WorkShopDao();

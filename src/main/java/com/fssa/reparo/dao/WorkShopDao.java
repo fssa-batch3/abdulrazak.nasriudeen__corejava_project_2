@@ -100,14 +100,14 @@ public class WorkShopDao {
 
 
     }
-    public  boolean updateWorkShopPassword(Long num , String password)throws DAOException {
+    public  boolean updateWorkShopPassword(int id , String password)throws DAOException {
 
-        String query = "update workshop set password = ? where number = ?";
+        String query = "update workshop set password = ? where id = ?";
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement pre = connect.prepareStatement(query)){
             pre.setString(1,password);
-            String number = Long.toString(num);
-            pre.setString(2,number);
+
+            pre.setInt(2,id);
             int i = pre.executeUpdate();
             return i==1;
         }catch(SQLException | DTBException e){
@@ -182,6 +182,19 @@ public class WorkShopDao {
         }
 
 
+    }
+    public boolean updateLoginStatus(int id , boolean status) throws DAOException{
+        String query = "update workshop set is_login = ? where id = ?";
+
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement pre = connect.prepareStatement(query)){
+
+            pre.setBoolean(1,status);
+            pre.setInt(2,id);
+            return pre.executeUpdate()==1;
+        }catch(SQLException | DTBException e){
+            throw new DAOException(e);
+        }
     }
 
 }

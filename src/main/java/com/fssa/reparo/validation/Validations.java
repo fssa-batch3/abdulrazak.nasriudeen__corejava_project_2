@@ -96,6 +96,13 @@ public  class Validations {
             throw new InvalidEntryException(e);
         }
     }
+    public boolean  loginCredentialValidation(long num ,String pass) throws InvalidEntryException{
+        try {
+            return numberValidation(num) && passWordValidation(pass);
+        } catch (InvalidEntryException e) {
+            throw new InvalidEntryException(e);
+        }
+    }
 
 
 
