@@ -100,7 +100,7 @@ public class VehicleDao {
 
 
     }
-    public List<Vehicle> getAllVehicles()throws DAOException {
+    public List<Vehicle>getAllVehicles()throws DAOException {
         String query = "Select * from vehicles";
         List<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();

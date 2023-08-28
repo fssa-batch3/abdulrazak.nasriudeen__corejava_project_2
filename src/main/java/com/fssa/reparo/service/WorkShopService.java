@@ -1,5 +1,4 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.UserDao;
 import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;

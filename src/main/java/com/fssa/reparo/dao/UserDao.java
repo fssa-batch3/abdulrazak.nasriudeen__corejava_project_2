@@ -12,14 +12,13 @@ public class UserDao {
     public User assignUser(ResultSet rs) throws DAOException{
         User user  = new User();
         try {
-              if(rs.next()) {
                 user.setName(rs.getString("name"));
                 long lNum = Long.parseLong(rs.getString("number"));
                 user.setNumber(lNum);
                 user.setPassword(rs.getString("password"));
                 user.setId(rs.getInt("id"));
                 user.setLogin(rs.getBoolean("is_login"));
-              }
+
 
             return user;
         } catch (SQLException e) {
@@ -126,6 +125,9 @@ public class UserDao {
             PreparedStatement prep =  connect.prepareStatement(query)
         ){
             ResultSet  rs = prep.executeQuery();
+
+
+
             while(rs.next()){
                 User work = assignUser(rs);
                 users.add(work);
