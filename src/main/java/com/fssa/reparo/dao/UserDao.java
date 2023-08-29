@@ -13,8 +13,7 @@ public class UserDao {
         User user  = new User();
         try {
                 user.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("number"));
-                user.setNumber(lNum);
+                user.setNumber(Long.parseLong(rs.getString("number")));
                 user.setPassword(rs.getString("password"));
                 user.setId(rs.getInt("id"));
                 user.setLogin(rs.getBoolean("is_login"));
@@ -38,8 +37,8 @@ public class UserDao {
             pre.setString(2,num);
 
             pre.setString(3,use.getPassword());
-            int i = pre.executeUpdate();
-            return (i==1);
+
+            return (pre.executeUpdate()==1);
         }catch (SQLException | DTBException e){
             throw new DAOException(e);
         }
@@ -69,8 +68,7 @@ public class UserDao {
 
             String num = Long.toString(number);
             pre.setString(1,num);
-            int i = pre.executeUpdate();
-            return i == 1;
+            return pre.executeUpdate() == 1;
 
         }catch (SQLException | DTBException e){
             throw new DAOException(e);
@@ -79,8 +77,9 @@ public class UserDao {
 
     }
     public  User findUserById(int id) throws DAOException {
-
+        User use =  new User();
         String query =  "Select * from user where id = ?";
+
 
         try( Connection connect = ConnectionDb.getConnection();
              PreparedStatement prep =  connect.prepareStatement(query)){
@@ -88,15 +87,20 @@ public class UserDao {
 
             prep.setInt(1,id);
             ResultSet   rs = prep.executeQuery();
+            if(rs.next()){
+                use = assignUser(rs);
+            }
 
-            return assignUser(rs);
+            rs.close();
 
         } catch (SQLException | DTBException e){
             throw new DAOException(e);
         }
+        return use;
 
     }
     public  User findUserByNumber(long num) throws DAOException {
+        User use =  new User();
 
         String query =  "Select * from user where number = ?";
         String number = Long.toString(num);
@@ -106,7 +110,10 @@ public class UserDao {
 
             prep.setString(1,number);
             ResultSet   rs = prep.executeQuery();
-            User use = assignUser(rs);
+            while (rs.next()){
+                 use = assignUser(rs);
+            }
+
             rs.close();
       
 
