@@ -12,17 +12,16 @@ public class WorkShopDao {
     public WorkShop assignWorkShop(ResultSet rs)throws DAOException{
         WorkShop work  = new WorkShop();
         try {
-            if(rs.next()){
+
                 work.setName(rs.getString("name"));
                 long lNum = Long.parseLong(rs.getString("number"));
                 work.setNumber(lNum);
-                work.setPassword(rs.getString("password"));
                 work.setId(rs.getInt("id"));
                 work.setAddress(rs.getString("address"));
                 work.setCity(rs.getString("city"));
                 work.setState(rs.getString("state"));
                 work.setType(rs.getInt("workshop_type"));
-            }
+
             return work ;
         } catch (SQLException e) {
             throw new DAOException(e);

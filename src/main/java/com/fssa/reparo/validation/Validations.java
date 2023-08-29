@@ -18,10 +18,10 @@ public  class Validations {
         try {
             Pattern pat = Pattern.compile(NAME_REGEX);
             if (str == null) {
-                return false;
+                throw new InvalidEntryException("input can't be null");
             }
-            if (str.length() > 15){
-                return  false ;
+            if (str.length() > 20){
+                throw new InvalidEntryException("Number of characters should be less than 20");
             }
             match = pat.matcher(str);
         } catch (Exception e) {
