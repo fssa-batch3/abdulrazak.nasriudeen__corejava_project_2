@@ -6,6 +6,7 @@ import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.User;
 import com.fssa.reparo.dao.UserDao;
 import com.fssa.reparo.model.Vehicle;
+import java.util.Objects;
 
 public class UserValidation {
     protected UserDao userDao  =  new UserDao();
@@ -26,49 +27,40 @@ public class UserValidation {
     }
     public boolean validNewUser(User user) throws  ValidationException{
         try {
-            if (userCredentialValidate(user)){
-
-                User chkUser = userDao.findUserByNumber(user.getNumber());
+            if(!userCredentialValidate(user))throw new ValidationException("user Credentials is not valid");
+            User chkUser = userDao.findUserByNumber(user.getNumber());
+                if(chkUser.getName()!=null)throw new ValidationException("User already present");
                 return chkUser.getName() == null;
 
 
-            }
+
         }catch (InvalidEntryException | DAOException e){
             throw   new ValidationException(e);
         }
-        return false;
+
     }
     public int isUser(long num , String pass) throws ValidationException {
         try {
-            if (validate.loginCredentialValidation(num,pass)){
-                User chkUser = userDao.findUserByNumber(num);
-                if(chkUser.getName() != null ){
-                    if(chkUser.getPassword().equals(pass)){
-                        userDao.updateLoginStatus(chkUser.getId(), true);
-                    return chkUser.getId();
-                    }
-                    else{
-                        throw new InvalidEntryException("Password is incorrect");
-                    }
-
-                }else {
-                    throw new InvalidEntryException("User is not present");
-                }
-
-
-            }
-
+            if (!validate.loginCredentialValidation(num,pass)) throw new ValidationException("invalid Credentials");
+            User chkUser = userDao.findUserByNumber(num);
+            if(chkUser.getName() == null) throw new ValidationException("user not present ");
+            if(!Objects.equals(chkUser.getPassword(), pass)) throw new ValidationException("password is incorrect");
+            userDao.updateLoginStatus(chkUser.getId(), true);
+            return chkUser.getId();
         }
         catch (InvalidEntryException | DAOException e){
             throw   new ValidationException(e);
         }
-        return 0;// invalid credentials
+
 
     }
     public boolean validVehicleId(int id) throws ValidationException{
         try {
             VehicleDao vehicleDao =  new VehicleDao();
             Vehicle vehicle =  vehicleDao.findVehicleById(id);
+            if(vehicle.getVehicleNumber()==null)throw new ValidationException("vehicle not present");
+
+
             return  vehicle.getVehicleNumber()!=null;
         } catch (DAOException e) {
             throw new ValidationException(e);
@@ -77,6 +69,7 @@ public class UserValidation {
     public boolean validUserId(int id) throws ValidationException{
         try {
             User user =  userDao.findUserById(id);
+            if(user.getName()==null)throw new ValidationException("user not present");
             return user.getName()!=null;
         } catch (DAOException e) {
             throw new ValidationException("User not Present");

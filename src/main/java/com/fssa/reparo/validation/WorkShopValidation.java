@@ -19,9 +19,9 @@ public class WorkShopValidation {
        if(credentialValidate(work)){
            WorkShopDao workDao = new WorkShopDao();
            WorkShop chkWork = workDao.findWorkShopByNumber(work.getNumber());
-           if(chkWork.getName() == null){
+           if(chkWork.getName() != null) throw new ValidationException("WorkShop already present");
                return  true;
-           }
+           
 
        }}catch (InvalidEntryException | DAOException e){
           throw new ValidationException(e);
@@ -30,10 +30,10 @@ public class WorkShopValidation {
    }
    public int getWorkShop(long num , String pass) throws ValidationException{
            try {
-               if(validate.loginCredentialValidation(num,pass)){
+               if(!(validate.loginCredentialValidation(num,pass))) throw new InvalidEntryException("invalid credentials") ;
                WorkShopDao workDao =  new WorkShopDao() ;
                WorkShop work = workDao.findWorkShopByNumber(num);
-               if(work.getNumber() ==  num ){
+               if(work.getNumber() == num ){
                    if(work.getPassword().equals(pass)){
                       if(workDao.updateLoginStatus(work.getId(),true))
                        return work.getId();
@@ -44,10 +44,10 @@ public class WorkShopValidation {
 
                }
                else{
-                   throw  new InvalidEntryException("invalid Number");
+                   throw  new InvalidEntryException("workshop not present");
                }
 
-           }} catch (DAOException | InvalidEntryException e) {
+           } catch (DAOException | InvalidEntryException e) {
                throw new ValidationException(e);
            }
        return  0 ;

@@ -14,7 +14,7 @@ public class UserServices {
 
 
 
-
+ 
     /**
      * Registers a new user by validating the input and inserting the user into the database.
      *
@@ -26,15 +26,15 @@ public class UserServices {
         UserValidation validate = new UserValidation();
         try {
 
-            if(validate.validNewUser(user)){
-                return userDao.insertUser(user);
-            }
+            if(!(validate.validNewUser(user)))throw  new ServiceException("User Already present");
+            return userDao.insertUser(user);
+
 
         }catch (DAOException | ValidationException e){
             throw new ServiceException(e);
         }
 
-        return  false;
+       
     }
 
 
@@ -73,8 +73,9 @@ public class UserServices {
 
 
         try {
+            userValidation.validUserId(id);
             return userDao.findUserById(id);
-        } catch (DAOException e) {
+        } catch (DAOException | ValidationException e) {
             throw new ServiceException(e);
         }
     }

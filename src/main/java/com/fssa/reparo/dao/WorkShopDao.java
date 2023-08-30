@@ -1,4 +1,5 @@
 package com.fssa.reparo.dao;
+
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.WorkShop;
 import com.fssa.reparo.util.ConnectionDb;
@@ -9,191 +10,210 @@ import java.util.List;
 
 public class WorkShopDao {
 
-    public WorkShop assignWorkShop(ResultSet rs)throws DAOException{
-        WorkShop work  = new WorkShop();
-        try {
+	public WorkShop assignWorkShop(ResultSet rs) throws DAOException {
+		WorkShop work = new WorkShop();
+		try {
 
-                work.setName(rs.getString("name"));
-                long lNum = Long.parseLong(rs.getString("number"));
-                work.setNumber(lNum);
-                work.setId(rs.getInt("id"));
-                work.setAddress(rs.getString("address"));
-                work.setCity(rs.getString("city"));
-                work.setState(rs.getString("state"));
-                work.setType(rs.getInt("workshop_type"));
+			work.setName(rs.getString("name"));
+			long lNum = Long.parseLong(rs.getString("number"));
+			work.setNumber(lNum);
+			work.setId(rs.getInt("id"));
+			work.setAddress(rs.getString("address"));
+			work.setCity(rs.getString("city"));
+			work.setState(rs.getString("state"));
+			work.setType(rs.getInt("workshop_type"));
 
-            return work ;
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
+			return work;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
 
-    }
+	}
 
-    public  boolean insertWorkShop(WorkShop work) throws DAOException {
-        // This method is used to create user data in db table
-        String  query = "insert into workshop (name,number,password,address,city,state,workshop_type) values (?,?,?,?,?,?,?)";
+	public boolean insertWorkShop(WorkShop work) throws DAOException {
+		// This method is used to create user data in db table
+		String query = "insert into workshop (name,number,password,address,city,state,workshop_type) values (?,?,?,?,?,?,?)";
 
-        try (
-            Connection connect = ConnectionDb.getConnection();
-                PreparedStatement pre = connect.prepareStatement(query))
-        {
-            pre.setString(1, work.getName());
-            String num =  Long.toString(work.getNumber());
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement pre = connect.prepareStatement(query)) {
+			pre.setString(1, work.getName());
+			String num = Long.toString(work.getNumber());
 
-            pre.setString(2,num);
+			pre.setString(2, num);
 
-            pre.setString(3,work.getPassword());
-            pre.setString(4,work.getAddress());
-            pre.setString(5,work.getCity());
-            pre.setString(6,work.getState());
-            pre.setInt(7,work.getType());
-            int i = pre.executeUpdate();
-            return (i==1);
-        }catch (SQLException | DTBException e){
-            throw new DAOException(e);
-        }
+			pre.setString(3, work.getPassword());
+			pre.setString(4, work.getAddress());
+			pre.setString(5, work.getCity());
+			pre.setString(6, work.getState());
+			pre.setInt(7, work.getType());
+			int i = pre.executeUpdate();
+			return (i == 1);
+		} catch (SQLException | DTBException e) {
+			throw new DAOException(e);
+		}
 
-    }
-    public  WorkShop findWorkShopByNumber(long num) throws DAOException {
+	}
 
-        String query =  "Select * from workshop where number = ?";
+	public WorkShop findWorkShopByNumber(long num) throws DAOException {
+		WorkShop workshop = new WorkShop();
 
-        String number = Long.toString(num);
+		String query = "Select * from workshop where number = ?";
 
-        try(
+		String number = Long.toString(num);
 
-            Connection connect = ConnectionDb.getConnection();
+		try (
 
+				Connection connect = ConnectionDb.getConnection();
 
-            PreparedStatement prep =  connect.prepareStatement(query)
-        ){
+				PreparedStatement prep = connect.prepareStatement(query)) {
 
-            prep.setString(1,number);
-            ResultSet    rs = prep.executeQuery();
+			prep.setString(1, number);
+			try (ResultSet rs = prep.executeQuery()) {
+				while (rs.next()) {
+					workshop = assignWorkShop(rs);
+					workshop.setPassword(rs.getString("password"));
+				}
 
-            return assignWorkShop(rs);
+			}catch(SQLException e) {
+				throw new DAOException("problem in result set");
+				
+				
+			}
 
-        } catch (SQLException | DTBException e){
-            throw new DAOException(e);
-        }
+			return workshop;
 
-    }
-    public  boolean removeWorkShopAccount(long number)throws DAOException {
-        String query = "delete from workshop where number = ? ;";
-        try(Connection connect = ConnectionDb.getConnection();
-            PreparedStatement pre =  connect.prepareStatement(query)
-        ){
+		} catch (SQLException | DTBException e) {
+			throw new DAOException(e);
+		}
 
+	}
 
+	public boolean removeWorkShopAccount(long number) throws DAOException {
+		String query = "delete from workshop where number = ? ;";
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement pre = connect.prepareStatement(query)) {
 
-            String num = Long.toString(number);
-            pre.setString(1,num);
-            int i = pre.executeUpdate();
-            return i == 1;
+			String num = Long.toString(number);
+			pre.setString(1, num);
+			int i = pre.executeUpdate();
+			return i == 1;
 
+		} catch (SQLException | DTBException e) {
+			throw new DAOException(e);
+		}
 
+	}
 
-        }catch (SQLException | DTBException e){
-            throw new DAOException(e);
-        }
+	public boolean updateWorkShopPassword(int id, String password) throws DAOException {
 
+		String query = "update workshop set password = ? where id = ?";
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement pre = connect.prepareStatement(query)) {
+			pre.setString(1, password);
 
-    }
-    public  boolean updateWorkShopPassword(int id , String password)throws DAOException {
+			pre.setInt(2, id);
+			int i = pre.executeUpdate();
+			return i == 1;
+		} catch (SQLException | DTBException e) {
+			throw new DAOException(e);
+		}
+	}
 
-        String query = "update workshop set password = ? where id = ?";
-        try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement pre = connect.prepareStatement(query)){
-            pre.setString(1,password);
+	public List<WorkShop> getAllWorkShops() throws DAOException {
+		String query = "Select * from workshop";
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement pre = connect.prepareStatement(query)) {
+			ResultSet rs = pre.executeQuery();
+			List<WorkShop> workshops = new ArrayList<>();
+			while (rs.next()) {
+				WorkShop work = assignWorkShop(rs);
+				workshops.add(work);
+			}
+			rs.close();
+			return workshops;
 
-            pre.setInt(2,id);
-            int i = pre.executeUpdate();
-            return i==1;
-        }catch(SQLException | DTBException e){
-            throw new DAOException(e);
-        }
-    }
-    public List<WorkShop> getAllWorkShops()throws DAOException {
-        String query = "Select * from workshop";
-        try (Connection connect = ConnectionDb.getConnection();
-             PreparedStatement pre = connect.prepareStatement(query)){
-            ResultSet rs =  pre.executeQuery();
-            List<WorkShop> workshops = new ArrayList<>();
-            while(rs.next()){
-                WorkShop work = assignWorkShop(rs);
-                workshops.add(work);
-            }
-            return workshops;
+		} catch (DTBException | SQLException e) {
+			throw new DAOException(e);
+		}
+	}
 
-        } catch (DTBException | SQLException e) {
-            throw new DAOException(e);
-        }
-    }
-    public   List<Integer> findWorkshopsByArea(String area) throws DAOException {
-        String query = "select * from workshop where city = ?";
+	public List<Integer> findWorkshopsByArea(String area) throws DAOException {
+		String query = "select * from workshop where city = ?";
 
-        try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement con = connect.prepareStatement(query)) {
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement con = connect.prepareStatement(query)) {
 
-            con.setString(1,area);
-            ResultSet rs = con.executeQuery();
-            ArrayList<Integer> workshops= new ArrayList<>();
-            while(rs.next()){
-                int book = rs.getInt("id");
+			con.setString(1, area);
+			ResultSet rs = con.executeQuery();
+			ArrayList<Integer> workshops = new ArrayList<>();
+			while (rs.next()) {
+				int book = rs.getInt("id");
 
-                workshops.add(book);
+				workshops.add(book);
 
+			}
+			rs.close();
+			return workshops;
+		} catch (DTBException | SQLException e) {
+			throw new DAOException(e);
+		}
+	}
 
-            }
-            return workshops;
-        } catch (DTBException | SQLException e) {
-            throw new DAOException(e);
-        }
-    }
-    public WorkShop getWorkShopsById(int id ) throws DAOException{
-        String query =  "Select * from workshop where id = ?";
-        try(Connection connection = ConnectionDb.getConnection();PreparedStatement pre  =  connection.prepareStatement(query)){
-            pre.setInt(1,id);
-            ResultSet rs =  pre.executeQuery();
-            return assignWorkShop(rs) ;
+	public WorkShop getWorkShopsById(int id) throws DAOException {
+		String query = "Select * from workshop where id = ?";
+		WorkShop workshop = null;
+		try (Connection connection = ConnectionDb.getConnection();
+				PreparedStatement pre = connection.prepareStatement(query)) {
+			pre.setInt(1, id);
+			try (ResultSet rs = pre.executeQuery()) {
+				while (rs.next()) {
+					workshop = assignWorkShop(rs);
+				}
 
+			}catch(SQLException e) {
+				throw new DAOException("problem in result set");
+				
+				
+			}
+			return workshop;
 
-        }catch (DTBException | SQLException e){
-            throw  new DAOException(e);
-        }
-    }
-    public List<Integer> getWorkshopsByType(int t) throws DAOException{
-        String query = "select * from workshop where workshop_type = ?";
+		} catch (DTBException | SQLException e) {
+			throw new DAOException(e);
+		}
+	}
 
-        try( Connection connect = ConnectionDb.getConnection();
-             PreparedStatement con = connect.prepareStatement(query)) {
+	public List<Integer> getWorkshopsByType(int t) throws DAOException {
+		String query = "select id from workshop where workshop_type = ?";
 
-            con.setInt(1,t);
-            ResultSet rs = con.executeQuery();
-            List<Integer> workshops= new ArrayList<>();
-            while(rs.next()){
-                int book = rs.getInt("id");
-                workshops.add(book);
-            }
-            return workshops;
-        } catch (DTBException | SQLException e) {
-            throw new DAOException(e);
-        }
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement con = connect.prepareStatement(query)) {
 
+			con.setInt(1, t);
+			ResultSet rs = con.executeQuery();
+			List<Integer> workshops = new ArrayList<>();
+			while (rs.next()) {
+				int book = rs.getInt("id");
+				workshops.add(book);
+			}
+			return workshops;
+		} catch (DTBException | SQLException e) {
+			throw new DAOException(e);
+		}
 
-    }
-    public boolean updateLoginStatus(int id , boolean status) throws DAOException{
-        String query = "update workshop set is_login = ? where id = ?";
+	}
 
-        try(Connection connect = ConnectionDb.getConnection();
-            PreparedStatement pre = connect.prepareStatement(query)){
+	public boolean updateLoginStatus(int id, boolean status) throws DAOException {
+		String query = "update workshop set is_login = ? where id = ?";
 
-            pre.setBoolean(1,status);
-            pre.setInt(2,id);
-            return pre.executeUpdate()==1;
-        }catch(SQLException | DTBException e){
-            throw new DAOException(e);
-        }
-    }
+		try (Connection connect = ConnectionDb.getConnection();
+				PreparedStatement pre = connect.prepareStatement(query)) {
+
+			pre.setBoolean(1, status);
+			pre.setInt(2, id);
+			return pre.executeUpdate() == 1;
+		} catch (SQLException | DTBException e) {
+			throw new DAOException(e);
+		}
+	}
 
 }

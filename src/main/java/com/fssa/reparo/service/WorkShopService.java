@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 public class WorkShopService {
     private final WorkShopDao workShopDao = new WorkShopDao();
-    private final WorkShopValidation  workShopValidation = new WorkShopValidation();
 
     /**
      * Registers a workshop by validating the input and inserting it into the database.
