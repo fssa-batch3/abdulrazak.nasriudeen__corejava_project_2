@@ -4,7 +4,7 @@ import com.fssa.reparo.model.Booking;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
- class BookingDaoTest {
+ class BookingDAOTest {
     @Test
      void insertBookingTest(){
         Booking book  = new Booking();
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 
         try {
-            BookingDao bookDao = new BookingDao();
+            BookingDAO bookDao = new BookingDAO();
             Assertions.assertTrue(bookDao.insertBooking(book));
         } catch (DAOException e) {
             throw new RuntimeException(e);
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
     @Test
     void updateRequestStsTest(){
         try {
-            BookingDao bookDao = new BookingDao();
+            BookingDAO bookDao = new BookingDAO();
             Assertions.assertTrue(bookDao.updateRequestSts(1,true));
             Booking book1 = bookDao.getBookingByVehicleId(1);
             Assertions.assertTrue(book1.isRequestStatus());
@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
     @Test
     void updateAcceptStatus(){
         try {
-            BookingDao bookDao = new BookingDao();
+            BookingDAO bookDao = new BookingDAO();
             Assertions.assertTrue(bookDao.updateAcceptSts(1,2,true));
             Booking book = bookDao.getBookingByVehicleId(1);
             Assertions.assertTrue(book.isAcceptStatus());
@@ -50,7 +50,7 @@ import org.junit.jupiter.api.Test;
     @AfterAll
    static void removeBooking(){
         try {
-            BookingDao bookDao = new BookingDao();
+            BookingDAO bookDao = new BookingDAO();
             Assertions.assertTrue(bookDao.removeBooking(1));
         } catch (DAOException e) {
             throw new RuntimeException(e);}

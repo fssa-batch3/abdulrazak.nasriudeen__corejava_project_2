@@ -1,11 +1,14 @@
 package com.fssa.reparo.validation;
 
+import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
- class BookingValidationTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class BookingValidationTest {
     protected BookingValidation bookingValidate =  new BookingValidation();
     @Test
     void bookingCredentialsTest(){
@@ -17,40 +20,43 @@ import org.junit.jupiter.api.Test;
          booking.setProblem("punchre");
          booking.setRequestStatus(true);
         try {
-            Assertions.assertTrue(bookingValidate.validBooking(booking));
+            bookingValidate.validBooking(booking);
         } catch (ValidationException e) {
-            throw new RuntimeException(e);
+            fail();
         }
     }
     @Test
-    void bookingCredentialsTestFail(){
-        Booking booking =  new Booking();
+    void bookingCredentialsTestFail() {
+        Booking booking = new Booking();
         booking.setVehicleId(13);
         booking.setState("Tamil nadu");
         booking.setCity("chen");
         booking.setAddress("1hshsnsoix!keekc][]");
         booking.setProblem("punchre");
         booking.setRequestStatus(true);
-        try {
-            Assertions.assertFalse(bookingValidate.validBooking(booking));
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
+        ValidationException exception = assertThrows(ValidationException.class, () -> bookingValidate.validBooking(booking));
+
+        assertEquals("invalid booking Credentials", exception.getMessage());
+
+
+
     }
-    @Test
+        @Test
     void isBookingIdTest(){
         try {
-            Assertions.assertTrue(bookingValidate.isBookingId(18));
+            bookingValidate.isBookingId(22);
         } catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
+            fail();
+         }
     }
     @Test
     void isNotBookingIdTest(){
-        try {
-            Assertions.assertFalse(bookingValidate.isBookingId(0));
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
+        ValidationException exception = assertThrows(ValidationException.class, () -> bookingValidate.isBookingId(0));
+
+        assertEquals("booking not present", exception.getMessage());
+
     }
+
+
+
 }

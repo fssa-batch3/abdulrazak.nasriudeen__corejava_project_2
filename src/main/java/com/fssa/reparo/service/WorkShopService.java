@@ -1,5 +1,5 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.WorkShopDao;
+import com.fssa.reparo.dao.WorkShopDAO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
@@ -10,7 +10,7 @@ import com.fssa.reparo.validation.WorkShopValidation;
 import java.util.ArrayList;
 import java.util.List;
 public class WorkShopService {
-    private final WorkShopDao workShopDao = new WorkShopDao();
+    private final WorkShopDAO workShopDao = new WorkShopDAO();
 
     /**
      * Registers a workshop by validating the input and inserting it into the database.
@@ -24,7 +24,7 @@ public class WorkShopService {
 
             try {
                 if(validate.isValidWorkshop(workshop)) {
-                    WorkShopDao work = new WorkShopDao();
+                    WorkShopDAO work = new WorkShopDAO();
                     return work.insertWorkShop(workshop );
 
                 }
@@ -76,7 +76,7 @@ public class WorkShopService {
      * @throws ServiceException If there is an issue with accessing the database.
      */
     public List<WorkShop> getAllWorkShop() throws ServiceException{
-        WorkShopDao work  = new WorkShopDao();
+        WorkShopDAO work  = new WorkShopDAO();
         try {
             return work.getAllWorkShops();
         } catch (DAOException e) {
@@ -95,7 +95,7 @@ public class WorkShopService {
      */
     public List<Integer> getWorkShopByArea(String city) throws ServiceException{
         Validations validate =  new Validations();
-        WorkShopDao dao =  new WorkShopDao() ;
+        WorkShopDAO dao =  new WorkShopDAO() ;
         List<Integer> workShop  =  new ArrayList<>();
         try {
             if(validate.stringValidation(city)){
@@ -115,7 +115,7 @@ public class WorkShopService {
      * @throws ServiceException If there is an issue with accessing the database.
      */
     public WorkShop getWorkShopById(int id) throws ServiceException{
-        WorkShopDao dao =  new WorkShopDao() ;
+        WorkShopDAO dao =  new WorkShopDAO() ;
         try {
             return dao.getWorkShopsById(id);
         } catch (DAOException e) {
@@ -135,7 +135,7 @@ public class WorkShopService {
     public List<Integer> getWorkShopByType(int type) throws ServiceException {
         Validations validate = new Validations();
         List<Integer> arr = new ArrayList<>();
-        WorkShopDao dao = new WorkShopDao();
+        WorkShopDAO dao = new WorkShopDAO();
         try {
 
             if (validate.workshopType(type)) {

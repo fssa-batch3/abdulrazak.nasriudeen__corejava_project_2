@@ -1,6 +1,6 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.exception.ServiceException;
-import com.fssa.reparo.dao.VehicleDao;
+import com.fssa.reparo.dao.VehicleDAO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
@@ -13,7 +13,7 @@ public  class VehicleService  {
     public boolean addVehicle(Vehicle vehicle) throws ServiceException {
         UserValidation validate =  new UserValidation();
 
-        VehicleDao vehicleDao = new VehicleDao();
+        VehicleDAO vehicleDao = new VehicleDAO();
         try {
             if(validate.userValidVehicle(vehicle) && validate.validUserId(vehicle.getUserId())){
 
@@ -28,7 +28,7 @@ public  class VehicleService  {
 
     }
     public Vehicle getVehicleById(int id) throws  ServiceException{
-        VehicleDao vehicleDao = new VehicleDao();
+        VehicleDAO vehicleDao = new VehicleDAO();
         try {
             return vehicleDao.findVehicleById(id);
         } catch (DAOException e) {
@@ -36,7 +36,7 @@ public  class VehicleService  {
         }
     }
     public Vehicle getVehicleByUserId(int id) throws  ServiceException{
-        VehicleDao vehicleDao = new VehicleDao();
+        VehicleDAO vehicleDao = new VehicleDAO();
         try {
 
             return vehicleDao.findVehicleByUserId(id);
@@ -47,7 +47,7 @@ public  class VehicleService  {
 
     }
     public List<Vehicle> getAllVehicles() throws  ServiceException{
-        VehicleDao vehicleDao = new VehicleDao();
+        VehicleDAO vehicleDao = new VehicleDAO();
         try {
             return vehicleDao.getAllVehicles();
         } catch (DAOException e) {

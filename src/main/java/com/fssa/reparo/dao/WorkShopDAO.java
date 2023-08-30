@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkShopDao {
+public class WorkShopDAO {
 
 	public WorkShop assignWorkShop(ResultSet rs) throws DAOException {
 		WorkShop work = new WorkShop();

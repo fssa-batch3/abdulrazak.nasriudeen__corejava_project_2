@@ -1,15 +1,15 @@
 package com.fssa.reparo.validation;
-import com.fssa.reparo.dao.VehicleDao;
+import com.fssa.reparo.dao.VehicleDAO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.User;
-import com.fssa.reparo.dao.UserDao;
+import com.fssa.reparo.dao.UserDAO;
 import com.fssa.reparo.model.Vehicle;
 import java.util.Objects;
 
 public class UserValidation {
-    protected UserDao userDao  =  new UserDao();
+    protected UserDAO userDao  =  new UserDAO();
     private final Validations validate = new Validations();
     public boolean userCredentialValidate(User user) throws InvalidEntryException {
 
@@ -56,7 +56,7 @@ public class UserValidation {
     }
     public boolean validVehicleId(int id) throws ValidationException{
         try {
-            VehicleDao vehicleDao =  new VehicleDao();
+            VehicleDAO vehicleDao =  new VehicleDAO();
             Vehicle vehicle =  vehicleDao.findVehicleById(id);
             if(vehicle.getVehicleNumber()==null)throw new ValidationException("vehicle not present");
 

@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
- class UserDaoTest {
+ class UserDAOTest {
     @BeforeAll
     static void testUserInsert(){
         User use = new User();
         use.setName("Abdul");
         use.setNumber(98403265109L);
         use.setPassword("1234");
-        UserDao userTest = new UserDao();
+        UserDAO userTest = new UserDAO();
         try {
             userTest.insertUser(use);
         }catch (DAOException e){
@@ -29,7 +29,7 @@ import java.util.List;
     @Test
     void insertUserSuccess(){
         try {
-            UserDao userTest = new UserDao();
+            UserDAO userTest = new UserDAO();
             User us = userTest.findUserByNumber(98403265109L);
             Assertions.assertEquals(98403265109L,us.getNumber());
 
@@ -41,7 +41,7 @@ import java.util.List;
     @Test
     void testUpdatePassword(){
         try {
-            UserDao userTest = new UserDao();
+            UserDAO userTest = new UserDAO();
 
            Assertions.assertTrue(userTest.updateUserPassword(9840326,"test"));
             User us = userTest.findUserByNumber(98403265109L);
@@ -57,7 +57,7 @@ import java.util.List;
     void deleteUser()
     {
         try {
-            UserDao userTest = new UserDao();
+            UserDAO userTest = new UserDAO();
 
             Assertions.assertTrue(userTest.removeUser(98403265109L));
 
@@ -70,7 +70,7 @@ import java.util.List;
     void getAllUserTest(){
 
         try {
-            UserDao userTest = new UserDao();
+            UserDAO userTest = new UserDAO();
             List<User> users = userTest.getAllUser();
             Assertions.assertFalse(users.isEmpty());
         } catch (DAOException e) {

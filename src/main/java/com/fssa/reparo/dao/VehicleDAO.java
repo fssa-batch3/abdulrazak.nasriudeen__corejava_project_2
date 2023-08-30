@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class VehicleDao {
+public class VehicleDAO {
     public  Vehicle assignVehicle(ResultSet rs) throws DAOException{
         Vehicle vehicle = new Vehicle();
-        UserDao userDao = new UserDao();
+        UserDAO userDao = new UserDAO();
         try {
 
                 vehicle.setVehicleCompany(rs.getString("company"));

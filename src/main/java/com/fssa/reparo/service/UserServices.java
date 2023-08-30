@@ -5,11 +5,11 @@ import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.User;
 import com.fssa.reparo.validation.UserValidation;
-import com.fssa.reparo.dao.UserDao;
+import com.fssa.reparo.dao.UserDAO;
 import java.util.List;
 
 public class UserServices {
-    private final UserDao userDao=  new UserDao();
+    private final UserDAO userDao=  new UserDAO();
     private final UserValidation userValidation=  new UserValidation();
 
 
@@ -21,12 +21,12 @@ public class UserServices {
      * @param user The User object to be registered.
      * @throws ServiceException If there is an issue with database access or validation.
      */
-    public void registerUser(User user) throws ServiceException {
+    public boolean registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
         try {
 
             validate.validNewUser(user);
-            userDao.insertUser(user);
+            return userDao.insertUser(user);
 
 
         }catch (DAOException | ValidationException e){

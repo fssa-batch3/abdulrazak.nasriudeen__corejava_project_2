@@ -1,5 +1,5 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.UserDao;
+import com.fssa.reparo.dao.UserDAO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.User;
@@ -32,7 +32,7 @@ class UserServiceTest {
     }
     @Test
     void createUserSuccess(){
-        UserDao userDao = new UserDao();
+        UserDAO userDao = new UserDAO();
         try {
             User us = userDao.findUserByNumber(9840326001L);
             assertEquals("Razak",(us.getName()));
@@ -147,7 +147,7 @@ class UserServiceTest {
 
     @AfterAll
     static void deleteTestUser() {
-        UserDao dao = new UserDao();
+        UserDAO dao = new UserDAO();
         try {
             Assertions.assertTrue(dao.removeUser(9840326001L));
         } catch (DAOException e) {

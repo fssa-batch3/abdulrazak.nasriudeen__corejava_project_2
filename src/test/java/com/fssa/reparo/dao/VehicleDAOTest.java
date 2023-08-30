@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
- class VehicleDaoTest {
+ class VehicleDAOTest {
 
     @BeforeAll
     static void insertVehicleTest(){
@@ -21,7 +21,7 @@ import java.util.List;
         veh.setUserId(3);
         veh.setVehicleYear(2004);
         try{
-            VehicleDao vehicle = new VehicleDao();
+            VehicleDAO vehicle = new VehicleDAO();
            Assertions.assertTrue(vehicle.insertVehicle(veh));
         }catch (DAOException e){
             e.printStackTrace();
@@ -32,7 +32,7 @@ import java.util.List;
     @Test
     void insertUserSuccess(){
         try {
-            VehicleDao vehicle = new VehicleDao();
+            VehicleDAO vehicle = new VehicleDAO();
             Vehicle veh = vehicle.findVehicleByUserId(3);
             Assertions.assertEquals(2004,veh.getVehicleYear());
         } catch (DAOException e) {
@@ -43,7 +43,7 @@ import java.util.List;
     @Test
     void getAllVehiclesTest(){
         try {
-            VehicleDao vehicle = new VehicleDao();
+            VehicleDAO vehicle = new VehicleDAO();
             List<Vehicle> arr = vehicle.getAllVehicles();
             Assertions.assertNotEquals(0,arr.size());
         } catch (DAOException e) {
@@ -55,7 +55,7 @@ import java.util.List;
     @AfterAll
    static void removeVehicleTest()
     {
-        VehicleDao vehicle = new VehicleDao();
+        VehicleDAO vehicle = new VehicleDAO();
         try{
             Assertions.assertTrue(vehicle.removeVehicle(3));
         }catch (DAOException e){ e.printStackTrace();}
