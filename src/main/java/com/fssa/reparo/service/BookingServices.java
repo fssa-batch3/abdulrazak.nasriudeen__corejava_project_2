@@ -24,11 +24,11 @@ public class BookingServices {
             throw new ServiceException(e.getMessage());
         }
     }
-    public boolean updateRequestStatus(boolean status , int id) throws ServiceException{
+    public void updateRequestStatus(boolean status , int id) throws ServiceException{
 
         try {
             bookingValidation.isBookingId(id) ;
-        return bookingDao.updateRequestSts(id,status);
+            bookingDao.updateRequestSts(id,status);
 
         } catch (DAOException | ValidationException e) {
             throw new ServiceException(e);

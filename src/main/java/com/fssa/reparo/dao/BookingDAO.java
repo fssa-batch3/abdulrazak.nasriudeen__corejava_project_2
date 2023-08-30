@@ -51,19 +51,19 @@ public class BookingDAO {
         }
 
     }
-    public  boolean removeBooking(int id)throws DAOException {
+    public void removeBooking(int id)throws DAOException {
 
-        String query = "delete from bookings where booking_id = ?";
+        String query = "delete from bookings where vehicle_id = ?";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt =  connect.prepareStatement(query)) {
             preStmt.setInt(1,id);
-            return  preStmt.executeUpdate() == 1 ;
+              preStmt.executeUpdate();
         }catch (DTBException | SQLException e){
             throw new DAOException(e);
         }
 
 
     }
-    public   boolean updateRequestSts(int bookingId , boolean status) throws DAOException {
+    public void updateRequestSts(int bookingId , boolean status) throws DAOException {
 
         String query = "update bookings set request_status = ? where booking_id = ? ";
 
@@ -71,13 +71,13 @@ public class BookingDAO {
 
             preStmt.setBoolean(1,status);
             preStmt.setInt(2,bookingId);
-            return preStmt.executeUpdate() == 1 ;
+            preStmt.executeUpdate();
         }catch (SQLException | DTBException e){
             throw new DAOException(e);
 
         }
     }
-    public   boolean updateAcceptSts(int bookingId , int workshopId , boolean status) throws DAOException {
+    public void updateAcceptSts(int bookingId , int workshopId , boolean status) throws DAOException {
 
         String query = "update bookings set accept_status = ?,workshop_id = ? where booking_id = ? ";
 
@@ -86,7 +86,7 @@ public class BookingDAO {
             preStmt.setBoolean(1,status);
             preStmt.setInt(2,workshopId);
             preStmt.setInt(3,bookingId);
-            return preStmt.executeUpdate() == 1 ;
+            preStmt.executeUpdate();
         }catch (SQLException | DTBException e){
             throw new DAOException(e);
 
@@ -140,7 +140,7 @@ public class BookingDAO {
 
     }
     public List<Booking> getAllBookings()throws DAOException {
-        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where booking_id = ? ";
+        String query = "SELECT * FROM bookings ";
 
         List<Booking> bookings = new ArrayList<>();
         try (Connection connect = ConnectionDb.getConnection(); Statement statement = connect.createStatement();ResultSet result = statement.executeQuery(query)) {
