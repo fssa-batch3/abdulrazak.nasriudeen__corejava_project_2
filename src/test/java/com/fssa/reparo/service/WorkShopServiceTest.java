@@ -3,11 +3,9 @@ import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.WorkShop;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
- class WorkShopServiceTest {
+import org.junit.jupiter.api.*;
+
+class WorkShopServiceTest {
      protected  WorkShopService workService = new WorkShopService();
      @BeforeAll
      static  void createWorkshop(){
@@ -28,7 +26,10 @@ import org.junit.jupiter.api.Test;
 
      }
 
+
+
     @Test
+    @Order(1)
     void loginWorkshopTest(){
         try{
             Assertions.assertEquals(18,workService.loginWorkShop(9840326580L,"abd123"));
@@ -39,6 +40,7 @@ import org.junit.jupiter.api.Test;
 
     }
     @Test
+    @Order(2)
     void logoutWorkShopTest(){
         try {
             Assertions.assertTrue(workService.logOutWorkShop(18));

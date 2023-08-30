@@ -14,7 +14,7 @@ public class BookingDao {
            Booking book = new Booking();
            VehicleDao vehicle =  new VehicleDao();
            WorkShopDao work  =  new WorkShopDao();
-           if(rs.next()){
+
                book.setBookingId(rs.getInt("booking_id"));
                book.setCity(rs.getString("city"));
                book.setVehicleId(rs.getInt("vehicle_id"));
@@ -27,7 +27,7 @@ public class BookingDao {
                book.setLive(rs.getBoolean("is_live"));
                book.setVehicle(vehicle.assignVehicle(rs));
                book.setWorkShop(work.assignWorkShop(rs));
-           }
+
            return  book ;
        } catch (SQLException | DAOException e) {
            throw new DAOException(e);

@@ -61,7 +61,7 @@ public class WorkShopService {
     public boolean logOutWorkShop(int id) throws ServiceException{
         try {
             WorkShop work = workShopDao.getWorkShopsById(id);
-            if(work.getId()!= 0 && work.isLogin()){
+            if(work.isLogin()){
             return workShopDao.updateLoginStatus(id,false);
             }
             return false;

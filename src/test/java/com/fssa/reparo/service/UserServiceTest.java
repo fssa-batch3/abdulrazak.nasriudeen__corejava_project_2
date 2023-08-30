@@ -9,6 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class UserServiceTest {
     private final UserServices userServices =  new UserServices();
 
@@ -32,7 +35,7 @@ class UserServiceTest {
         UserDao userDao = new UserDao();
         try {
             User us = userDao.findUserByNumber(9840326001L);
-            Assertions.assertEquals("Razak",(us.getName()));
+            assertEquals("Razak",(us.getName()));
 
 
         } catch (DAOException e) {
@@ -47,17 +50,18 @@ class UserServiceTest {
     @Test
     void createUserTestFail (){
         User use = new User("Abdul",98403265109L,"123456");
-        try {
-            Assertions.assertFalse(userServices.registerUser(use));
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
+
+            ServiceException exception = assertThrows(ServiceException.class, () -> userServices.registerUser(use));
+
+            assertEquals("com.fssa.reparo.exception.ValidationException: user Credentials is not valid", exception.getMessage());
+
+
 
     }
     @Test
     void loginTestSuccess(){
         try {
-            Assertions.assertEquals(35,userServices.loginUser(9840326515L ,"pas123"));
+            assertEquals(35,userServices.loginUser(9840326515L ,"pas123"));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -65,11 +69,11 @@ class UserServiceTest {
     }
     @Test
     void loginTestFail(){
-        try {
-            Assertions.assertNotEquals(20,userServices.loginUser(9840326515L ,"pas123"));
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
+
+        ServiceException exception = assertThrows(ServiceException.class, () -> userServices.loginUser(9840326512L ,"pas123"));
+
+        assertEquals("com.fssa.reparo.exception.ValidationException: user not present ", exception.getMessage());
+
 
     }
     @Test
@@ -77,7 +81,7 @@ class UserServiceTest {
 
         try {
             User use = userServices.getUserById(35);
-            Assertions.assertEquals("Razak Test",use.getName());
+            assertEquals("Razak Test",use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -85,12 +89,11 @@ class UserServiceTest {
     }
     @Test
     void getUserByIdTestFail(){
-        try {
-            User use = userServices.getUserById(24);
-            Assertions.assertNotEquals("Abdu", use.getName());
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
+
+        ServiceException exception = assertThrows(ServiceException.class, () -> userServices.getUserById(24));
+
+        assertEquals("com.fssa.reparo.exception.ValidationException: user not present", exception.getMessage());
+
 
     }
 
@@ -133,11 +136,11 @@ class UserServiceTest {
     }
     @Test
     void logoutFailTest(){
-        try {
-            Assertions.assertFalse(userServices.logOutUser(20));
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
+
+        ServiceException exception = assertThrows(ServiceException.class, () -> userServices.logOutUser(20));
+
+        assertEquals("com.fssa.reparo.exception.ValidationException: com.fssa.reparo.exception.ValidationException: user not present", exception.getMessage());
+
     }
 
 

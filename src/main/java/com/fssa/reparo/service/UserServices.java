@@ -19,15 +19,14 @@ public class UserServices {
      * Registers a new user by validating the input and inserting the user into the database.
      *
      * @param user The User object to be registered.
-     * @return True if the user is successfully registered, false otherwise.
      * @throws ServiceException If there is an issue with database access or validation.
      */
-    public boolean registerUser(User user) throws ServiceException {
+    public void registerUser(User user) throws ServiceException {
         UserValidation validate = new UserValidation();
         try {
 
-            if(!(validate.validNewUser(user)))throw  new ServiceException("User Already present");
-            return userDao.insertUser(user);
+            validate.validNewUser(user);
+            userDao.insertUser(user);
 
 
         }catch (DAOException | ValidationException e){

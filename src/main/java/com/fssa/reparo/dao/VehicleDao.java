@@ -18,7 +18,7 @@ public class VehicleDao {
         Vehicle vehicle = new Vehicle();
         UserDao userDao = new UserDao();
         try {
-            if (rs.next()){
+
                 vehicle.setVehicleCompany(rs.getString("company"));
                 vehicle.setUserId(rs.getInt("user_id"));
                 vehicle.setVehicleYear(rs.getInt("year"));
@@ -27,7 +27,7 @@ public class VehicleDao {
                 vehicle.setVehicleId(rs.getInt("id"));
                 vehicle.setVehicleNumber(rs.getString("vehicle_number"));
                 vehicle.setUser(userDao.assignUser(rs));
-            }
+
 
             return vehicle ;
         } catch (SQLException e) {
@@ -75,9 +75,9 @@ public class VehicleDao {
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs = pre.executeQuery();
-
-
-            return assignVehicle(rs);
+            Vehicle vehicle =  new Vehicle();
+            if(rs.next())vehicle = assignVehicle(rs);
+            return vehicle;
 
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
@@ -87,13 +87,13 @@ public class VehicleDao {
     }
     public  Vehicle findVehicleById(int id) throws DAOException {
         String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.id = ?";
+        Vehicle vehicle =  new Vehicle();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs = pre.executeQuery();
-
-            return assignVehicle(rs);
-
+           if(rs.next())vehicle = assignVehicle(rs);
+           return vehicle;
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
         }
@@ -101,7 +101,7 @@ public class VehicleDao {
 
     }
     public List<Vehicle>getAllVehicles()throws DAOException {
-        String query = "Select * from vehicles";
+        String query = "select * from vehicles inner join user on user.id = vehicles.user_id ";
         List<Vehicle> vehicles =  new ArrayList<>();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){

@@ -22,6 +22,7 @@ public class WorkShopDao {
 			work.setCity(rs.getString("city"));
 			work.setState(rs.getString("state"));
 			work.setType(rs.getInt("workshop_type"));
+			work.setLogin(rs.getBoolean("is_login"));
 
 			return work;
 		} catch (SQLException e) {
@@ -68,17 +69,14 @@ public class WorkShopDao {
 				PreparedStatement prep = connect.prepareStatement(query)) {
 
 			prep.setString(1, number);
-			try (ResultSet rs = prep.executeQuery()) {
+			ResultSet rs = prep.executeQuery();
 				while (rs.next()) {
 					workshop = assignWorkShop(rs);
 					workshop.setPassword(rs.getString("password"));
 				}
+				rs.close();
 
-			}catch(SQLException e) {
-				throw new DAOException("problem in result set");
-				
-				
-			}
+
 
 			return workshop;
 
@@ -165,16 +163,12 @@ public class WorkShopDao {
 		try (Connection connection = ConnectionDb.getConnection();
 				PreparedStatement pre = connection.prepareStatement(query)) {
 			pre.setInt(1, id);
-			try (ResultSet rs = pre.executeQuery()) {
-				while (rs.next()) {
-					workshop = assignWorkShop(rs);
-				}
-
-			}catch(SQLException e) {
-				throw new DAOException("problem in result set");
-				
-				
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				workshop = assignWorkShop(rs);
+				workshop.setPassword(rs.getString("password"));
 			}
+			rs.close();
 			return workshop;
 
 		} catch (DTBException | SQLException e) {
