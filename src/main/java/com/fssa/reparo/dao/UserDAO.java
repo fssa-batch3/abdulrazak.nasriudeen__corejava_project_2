@@ -139,6 +139,7 @@ public class UserDAO {
                 User work = assignUser(rs);
                 users.add(work);
             }
+            rs.close();
 
 
 

@@ -4,7 +4,11 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
+
+import java.util.List;
+
 public class BookingValidation {
+
 
     public void validBooking(Booking book) throws ValidationException {
         Validations  validate =  new Validations();
@@ -30,6 +34,25 @@ public class BookingValidation {
         }
 
     }
+
+    public void bookingCityValidation(String city)throws ValidationException {
+        BookingDAO bookingDAO =  new BookingDAO();
+        Validations validate = new Validations();
+        try {
+            if(validate.stringValidation(city)) {
+                List<Booking> bookings = bookingDAO.findBookingNearByCity(city);
+                if(bookings.isEmpty()) throw  new ValidationException("No Available bookings");
+            }else{
+                throw new ValidationException("city name should not contain special characters or numbers ");
+            }
+        } catch (DAOException | InvalidEntryException e) {
+
+            throw new ValidationException(e);
+        }
+
+    }
+
+
 
 
 

@@ -106,15 +106,15 @@ public class BookingDAO {
             throw new DAOException(e);
         }
     }
-    public List<Integer> findBookingNearByArea(String area) throws DAOException {
-        List<Integer> bookings = new ArrayList<>();
-        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where city = ? AND is_live = true";
+        public List<Booking> findBookingNearByCity(String area) throws DAOException {
+        List<Booking> bookings = new ArrayList<>();
+        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id))  where city = ? AND is_live = true";
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt = connect.prepareStatement(query)) {
             preStmt.setString(1 , area);
             ResultSet rs =  preStmt.executeQuery();
             while(rs.next()){
-                int id = rs.getInt("booking_id");
-                bookings.add(id);
+                Booking booking = assignBooking(rs);
+                bookings.add(booking);
             }
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
@@ -128,8 +128,7 @@ public class BookingDAO {
         try (Connection connect =  ConnectionDb.getConnection();PreparedStatement preStmt =  connect.prepareStatement(query)){
             preStmt.setInt(1,id);
             ResultSet rs =  preStmt.executeQuery();
-            if(rs.next())
-                booking = assignBooking(rs);
+            if(rs.next())booking = assignBooking(rs);
 
 
 

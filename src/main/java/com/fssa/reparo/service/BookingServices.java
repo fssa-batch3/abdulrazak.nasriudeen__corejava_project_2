@@ -63,5 +63,18 @@ public class BookingServices {
             throw new ServiceException(e);
         }
     }
+    public List<Booking> findWorkshopByArea(String area) throws ServiceException{
+        List<Booking> bookings;
+        try {
+            bookingValidation.bookingCityValidation(area);
+           bookings =   bookingDao.findBookingNearByCity(area);
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return bookings;
+
+
+    }
 
 }

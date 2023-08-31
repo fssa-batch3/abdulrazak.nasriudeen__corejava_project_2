@@ -1,6 +1,7 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.Booking;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -103,7 +104,26 @@ class BookingServiceTest {
             throw new RuntimeException(e);
         }
     }
+    @Test
+    @Order(10)
+    void findWorkshopByAreaTest(){
+        try {
+            Assertions.assertFalse(bookService.findWorkshopByArea("chennai").isEmpty());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+    @Test
+    @Order(11)
+    void findWorkshopByAreaTestFail(){
+
+        ServiceException exception = assertThrows(ServiceException.class, () ->    bookService.findWorkshopByArea("chen"));
+
+        assertEquals("com.fssa.reparo.exception.ValidationException: No Available bookings", exception.getMessage());
+
+
+    }
 
 
 }
