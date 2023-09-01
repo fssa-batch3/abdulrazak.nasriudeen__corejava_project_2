@@ -27,6 +27,7 @@ public  class Validations {
         } catch (Exception e) {
             throw new InvalidEntryException(e, "Invalid String");
         }
+
         return match.matches();
     }
 
@@ -81,16 +82,18 @@ public  class Validations {
         } catch (Exception e) {
             throw new InvalidEntryException(e, "Invalid vehicle number");
         }
+        if(!match.matches()) throw new InvalidEntryException("Vehicle number should be Alphanumeric characters");
         return match.matches();
 
     }
     public boolean vehicleYearValidation(int yr) throws InvalidEntryException {
         try {
             String year = Integer.toString(yr);
-            if (year.length() != 4) return false;
+            if (year.length() != 4)  return  false;
             LocalDate currentDate = LocalDate.now();
             int currentYear = currentDate.getYear();
-            return yr <= currentYear;
+            if(yr>currentYear) throw new InvalidEntryException("Year Can't be in future");
+            else return true;
 
         } catch (Exception e) {
             throw new InvalidEntryException(e);

@@ -1,5 +1,6 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.UserDAO;
+import com.fssa.reparo.dto.UserDTO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.User;
@@ -17,13 +18,13 @@ class UserServiceTest {
 
     @BeforeAll
     static  void createUser(){
-        User use = new User();
-        use.setName("Razak");
-        use.setNumber(9840326001L);
-        use.setPassword("abd123");
+        UserDTO dto = new UserDTO();
+        dto.setName("Razak");
+        dto.setNumber(9840326001L);
+        dto.setPassword("abd123");
         UserServices user  = new UserServices();
         try {
-            user.registerUser(use);
+            user.registerUser(dto);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +50,7 @@ class UserServiceTest {
 
     @Test
     void createUserTestFail (){
-        User use = new User("Abdul",98403265109L,"123456");
+        UserDTO use = new UserDTO("Abdul",98403265109L,"123456");
 
             ServiceException exception = assertThrows(ServiceException.class, () -> userServices.registerUser(use));
 
@@ -80,8 +81,8 @@ class UserServiceTest {
     void getUserByIdTestSuccess(){
 
         try {
-            User use = userServices.getUserById(35);
-            assertEquals("Razak Test",use.getName());
+            UserDTO dto = userServices.getUserById(35);
+            assertEquals("Razak Test",dto.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -100,7 +101,7 @@ class UserServiceTest {
     @Test
     void getAllUsersTestSuccess(){
         try {
-            List<User> users = userServices.getAllUsers();
+            List<UserDTO> users = userServices.getAllUsers();
             Assertions.assertFalse(users.isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
