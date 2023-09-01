@@ -2,13 +2,13 @@ package com.fssa.reparo.dto;
 
 public class WorkShopDTO
     {
-        private int id ;
-        private String name;
-        private int type;
-        private  long number ;
+        private int workshopId;
+        private String workshopName;
+        private int workshopType;
+        private  long workshopNumber;
 
-        private String password;
-        private String address;
+        private String workshopPassword;
+        private String workshopAddress;
         private String city;
         public String getCity() {
         return city;
@@ -29,54 +29,54 @@ public class WorkShopDTO
         private String state;
 
 
-        public void setId(int id) {
-        this.id = id;
+        public void setWorkshopId(int workshopId) {
+        this.workshopId = workshopId;
     }
 
-        public void setPassword(String password) {
-        this.password = password;
+        public void setWorkshopPassword(String workshopPassword) {
+        this.workshopPassword = workshopPassword;
     }
 
-        public void setNumber(long number) {
-        this.number = number;
+        public void setWorkshopNumber(long workshopNumber) {
+        this.workshopNumber = workshopNumber;
     }
 
-        public void setName(String name) {
-        this.name = name;
+        public void setWorkshopName(String workshopName) {
+        this.workshopName = workshopName;
     }
 
-        public void setType(int type) {
-        this.type = type;
+        public void setWorkshopType(int workshopType) {
+        this.workshopType = workshopType;
     }
 
-        public void setAddress(String address) {
-        this.address = address;
-    }
-
-
-        public String getName() {
-        return name;
-    }
-
-        public int getId() {
-        return id;
-    }
-
-        public String getAddress() {
-        return address;
-    }
-
-        public String getPassword() {
-        return password;
-    }
-
-        public int getType() {
-        return type;
+        public void setWorkshopAddress(String workshopAddress) {
+        this.workshopAddress = workshopAddress;
     }
 
 
-        public long getNumber() {
-        return number;
+        public String getWorkshopName() {
+        return workshopName;
+    }
+
+        public int getWorkshopId() {
+        return workshopId;
+    }
+
+        public String getWorkshopAddress() {
+        return workshopAddress;
+    }
+
+        public String getWorkshopPassword() {
+        return workshopPassword;
+    }
+
+        public int getWorkshopType() {
+        return workshopType;
+    }
+
+
+        public long getWorkshopNumber() {
+        return workshopNumber;
     }
     }
 

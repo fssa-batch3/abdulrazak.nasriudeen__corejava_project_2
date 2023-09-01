@@ -6,24 +6,24 @@ public class WorkShopMapper {
 
     public WorkShopDTO mapWorkShopToDTO(WorkShop workShop){
         WorkShopDTO dto = new WorkShopDTO();
-        dto.setId(workShop.getId());
-        dto.setName(workShop.getName());
-        dto.setNumber(workShop.getNumber());
-        dto.setPassword(workShop.getPassword());
-        dto.setType(workShop.getType());
-        dto.setAddress(workShop.getAddress());
+        dto.setWorkshopId(workShop.getId());
+        dto.setWorkshopName(workShop.getName());
+        dto.setWorkshopNumber(workShop.getNumber());
+        dto.setWorkshopPassword(workShop.getPassword());
+        dto.setWorkshopType(workShop.getType());
+        dto.setWorkshopAddress(workShop.getAddress());
         dto.setCity(workShop.getCity());
         dto.setState(workShop.getState());
         return dto;
     }
     public WorkShop mapDTOToWorkShop(WorkShopDTO dto){
         WorkShop workShop =  new WorkShop();
-        workShop.setId(dto.getId());
-        workShop.setName(dto.getName());
-        workShop.setNumber(dto.getNumber());
-        workShop.setPassword(dto.getPassword());
-        workShop.setType(dto.getType());
-        workShop.setAddress(dto.getAddress());
+        workShop.setId(dto.getWorkshopId());
+        workShop.setName(dto.getWorkshopName());
+        workShop.setNumber(dto.getWorkshopNumber());
+        workShop.setPassword(dto.getWorkshopPassword());
+        workShop.setType(dto.getWorkshopType());
+        workShop.setAddress(dto.getWorkshopAddress());
         workShop.setCity(dto.getCity());
         workShop.setState(dto.getState());
 

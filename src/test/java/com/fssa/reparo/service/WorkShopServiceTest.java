@@ -3,7 +3,6 @@ import com.fssa.reparo.dao.WorkShopDAO;
 import com.fssa.reparo.dto.WorkShopDTO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
-import com.fssa.reparo.model.WorkShop;
 import org.junit.jupiter.api.*;
 
 class WorkShopServiceTest {
@@ -11,13 +10,13 @@ class WorkShopServiceTest {
      @BeforeAll
      static  void createWorkshop(){
          WorkShopDTO work = new WorkShopDTO();
-         work.setName("Auto mobiles");
-         work.setNumber(9840326000L);
-         work.setPassword("abd234");
-         work.setAddress("123  Main Street");
+         work.setWorkshopName("Auto mobiles");
+         work.setWorkshopNumber(9840326000L);
+         work.setWorkshopPassword("abd234");
+         work.setWorkshopAddress("123  Main Street");
          work.setCity("chennai");
          work.setState("tamilNadu");
-         work.setType(2);
+         work.setWorkshopType(2);
          WorkShopService workService =  new WorkShopService();
          try {
              Assertions.assertTrue(workService.registerWorkShop(work));
@@ -87,7 +86,7 @@ class WorkShopServiceTest {
 
         try {
             WorkShopDTO work = workService.getWorkShopById(18);
-            Assertions.assertEquals("Auto mobiles", work.getName() );
+            Assertions.assertEquals("Auto mobiles", work.getWorkshopName() );
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
