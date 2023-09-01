@@ -135,7 +135,7 @@ public class WorkShopDAO {
 		}
 	}
 
-	public List<Integer> findWorkshopsByArea(String area) throws DAOException {
+	public List<WorkShop> findWorkshopsByArea(String area) throws DAOException {
 		String query = "select * from workshop where city = ?";
 
 		try (Connection connect = ConnectionDb.getConnection();
@@ -143,12 +143,10 @@ public class WorkShopDAO {
 
 			con.setString(1, area);
 			ResultSet rs = con.executeQuery();
-			ArrayList<Integer> workshops = new ArrayList<>();
+			List<WorkShop> workshops = new ArrayList<>();
 			while (rs.next()) {
-				int book = rs.getInt("id");
-
-				workshops.add(book);
-
+				WorkShop  work = assignWorkShop(rs);
+				workshops.add(work);
 			}
 			rs.close();
 			return workshops;

@@ -1,5 +1,6 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.WorkShopDAO;
+import com.fssa.reparo.dto.WorkShopDTO;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.WorkShop;
@@ -9,7 +10,7 @@ class WorkShopServiceTest {
      protected  WorkShopService workService = new WorkShopService();
      @BeforeAll
      static  void createWorkshop(){
-         WorkShop work = new WorkShop();
+         WorkShopDTO work = new WorkShopDTO();
          work.setName("Auto mobiles");
          work.setNumber(9840326000L);
          work.setPassword("abd234");
@@ -85,7 +86,7 @@ class WorkShopServiceTest {
     void getWorkShopByIdTest(){
 
         try {
-            WorkShop work = workService.getWorkShopById(18);
+            WorkShopDTO work = workService.getWorkShopById(18);
             Assertions.assertEquals("Auto mobiles", work.getName() );
         } catch (ServiceException e) {
             throw new RuntimeException(e);
