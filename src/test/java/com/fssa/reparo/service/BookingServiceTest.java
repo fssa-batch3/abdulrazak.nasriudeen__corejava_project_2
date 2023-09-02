@@ -60,7 +60,7 @@ class BookingServiceTest {
     @Order(5)
     void updateAcceptStatus(){
         try {
-            bookService.updateAcceptStatus(false,18,22);
+            bookService.updateAcceptStatus(true,18,22);
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -133,7 +133,7 @@ class BookingServiceTest {
         try {
             BookingResponseExclAcceptDto book = null;
             book = bookService.getUnAcceptedLiveBookingById(22);
-            System.out.print(book.getVehicleInfo().getUserInfo().getName());
+            assertEquals("Razak Test",book.getVehicleInfo().getUserInfo().getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -146,8 +146,8 @@ class BookingServiceTest {
         BookingResponseInclAcceptDto book = null;
         try {
             book = bookService.getAcceptedLiveBookingById(22);
-            System.out.print(book.getVehicleInfo().getUserInfo().getName());
-            System.out.print(book.getWorkshopInfo().getWorkshopName());
+            assertEquals("Auto mobiles",book.getWorkshopInfo().getWorkshopName());
+
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -160,8 +160,7 @@ class BookingServiceTest {
 
         try {
             List<BookingResponseInclAcceptDto> bookings = bookService.getAllAcceptedBooking();
-            System.out.print(bookings.get(0).getVehicleInfo().getUserInfo().getName());
-            System.out.print(bookings.get(0).getWorkshopInfo().getWorkshopName());
+            assertEquals("Auto mobiles",bookings.get(0).getWorkshopInfo().getWorkshopName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -174,7 +173,7 @@ class BookingServiceTest {
 
         try {
             List<BookingResponseExclAcceptDto> bookings = bookService.getAllUnAcceptedBooking();
-            System.out.print(bookings.get(0).getVehicleInfo().getUserInfo().getName());
+            assertEquals("Razak Test",bookings.get(0).getVehicleInfo().getUserInfo().getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
