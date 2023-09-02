@@ -1,27 +1,19 @@
 package com.fssa.reparo.model;
 
 public class ServicesEntities {
-    private int serviceId;
-    private int bookingId;
-    private int workshopId;
+    private int serviceListId;
     private int serviceAmount;
+    private int bookingId;
     private boolean acceptStatus;
+    private boolean cancelStatus;
     private boolean isLive;
 
-    public boolean isLive() {
-        return isLive;
+    public int getServiceListId() {
+        return serviceListId;
     }
 
-    public void setLive(boolean live) {
-        isLive = live;
-    }
-
-    public boolean isAcceptStatus() {
-        return acceptStatus;
-    }
-
-    public void setAcceptStatus(boolean acceptStatus) {
-        this.acceptStatus = acceptStatus;
+    public void setServiceListId(int serviceListId) {
+        this.serviceListId = serviceListId;
     }
 
     public int getServiceAmount() {
@@ -32,16 +24,6 @@ public class ServicesEntities {
         this.serviceAmount = serviceAmount;
     }
 
-    public int getWorkshopId() {
-        return workshopId;
-    }
-
-    public void setWorkshopId(int workshopId) {
-        this.workshopId = workshopId;
-    }
-
-
-
     public int getBookingId() {
         return bookingId;
     }
@@ -50,15 +32,27 @@ public class ServicesEntities {
         this.bookingId = bookingId;
     }
 
-
-    public int getServiceId() {
-        return serviceId;
+    public boolean isAcceptStatus() {
+        return acceptStatus;
     }
 
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
+    public void setAcceptStatus(boolean acceptStatus) {
+        this.acceptStatus = acceptStatus;
     }
 
+    public boolean isCancelStatus() {
+        return cancelStatus;
+    }
 
+    public void setCancelStatus(boolean cancelStatus) {
+        this.cancelStatus = cancelStatus;
+    }
 
+    public boolean isLive() {
+        return isLive;
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
+    }
 }

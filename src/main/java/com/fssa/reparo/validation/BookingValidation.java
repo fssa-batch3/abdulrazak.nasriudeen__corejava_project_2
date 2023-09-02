@@ -4,6 +4,7 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
+import com.fssa.reparo.model.Services;
 
 import java.util.List;
 
@@ -47,6 +48,17 @@ public class BookingValidation {
             }
         } catch (DAOException | InvalidEntryException e) {
 
+            throw new ValidationException(e);
+        }
+
+    }
+
+    public void serviceCredentialValidation(Services services) throws ValidationException {
+        Validations validations =  new Validations();
+        try {
+           validations.priceValidation(services.getServiceAmount());
+           isBookingId(services.getBookingId());
+        } catch (InvalidEntryException |ValidationException e) {
             throw new ValidationException(e);
         }
 
