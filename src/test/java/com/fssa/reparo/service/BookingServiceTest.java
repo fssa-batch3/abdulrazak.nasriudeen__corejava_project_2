@@ -1,5 +1,7 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dto.booking.BookingRequestDto;
+import com.fssa.reparo.dto.booking.BookingResponseExclAcceptDto;
+import com.fssa.reparo.dto.booking.BookingResponseInclAcceptDto;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.Booking;
 import org.junit.jupiter.api.Assertions;
@@ -25,7 +27,7 @@ class BookingServiceTest {
         booking.setBookingAddress("123!22wdjwuh2ednwdqwld2091L:}");
         booking.setBookingCity("chennai1223");
         booking.setBookingState("Tamil Nadu");
-        booking.setRequestStatus(true);
+
 
             ServiceException exception = assertThrows(ServiceException.class, () -> bookService.createBooking(booking));
 
@@ -58,7 +60,7 @@ class BookingServiceTest {
     @Order(5)
     void updateAcceptStatus(){
         try {
-            bookService.updateAcceptStatus(true,18,18);
+            bookService.updateAcceptStatus(false,18,22);
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -121,6 +123,48 @@ class BookingServiceTest {
         ServiceException exception = assertThrows(ServiceException.class, () ->    bookService.findWorkshopByArea("chen"));
 
         assertEquals("com.fssa.reparo.exception.ValidationException: No Available bookings", exception.getMessage());
+
+
+    }
+    @Test
+    @Order(12)
+    void getUnAcceptedLiveBookingTest(){
+        BookingResponseExclAcceptDto book =  bookService.getUnAcceptedLiveBookingById(22);
+        System.out.print(book.getVehicleInfo().getUserInfo().getName());
+
+    }
+    @Test
+    @Order(13)
+    void getAcceptedLiveBookingTest(){
+        BookingResponseInclAcceptDto book =  bookService.getAcceptedLiveBookingById(22);
+        System.out.print(book.getVehicleInfo().getUserInfo().getName());
+        System.out.print(book.getWorkshopInfo().getWorkshopName());
+
+    }
+    @Test
+    @Order(14)
+    void getAllAcceptedLiveBookingTest()  {
+
+        try {
+            List<BookingResponseInclAcceptDto> bookings = bookService.getAllAcceptedBooking();
+            System.out.print(bookings.get(0).getVehicleInfo().getUserInfo().getName());
+            System.out.print(bookings.get(0).getWorkshopInfo().getWorkshopName());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+    @Test
+    @Order(15)
+    void getAllUnAcceptedLiveBookingTest()  {
+
+        try {
+            List<BookingResponseExclAcceptDto> bookings = bookService.getAllUnAcceptedBooking();
+            System.out.print(bookings.get(0).getVehicleInfo().getUserInfo().getName());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

@@ -16,7 +16,6 @@ import java.util.List;
 public class VehicleDAO {
     public  Vehicle assignVehicle(ResultSet rs) throws DAOException{
         Vehicle vehicle = new Vehicle();
-        UserDAO userDao = new UserDAO();
         try {
 
                 vehicle.setVehicleCompany(rs.getString("company"));
@@ -26,7 +25,7 @@ public class VehicleDAO {
                 vehicle.setVehicleModel(rs.getString("model"));
                 vehicle.setVehicleId(rs.getInt("id"));
                 vehicle.setVehicleNumber(rs.getString("vehicle_number"));
-                vehicle.setUser(userDao.assignUser(rs));
+
 
 
             return vehicle ;

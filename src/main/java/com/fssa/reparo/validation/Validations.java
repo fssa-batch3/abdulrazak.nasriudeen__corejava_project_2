@@ -26,15 +26,17 @@ public  class Validations {
         } catch (Exception e) {
             throw new InvalidEntryException(e, "Invalid String");
         }
+        if(!match.matches()) throw new InvalidEntryException("Input should only be in Alphabets ");
 
         return match.matches();
     }
 
-    public boolean numberValidation(Long number) throws InvalidEntryException {
+    public boolean numberValidation(long number) throws InvalidEntryException {
 
         try {
 
             String num = Long.toString(number);
+            if(num.length() > 10) throw new InvalidEntryException("number Should be in 10 digits");
             return num.length() == 10;
 
 
@@ -51,6 +53,7 @@ public  class Validations {
 
             Pattern pt = Pattern.compile(PASS);
             match = pt.matcher(s);
+            if(!match.matches()) throw  new InvalidEntryException("Password should be in AlphaNumeric characters Eg:abc123");
             return match.matches();
         } catch (Exception e) {
             throw new InvalidEntryException(e, "Invalid Password");
