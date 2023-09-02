@@ -29,8 +29,9 @@ public class ServiceListServices extends EachService{
         try {
             validation.isBookingId(id);
             Services service = serviceDao.getServiceListByBookingId(id);
-            service.setServices(serviceDao.getServicesFromListId(service.getServiceListId()));
-            serviceDao.updateServiceAmount(service.getServiceListId(),serviceDao.getTotalAmount(service.getServices()));
+            int total = serviceDao.getTotalAmount(service.getServices());
+            serviceDao.updateServiceAmount(service.getServiceListId(),total);
+            service.setServiceAmount(total);
             return service;
 
         } catch (ValidationException | DAOException e) {
@@ -45,7 +46,9 @@ public class ServiceListServices extends EachService{
             validation.isServiceId(id);
             Services service = serviceDao.getServiceListById(id);
             service.setServices(serviceDao.getServicesFromListId(id));
-            serviceDao.updateServiceAmount(service.getServiceListId(),serviceDao.getTotalAmount(service.getServices()));
+            int total = serviceDao.getTotalAmount(service.getServices());
+            serviceDao.updateServiceAmount(service.getServiceListId(),total);
+            service.setServiceAmount(total);
             return service;
 
         } catch (ValidationException | DAOException e) {
@@ -106,6 +109,19 @@ class EachService{
         }
 
     }
+    public  boolean deleteEachService(int serviceId) throws ServiceException {
+        BookingValidation validation =  new BookingValidation();
+        ServiceDao dao =  new ServiceDao();
+        try {
+            validation.isServiceId(serviceId);
+            return dao.deleteEachService(serviceId);
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException(e);
+        }
+
+    }
+
+
 
 
 

@@ -196,6 +196,16 @@ class ServiceListDao{
         }
         return amount;
     }
+    public boolean deleteEachService(int id) throws DAOException {
+        String query = "DELETE FROM service_list WHERE service_id = ?";
+        try (Connection connection = ConnectionDb.getConnection(); PreparedStatement preStmt = connection.prepareStatement(query)) {
+            preStmt.setInt(1,id);
+            return preStmt.executeUpdate()==1;
+        }catch (SQLException |DTBException e ){
+            throw new DAOException(e);
+        }
+
+    }
 
 
 }

@@ -106,6 +106,18 @@ void updateServiceAmount(){
          }
 
      }
+     @Test
+     @Order(6)
+     void  deleteServiceTest(){
+         try {
+             Assertions.assertTrue(serviceList.deleteEachService(1));
+         } catch (ServiceException e) {
+
+             throw new RuntimeException(e);
+         }
+
+     }
+
 
 
 }
