@@ -1,7 +1,8 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.WorkShopDAO;
 import com.fssa.reparo.datamapper.WorkShopMapper;
-import com.fssa.reparo.dto.WorkShopDTO;
+import com.fssa.reparo.dto.workshop.WorkShopRequestDto;
+import com.fssa.reparo.dto.workshop.WorkShopResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
@@ -21,10 +22,10 @@ public class WorkShopService {
      * @return True if the workshop is successfully registered, false otherwise.
      * @throws ServiceException If there is an issue with database access or validation.
      */
-    public  boolean registerWorkShop(WorkShopDTO dto)throws ServiceException{
+    public  boolean registerWorkShop(WorkShopRequestDto dto)throws ServiceException{
         WorkShopValidation validate = new WorkShopValidation();
         WorkShopMapper map = new WorkShopMapper();
-        WorkShop workShop =  map.mapDTOToWorkShop(dto);
+        WorkShop workShop =  map.mapRequestDtoToWorkshop(dto);
 
             try {
                 if(validate.isValidWorkshop(workShop)) {
@@ -79,19 +80,19 @@ public class WorkShopService {
      * @return A List of WorkShop objects representing all workshops in the database.
      * @throws ServiceException If there is an issue with accessing the database.
      */
-    public List<WorkShopDTO> getAllWorkShop() throws ServiceException{
+    public List<WorkShopResponseDto> getAllWorkShop() throws ServiceException{
         WorkShopDAO dao  = new WorkShopDAO();
         WorkShopMapper map = new WorkShopMapper();
         try {
             List<WorkShop> workShops = dao.getAllWorkShops();
-            List<WorkShopDTO> workShopDTOS = new ArrayList<>();
+            List<WorkShopResponseDto> workShopsResponseDto = new ArrayList<>();
             for(WorkShop work :workShops){
-                WorkShopDTO dto =   map.mapWorkShopToDTO(work);
-                workShopDTOS.add(dto);
+                WorkShopResponseDto dto =   map.mapWorkShopToResponseDto(work);
+                workShopsResponseDto.add(dto);
             }
 
 
-            return workShopDTOS;
+            return workShopsResponseDto;
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -106,23 +107,23 @@ public class WorkShopService {
      *         The list may be empty if no workshops are found in the given city.
      * @throws ServiceException If there is an issue with input validation or accessing the database.
      */
-    public List<WorkShopDTO> getWorkShopByArea(String city) throws ServiceException{
+    public List<WorkShopResponseDto> getWorkShopByArea(String city) throws ServiceException{
         Validations validate =  new Validations();
         WorkShopDAO dao =  new WorkShopDAO() ;
-        List<WorkShopDTO> workShopDTOS  =  new ArrayList<>();
+        List<WorkShopResponseDto> workShopsResponse  =  new ArrayList<>();
         try {
             if(validate.stringValidation(city)){
                 List<WorkShop> workShops =  dao.findWorkshopsByArea(city);
                 WorkShopMapper map = new WorkShopMapper();
                 for (WorkShop work : workShops) {
-                    WorkShopDTO dto =  map.mapWorkShopToDTO(work);
-                    workShopDTOS.add(dto);
+                    WorkShopResponseDto dto =  map.mapWorkShopToResponseDto(work);
+                    workShopsResponse.add(dto);
                 }
             }
         } catch (InvalidEntryException | DAOException e) {
             throw new ServiceException(e);
         }
-        return workShopDTOS ;
+        return workShopsResponse ;
     }
 
     /**
@@ -132,11 +133,11 @@ public class WorkShopService {
      * @return A WorkShop object representing the workshop with the specified ID.
      * @throws ServiceException If there is an issue with accessing the database.
      */
-    public WorkShopDTO getWorkShopById(int id) throws ServiceException{
+    public WorkShopResponseDto getWorkShopById(int id) throws ServiceException{
         WorkShopDAO dao =  new WorkShopDAO() ;
         try {
             WorkShopMapper map = new WorkShopMapper();
-            return map.mapWorkShopToDTO(dao.getWorkShopsById(id));
+            return map.mapWorkShopToResponseDto(dao.getWorkShopsById(id));
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

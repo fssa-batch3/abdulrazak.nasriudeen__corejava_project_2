@@ -1,5 +1,7 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.BookingDAO;
+import com.fssa.reparo.datamapper.BookingMapper;
+import com.fssa.reparo.dto.booking.BookingRequestDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
@@ -13,13 +15,13 @@ public class BookingServices {
     protected WorkShopValidation workshopValidate = new WorkShopValidation();
 
 
-    public  void createBooking(Booking book) throws  ServiceException{
-
+    public  void createBooking(BookingRequestDto request) throws  ServiceException{
+        BookingMapper map = new BookingMapper();
+        Booking booking =  map.mapRequestDtoToBooking(request);
+        booking.setLive(true);
         try {
-            bookingValidation.validBooking(book);
-            bookingDao.insertBooking(book);
-
-
+            bookingValidation.validBooking(booking);
+            bookingDao.insertBooking(booking);
         } catch (ValidationException | DAOException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -50,6 +52,7 @@ public class BookingServices {
             Booking booking;
             bookingValidation.isBookingId(id);
             booking =  bookingDao.getBookingById(id);
+
             return booking;
         } catch (ValidationException |DAOException e) {
             throw new ServiceException(e);

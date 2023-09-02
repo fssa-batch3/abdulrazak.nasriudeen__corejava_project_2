@@ -25,21 +25,19 @@ public class UserValidation {
         return validate.stringValidation(u.getVehicleCompany())&&validate.stringValidation(u.getVehicleModel())&&validate.vehicleNumberValidation(u.getVehicleNumber())&&validate.vehicleYearValidation(u.getVehicleYear())&&validate.workshopType(u.getVehicleType());
 
     }
-    public boolean validNewUser(User user) throws  ValidationException{
+    public boolean validNewUser(User user) throws  ValidationException {
         try {
-            if(!userCredentialValidate(user))throw new ValidationException("user Credentials is not valid");
+            if (!userCredentialValidate(user)) throw new ValidationException("user Credentials is not valid");
             User chkUser = userDao.findUserByNumber(user.getNumber());
-                if(chkUser.getName()!=null)throw new ValidationException("User already present");
-                return chkUser.getName() == null;
+            if (chkUser.getName() != null) throw new ValidationException("User already present");
+            return chkUser.getName() == null;
 
 
-
-        }catch (InvalidEntryException | DAOException e){
-            throw   new ValidationException(e);
+        } catch (InvalidEntryException | DAOException e) {
+            throw new ValidationException(e);
         }
 
-    }
-    public int isUser(long num , String pass) throws ValidationException {
+    }public int isUser(long num , String pass) throws ValidationException {
         try {
             if (!validate.loginCredentialValidation(num,pass)) throw new ValidationException("invalid Credentials");
             User chkUser = userDao.findUserByNumber(num);

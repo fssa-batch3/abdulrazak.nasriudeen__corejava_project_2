@@ -1,6 +1,7 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.WorkShopDAO;
-import com.fssa.reparo.dto.WorkShopDTO;
+import com.fssa.reparo.dto.workshop.WorkShopRequestDto;
+import com.fssa.reparo.dto.workshop.WorkShopResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import org.junit.jupiter.api.*;
@@ -9,17 +10,10 @@ class WorkShopServiceTest {
      protected  WorkShopService workService = new WorkShopService();
      @BeforeAll
      static  void createWorkshop(){
-         WorkShopDTO work = new WorkShopDTO();
-         work.setWorkshopName("Auto mobiles");
-         work.setWorkshopNumber(9840326000L);
-         work.setWorkshopPassword("abd234");
-         work.setWorkshopAddress("123  Main Street");
-         work.setCity("chennai");
-         work.setState("tamilNadu");
-         work.setWorkshopType(2);
+         WorkShopRequestDto request = new WorkShopRequestDto("Auto mobiles",9840326000L,"abd234",2,"123  Main Street","chennai","tamilNadu");
          WorkShopService workService =  new WorkShopService();
          try {
-             Assertions.assertTrue(workService.registerWorkShop(work));
+             Assertions.assertTrue(workService.registerWorkShop(request));
          } catch (ServiceException e) {
              throw new RuntimeException(e);
          }
@@ -85,8 +79,8 @@ class WorkShopServiceTest {
     void getWorkShopByIdTest(){
 
         try {
-            WorkShopDTO work = workService.getWorkShopById(18);
-            Assertions.assertEquals("Auto mobiles", work.getWorkshopName() );
+            WorkShopResponseDto response = workService.getWorkShopById(18);
+            Assertions.assertEquals("Auto mobiles", response.getWorkshopName() );
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

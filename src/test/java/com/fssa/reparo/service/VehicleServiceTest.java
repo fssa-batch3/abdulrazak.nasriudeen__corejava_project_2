@@ -1,11 +1,12 @@
 package com.fssa.reparo.service;
+import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.User;
 import com.fssa.reparo.model.Vehicle;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.Test;
-import java.util.List;
+
 class VehicleServiceTest {
     protected VehicleService  vehicleService = new VehicleService();
 
@@ -38,8 +39,8 @@ class VehicleServiceTest {
     @Test
     void getVehicleByIdTest(){
         try {
-            Vehicle vehicle = vehicleService.getVehicleById(13);
-            Assertions.assertEquals("TN03PU1002",vehicle.getVehicleNumber());
+            VehicleResponseDto vehicle = vehicleService.getVehicleById(13);
+            Assertions.assertEquals("TN03PU1002",vehicle.getVehicleInfo().getVehicleNumber());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -57,8 +58,7 @@ class VehicleServiceTest {
     @Test
     void getAllVehicles(){
         try {
-            List<Vehicle> vehicles  = vehicleService.getAllVehicles();
-            Assertions.assertFalse(vehicles.isEmpty());
+            Assertions.assertFalse(vehicleService.getAllVehicles().isEmpty());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -68,8 +68,8 @@ class VehicleServiceTest {
     @Test
     void getVehicleByIdTestFail(){
         try {
-            Vehicle vehicle = vehicleService.getVehicleById(13);
-            Assertions.assertNotEquals("TN03PU1003",vehicle.getVehicleNumber());
+            VehicleResponseDto vehicle = vehicleService.getVehicleById(13);
+            Assertions.assertNotEquals("TN03PU1003",vehicle.getVehicleInfo().getVehicleNumber());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
@@ -87,8 +87,7 @@ class VehicleServiceTest {
     @Test
     void getAllVehiclesFail(){
         try {
-            List<Vehicle> vehicles  = vehicleService.getAllVehicles();
-            Assertions.assertNotEquals(0, vehicles.size());
+            Assertions.assertNotEquals(0, vehicleService.getAllVehicles().size());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

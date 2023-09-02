@@ -1,6 +1,8 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.datamapper.UserMapper;
-import com.fssa.reparo.dto.UserDTO;
+import com.fssa.reparo.dto.user.UserDTO;
+import com.fssa.reparo.dto.user.UserRequestDto;
+import com.fssa.reparo.dto.user.UserResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
@@ -22,16 +24,16 @@ public class UserServices {
     /**
      * Registers a new user by validating the input and inserting the user into the database.
      *
-     * @param userDTO The User object to be registered.
+     * @param userRequest The User object to be registered.
      * @throws ServiceException If there is an issue with database access or validation.
      */
-    public void registerUser(UserDTO userDTO) throws ServiceException {
+    public void registerUser(UserRequestDto userRequest) throws ServiceException {
         UserValidation validate = new UserValidation();
         UserMapper map = new UserMapper();
         try {
-           User user = map.mapDTOToUser(userDTO);
-            validate.validNewUser(user);
-            userDao.insertUser(user);
+           User user = map.mapRequestDtoToUser(userRequest);
+           validate.validNewUser(user);
+           userDao.insertUser(user);
 
 
         }catch (DAOException | ValidationException e){
@@ -73,15 +75,15 @@ public class UserServices {
      * @return A User object representing the user with the specified ID.
      * @throws ServiceException If there is an issue with accessing the database.
      */
-    public UserDTO getUserById(int id) throws  ServiceException{
-        UserDTO dto ;
+    public UserResponseDto getUserById(int id) throws  ServiceException{
+        UserResponseDto dto ;
         UserMapper map =  new UserMapper();
 
 
         try {
-            userValidation.validUserId(id);
+            userValidation.validUserId(id); // Checks the id is Present in database
             User user =  userDao.findUserById(id);
-            dto = map.mapUserToDTO(user);
+            dto = map.mapUserToResponseDto(user);
 
         } catch (DAOException | ValidationException e) {
             throw new ServiceException(e);
@@ -94,20 +96,17 @@ public class UserServices {
      * @return A List of User objects representing all users in the database.
      * @throws ServiceException If there is an issue with accessing the database.
      */
-    public List<UserDTO> getAllUsers() throws ServiceException {
-       List<UserDTO> userDTOS = new ArrayList<>();
+    public List<UserResponseDto> getAllUsers() throws ServiceException {
+       List<UserResponseDto> userInfo = new ArrayList<>();
        UserMapper map = new UserMapper();
 
         try {
             List<User> users = userDao.getAllUser();
             for(User user : users ){
-                UserDTO dto = map.mapUserToDTO(user);
-                userDTOS.add(dto);
+                UserResponseDto dto = map.mapUserToResponseDto(user);
+                userInfo.add(dto);
             }
-
-
-
-           return userDTOS;
+           return userInfo;
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

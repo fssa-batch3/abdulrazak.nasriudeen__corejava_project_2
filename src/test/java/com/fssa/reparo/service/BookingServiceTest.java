@@ -1,4 +1,5 @@
 package com.fssa.reparo.service;
+import com.fssa.reparo.dto.booking.BookingRequestDto;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.Booking;
 import org.junit.jupiter.api.Assertions;
@@ -18,14 +19,13 @@ class BookingServiceTest {
     @Test
     @Order(2)
     void createBookingFail(){
-        Booking booking = new Booking();
+        BookingRequestDto booking = new BookingRequestDto();
         booking.setVehicleId(13);
         booking.setProblem("Engine malFacture");
-        booking.setAddress("123!22wdjwuh2ednwdqwld2091L:}");
-        booking.setCity("chennai1223");
-        booking.setState("Tamil Nadu");
+        booking.setBookingAddress("123!22wdjwuh2ednwdqwld2091L:}");
+        booking.setBookingCity("chennai1223");
+        booking.setBookingState("Tamil Nadu");
         booking.setRequestStatus(true);
-        booking.setLive(true);
 
             ServiceException exception = assertThrows(ServiceException.class, () -> bookService.createBooking(booking));
 

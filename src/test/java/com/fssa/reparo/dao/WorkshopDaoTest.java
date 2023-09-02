@@ -58,8 +58,8 @@ import java.util.List;
     void getWorkshopByAreaTest(){
         try {
             WorkShopDAO bookDao = new WorkShopDAO();
-            List<Integer> arr = bookDao.findWorkshopsByArea("chennai");
-            Assertions.assertEquals(14,arr.get(0));
+            List<WorkShop> arr = bookDao.findWorkshopsByArea("chennai");
+            Assertions.assertEquals(14,arr.get(0).getId());
         } catch (DAOException e) {
             throw new RuntimeException(e);
         }
