@@ -5,10 +5,11 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
+import com.fssa.reparo.model.ServiceList;
 import com.fssa.reparo.model.Services;
 import com.fssa.reparo.validation.BookingValidation;
 
-public class ServiceListServices {
+public class ServiceListServices extends EachService{
     private ServiceDao serviceDao = new ServiceDao();
 
     public boolean createServiceList(int bookingId) throws ServiceException {
@@ -27,7 +28,10 @@ public class ServiceListServices {
         BookingValidation validation =  new BookingValidation();
         try {
             validation.isBookingId(id);
-            return serviceDao.getServiceListByBookingId(id);
+            Services service = serviceDao.getServiceListByBookingId(id);
+            service.setServices(serviceDao.getServicesFromListId(service.getServiceListId()));
+            serviceDao.updateServiceAmount(service.getServiceListId(),serviceDao.getTotalAmount(service.getServices()));
+            return service;
 
         } catch (ValidationException | DAOException e) {
             throw new ServiceException(e);
@@ -36,9 +40,13 @@ public class ServiceListServices {
     }
     public Services getServiceById(int id) throws ServiceException {
         BookingValidation validation =  new BookingValidation();
+
         try {
             validation.isServiceId(id);
-            return serviceDao.getServiceListById(id);
+            Services service = serviceDao.getServiceListById(id);
+            service.setServices(serviceDao.getServicesFromListId(id));
+            serviceDao.updateServiceAmount(service.getServiceListId(),serviceDao.getTotalAmount(service.getServices()));
+            return service;
 
         } catch (ValidationException | DAOException e) {
             throw new ServiceException(e);
@@ -74,4 +82,32 @@ public class ServiceListServices {
             throw new ServiceException(e);
         }
     }
+}
+class EachService{
+    public  boolean addService(ServiceList service) throws ServiceException {
+        BookingValidation validation =  new BookingValidation();
+        ServiceDao dao =  new ServiceDao();
+        try {
+            validation.serviceCredentialValidation(service);
+            return dao.createService(service);
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException(e);
+        }
+
+    }
+    public  boolean updateServiceDetail(ServiceList service) throws ServiceException {
+        BookingValidation validation =  new BookingValidation();
+        ServiceDao dao =  new ServiceDao();
+        try {
+            validation.serviceCredentialValidation(service);
+            return dao.updateServiceDetails(service);
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException(e);
+        }
+
+    }
+
+
+
+
 }

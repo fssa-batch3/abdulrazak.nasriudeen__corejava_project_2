@@ -1,5 +1,6 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.exception.ServiceException;
+import com.fssa.reparo.model.ServiceList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,37 @@ void updateServiceAmount(){
         }
 
     }
+     @Test
+     @Order(6)
+     void addServiceTest(){
+         try {
+             ServiceList ser =  new ServiceList();
+             ser.setServiceName("punchre");
+             ser.setPrice(30);
+             ser.setServiceListId(1);
+             Assertions.assertTrue(serviceList.addService(ser));
+         } catch (ServiceException e) {
+             fail();
+             throw new RuntimeException(e);
+         }
+
+     }
+     @Test
+     @Order(6)
+     void updateServiceTest(){
+         try {
+             ServiceList ser =  new ServiceList();
+             ser.setServiceName("Air");
+             ser.setPrice(80);
+             ser.setServiceListId(1);
+             ser.setServiceId(2);
+             Assertions.assertTrue(serviceList.updateServiceDetail(ser));
+         } catch (ServiceException e) {
+             fail();
+             throw new RuntimeException(e);
+         }
+
+     }
 
 
 }

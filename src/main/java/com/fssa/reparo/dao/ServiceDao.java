@@ -2,6 +2,7 @@ package com.fssa.reparo.dao;
 
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.DTBException;
+import com.fssa.reparo.model.ServiceList;
 import com.fssa.reparo.model.Services;
 import com.fssa.reparo.util.ConnectionDb;
 
@@ -9,8 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ServiceDao {
+public class ServiceDao extends ServiceListDao{
 
     public Services assignService(ResultSet rs) throws DAOException {
         Services service = new Services();
@@ -119,6 +122,80 @@ public class ServiceDao {
 
     }
 
+
+
+}
+class ServiceListDao{
+
+    public ServiceList assignServiceList(ResultSet rs){
+        ServiceList list = new ServiceList();
+        try {
+            list.setServiceListId(rs.getInt("service_list_id"));
+            list.setServiceId(rs.getInt("service_id"));
+            list.setServiceName(rs.getString("service_name"));
+            list.setPrice(rs.getInt("service_price"));
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public boolean createService(ServiceList service) throws DAOException {
+        String query = "INSERT INTO service_list (service_list_id,service_name,service_price)\n" +
+                "VALUES (?,?,?)";
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement preStmt =  connect.prepareStatement(query)) {
+            preStmt.setInt(1,service.getServiceListId());
+            preStmt.setString(2,service.getServiceName());
+            preStmt.setInt(3,service.getPrice());
+            return  preStmt.executeUpdate() == 1 ;
+        }catch (SQLException | DTBException e){
+            throw new DAOException(e.getMessage());
+
+        }
+    }
+
+
+    public List<ServiceList> getServicesFromListId(int id) throws DAOException{
+        String query = "select * from service_list where service_list_id = ?";
+        try(Connection connection = ConnectionDb.getConnection();PreparedStatement preStmt = connection.prepareStatement(query)){
+            preStmt.setInt(1,id);
+            List<ServiceList> listService = new ArrayList<>();
+            ResultSet rs = preStmt.executeQuery();
+
+            while(rs.next()){
+                ServiceList ser = assignServiceList(rs);
+                listService.add(ser);
+            }
+
+            rs.close();
+            return listService;
+
+        }catch (SQLException|DTBException e){
+            throw new DAOException(e);
+        }
+    }
+    public boolean updateServiceDetails(ServiceList  serv) throws DAOException {
+        String query = "UPDATE service_list SET service_name = ? , service_price = ? WHERE service_id = ? ";
+        try(Connection connection = ConnectionDb.getConnection();PreparedStatement preStmt = connection.prepareStatement(query)){
+            preStmt.setString(1,serv.getServiceName());
+            preStmt.setInt(2,serv.getPrice());
+            preStmt.setInt(3,serv.getServiceId());
+            return  preStmt.executeUpdate() == 1 ;
+        }catch (SQLException|DTBException e){
+            throw new DAOException(e);
+        }
+
+    }
+    public int getTotalAmount(List<ServiceList> list){
+        int amount = 0;
+        for(ServiceList service : list){
+            amount+= service.getPrice();
+
+        }
+        return amount;
+    }
 
 
 }

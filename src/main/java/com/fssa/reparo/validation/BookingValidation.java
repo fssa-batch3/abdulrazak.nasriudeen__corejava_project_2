@@ -5,6 +5,7 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
+import com.fssa.reparo.model.ServiceList;
 import com.fssa.reparo.model.Services;
 
 import java.util.List;
@@ -66,16 +67,19 @@ public class BookingValidation {
 
     }
 
-//    public void serviceCredentialValidation(Services services) throws ValidationException {
-//        Validations validations =  new Validations();
-//        try {
-//           validations.priceValidation(services.getServiceAmount());
-//           isBookingId(services.getBookingId());
-//        } catch (InvalidEntryException |ValidationException e) {
-//            throw new ValidationException(e);
-//        }
-//
-//    }
+    public void serviceCredentialValidation(ServiceList services) throws ValidationException {
+        Validations validations =  new Validations();
+        try {
+
+            isServiceId(services.getServiceListId());
+            priceValidation(services.getPrice());
+            validations.stringValidation(services.getServiceName());
+
+        } catch (InvalidEntryException  e) {
+            throw new ValidationException(e);
+        }
+
+    }
     public void priceValidation(int price) throws InvalidEntryException{
         if(price>9999){
             throw new InvalidEntryException("price can't be more than 4 digits");
