@@ -1,11 +1,8 @@
 package com.fssa.reparo.dao;
 import com.fssa.reparo.exception.DAOException;
-import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
-import com.fssa.reparo.model.Vehicle;
 import com.fssa.reparo.util.ConnectionDb;
 import com.fssa.reparo.exception.DTBException;
-import com.fssa.reparo.validation.BookingValidation;
 
 import java.sql.*;
 import java.util.ArrayList;

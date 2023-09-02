@@ -9,7 +9,6 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
-import com.fssa.reparo.model.User;
 import com.fssa.reparo.model.Vehicle;
 import com.fssa.reparo.validation.BookingValidation;
 import com.fssa.reparo.validation.WorkShopValidation;
@@ -88,7 +87,7 @@ public class BookingServices {
 
 
     }
-    public BookingResponseExclAcceptDto getUnAcceptedLiveBookingById(int id){
+    public BookingResponseExclAcceptDto getUnAcceptedLiveBookingById(int id) throws ServiceException {
         try {
             bookingValidation.isBookingId(id);
             UserDAO userdao = new UserDAO();
@@ -99,7 +98,7 @@ public class BookingServices {
             booking.setVehicle(vehicle);
             return map.mapBookingToResponseExclDto(booking);
         } catch (ValidationException |DAOException e) {
-            throw new RuntimeException(e);
+            throw new ServiceException(e);
         }
 
     }
@@ -120,7 +119,7 @@ public class BookingServices {
         }
         return bookingsResponse;
     }
-    public BookingResponseInclAcceptDto getAcceptedLiveBookingById(int id){
+    public BookingResponseInclAcceptDto getAcceptedLiveBookingById(int id) throws ServiceException {
         try {
             bookingValidation.isBookingId(id);
             UserDAO userdao = new UserDAO();
@@ -131,7 +130,7 @@ public class BookingServices {
             booking.setVehicle(vehicle);
             return map.mapBookingToResponseInclDto(booking);
         } catch (ValidationException |DAOException e) {
-            throw new RuntimeException(e);
+            throw new ServiceException(e);
         }
 
     }

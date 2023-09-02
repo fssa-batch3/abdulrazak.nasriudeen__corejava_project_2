@@ -129,16 +129,29 @@ class BookingServiceTest {
     @Test
     @Order(12)
     void getUnAcceptedLiveBookingTest(){
-        BookingResponseExclAcceptDto book =  bookService.getUnAcceptedLiveBookingById(22);
-        System.out.print(book.getVehicleInfo().getUserInfo().getName());
+
+        try {
+            BookingResponseExclAcceptDto book = null;
+            book = bookService.getUnAcceptedLiveBookingById(22);
+            System.out.print(book.getVehicleInfo().getUserInfo().getName());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
     @Test
     @Order(13)
     void getAcceptedLiveBookingTest(){
-        BookingResponseInclAcceptDto book =  bookService.getAcceptedLiveBookingById(22);
-        System.out.print(book.getVehicleInfo().getUserInfo().getName());
-        System.out.print(book.getWorkshopInfo().getWorkshopName());
+        BookingResponseInclAcceptDto book = null;
+        try {
+            book = bookService.getAcceptedLiveBookingById(22);
+            System.out.print(book.getVehicleInfo().getUserInfo().getName());
+            System.out.print(book.getWorkshopInfo().getWorkshopName());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
     @Test
