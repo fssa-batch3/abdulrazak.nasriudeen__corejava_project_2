@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Services extends ServicesEntities {
     private Booking booking;
-    private List<ServiceList> services;
+    private List<ServiceList> serviceList;
 
     public List<ServiceList> getServices() {
-        return services;
+        return serviceList;
     }
 
     public void setServices(List<ServiceList> services) {
-        this.services = services;
+        this.serviceList = services;
     }
 
     public Booking getBooking() {

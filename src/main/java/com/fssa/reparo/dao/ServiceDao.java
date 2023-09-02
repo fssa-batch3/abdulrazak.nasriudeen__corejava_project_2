@@ -64,6 +64,61 @@ public class ServiceDao {
 
 
     }
+    public Services getServiceListById(int listId) throws DAOException{
+        String query = "select * from services where service_list_id = ?";
+        Services service =  new Services();
+        try(Connection connection =  ConnectionDb.getConnection();PreparedStatement preStmt =  connection.prepareStatement(query)){
+            preStmt.setInt(1,listId);
+            ResultSet rs = preStmt.executeQuery();
+            while (rs.next()){
+                service = assignService(rs);
+            }
+            rs.close();
+            return service;
+
+        }catch (DTBException | SQLException  e){
+            throw  new DAOException(e);
+
+        }
+    }
+    public boolean updateServiceAmount(int serviceListId , int amount) throws DAOException {
+        String query = "UPDATE services SET service_price = ? WHERE service_list_id = ? ";
+        try(Connection connect = ConnectionDb.getConnection();
+        PreparedStatement preStmt =  connect.prepareStatement(query)){
+            preStmt.setInt(1,amount);
+            preStmt.setInt(2,serviceListId);
+            return  preStmt.executeUpdate()==1;
+        }catch (SQLException | DTBException e){
+            throw new DAOException(e);
+        }
+
+    }
+    public boolean updateCancelStatus(int serviceListId , boolean cancelStatus , String reason ) throws DAOException {
+        String query = "UPDATE services SET cancel_status = ?,cancel_reason = ? WHERE service_list_id = ? ";
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement preStmt =  connect.prepareStatement(query)){
+            preStmt.setBoolean(1,cancelStatus);
+            preStmt.setString(2,reason);
+            preStmt.setInt(3,serviceListId);
+            return  preStmt.executeUpdate()==1;
+        }catch (SQLException | DTBException e){
+            throw new DAOException(e);
+        }
+
+    }
+    public boolean updateAcceptStatus(int serviceListId , boolean acceptStatus ) throws DAOException {
+        String query = "UPDATE services SET accept_status = ? WHERE service_list_id = ? ";
+        try(Connection connect = ConnectionDb.getConnection();
+            PreparedStatement preStmt =  connect.prepareStatement(query)){
+            preStmt.setBoolean(1,acceptStatus);
+            preStmt.setInt(2,serviceListId);
+            return  preStmt.executeUpdate()==1;
+        }catch (SQLException | DTBException e){
+            throw new DAOException(e);
+        }
+
+    }
+
 
 
 }

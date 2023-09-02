@@ -1,5 +1,6 @@
 package com.fssa.reparo.validation;
 import com.fssa.reparo.dao.BookingDAO;
+import com.fssa.reparo.dao.ServiceDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
@@ -53,15 +54,35 @@ public class BookingValidation {
 
     }
 
-    public void serviceCredentialValidation(Services services) throws ValidationException {
-        Validations validations =  new Validations();
+    public void isServiceId(int id) throws ValidationException{
+        ServiceDao dao = new ServiceDao();
         try {
-           validations.priceValidation(services.getServiceAmount());
-           isBookingId(services.getBookingId());
-        } catch (InvalidEntryException |ValidationException e) {
+            Services serv = dao.getServiceListById(id);
+            if(serv==null)throw new ValidationException("Service List is not present");
+
+        } catch (DAOException e) {
             throw new ValidationException(e);
         }
 
+    }
+
+//    public void serviceCredentialValidation(Services services) throws ValidationException {
+//        Validations validations =  new Validations();
+//        try {
+//           validations.priceValidation(services.getServiceAmount());
+//           isBookingId(services.getBookingId());
+//        } catch (InvalidEntryException |ValidationException e) {
+//            throw new ValidationException(e);
+//        }
+//
+//    }
+    public void priceValidation(int price) throws InvalidEntryException{
+        if(price>9999){
+            throw new InvalidEntryException("price can't be more than 4 digits");
+        }
+        if(price<0){
+            throw new InvalidEntryException("price can't be less than 0");
+        }
     }
 
 

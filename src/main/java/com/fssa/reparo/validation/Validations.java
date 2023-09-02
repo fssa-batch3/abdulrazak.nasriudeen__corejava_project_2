@@ -109,14 +109,7 @@ public  class Validations {
         }
     }
 
-    public void priceValidation(int price) throws InvalidEntryException{
-        if(price>9999){
-            throw new InvalidEntryException("price can't be more than 4 digits");
-        }
-        if(price<0){
-            throw new InvalidEntryException("price can't be less than 0");
-        }
-    }
+
 
 
 
