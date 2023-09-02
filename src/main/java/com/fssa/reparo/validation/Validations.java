@@ -12,7 +12,6 @@ public  class Validations {
 
 
 
-// TODO Add param length
     public boolean stringValidation(String str) throws InvalidEntryException {
         Matcher match;
         try {

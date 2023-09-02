@@ -1,9 +1,5 @@
 package com.fssa.reparo.dto.booking;
-
-
-import com.fssa.reparo.dto.user.UserResponseDto;
 import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
-
 import com.fssa.reparo.dto.workshop.WorkShopResponseDto;
 
 

@@ -1,6 +1,5 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.datamapper.UserMapper;
-import com.fssa.reparo.dto.user.UserDTO;
 import com.fssa.reparo.dto.user.UserRequestDto;
 import com.fssa.reparo.dto.user.UserResponseDto;
 import com.fssa.reparo.exception.DAOException;

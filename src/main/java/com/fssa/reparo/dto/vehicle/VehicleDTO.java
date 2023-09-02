@@ -1,8 +1,4 @@
 package com.fssa.reparo.dto.vehicle;
-
-
-import com.fssa.reparo.dto.user.UserDTO;
-
 public class VehicleDTO {
     private int vehicleId;
 

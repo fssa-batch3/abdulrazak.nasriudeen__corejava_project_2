@@ -1,6 +1,4 @@
 package com.fssa.reparo.datamapper;
-
-import com.fssa.reparo.dto.user.UserDTO;
 import com.fssa.reparo.dto.user.UserRequestDto;
 import com.fssa.reparo.dto.user.UserResponseDto;
 import com.fssa.reparo.model.User;
