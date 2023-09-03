@@ -146,6 +146,7 @@ class BookingServiceTest {
         BookingResponseInclAcceptDto book = null;
         try {
             book = bookService.getAcceptedLiveBookingById(22);
+            System.out.println(book.getVehicleInfo().getUserInfo().getName());
             assertEquals("Auto mobiles",book.getWorkshopInfo().getWorkshopName());
 
         } catch (ServiceException e) {

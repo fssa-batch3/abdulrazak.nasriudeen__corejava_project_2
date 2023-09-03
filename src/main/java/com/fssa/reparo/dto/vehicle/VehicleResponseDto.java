@@ -4,7 +4,7 @@ import com.fssa.reparo.dto.user.UserResponseDto;
 public class VehicleResponseDto extends VehicleDTO{
     private UserResponseDto userInfo;
 
-    private VehicleRequestDto vehicleInfo;
+    private VehicleRequestDto vehicle;
 
 
 
@@ -12,16 +12,16 @@ public class VehicleResponseDto extends VehicleDTO{
     public VehicleResponseDto(UserResponseDto userInfo, VehicleRequestDto vehicleInfo,int vehicleId) {
         super(vehicleId);
         this.userInfo = userInfo;
-        this.vehicleInfo = vehicleInfo;
+        this.vehicle = vehicleInfo;
     }
 
 
     public VehicleRequestDto getVehicleInfo() {
-        return vehicleInfo;
+        return vehicle;
     }
 
     public void setVehicleInfo(VehicleRequestDto vehicleInfo) {
-        this.vehicleInfo = vehicleInfo;
+        this.vehicle = vehicleInfo;
     }
 
 

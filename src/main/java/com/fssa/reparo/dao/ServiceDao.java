@@ -6,10 +6,7 @@ import com.fssa.reparo.model.ServiceList;
 import com.fssa.reparo.model.Services;
 import com.fssa.reparo.util.ConnectionDb;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,12 +119,29 @@ public class ServiceDao extends ServiceListDao{
 
     }
 
+    public List<Services> getAllServicelist() throws DAOException {
+        List<Services> servicesList =  new ArrayList<>();
+        String query = "select * from services";
+        try(Connection connection = ConnectionDb.getConnection(); Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()){
+                Services serv = assignService(rs);
+                serv.setServices(getServicesFromListId(serv.getServiceListId()));
+                servicesList.add(serv);
+            }
+
+        }catch (SQLException | DTBException e){
+            throw new DAOException(e);
+        }
+        return servicesList;
+    }
+
 
 
 }
 class ServiceListDao{
 
-    public ServiceList assignServiceList(ResultSet rs){
+    public ServiceList assignServiceList(ResultSet rs) throws DAOException {
         ServiceList list = new ServiceList();
         try {
             list.setServiceListId(rs.getInt("service_list_id"));
@@ -136,7 +150,7 @@ class ServiceListDao{
             list.setPrice(rs.getInt("service_price"));
             return list;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DAOException(e);
         }
     }
 
@@ -190,10 +204,11 @@ class ServiceListDao{
     }
     public int getTotalAmount(List<ServiceList> list){
         int amount = 0;
+        if(list != null){
         for(ServiceList service : list){
             amount+= service.getPrice();
 
-        }
+        }}
         return amount;
     }
     public boolean deleteEachService(int id) throws DAOException {
@@ -206,6 +221,7 @@ class ServiceListDao{
         }
 
     }
+
 
 
 }

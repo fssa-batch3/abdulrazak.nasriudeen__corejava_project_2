@@ -61,11 +61,15 @@ public class BookingMapper {
         // Create a VehicleMapper instance to map the Vehicle object
         VehicleMapper vehicleMap = new VehicleMapper();
 
+        UserMapper userMap  =  new UserMapper();
+
         // Create a WorkShopMapper instance to map the WorkShop object
         WorkShopMapper workShopMap = new WorkShopMapper();
 
         // Map the Vehicle information
         VehicleResponseDto vehicleInfo = vehicleMap.mapVehicleToResponseDto(booking.getVehicle());
+
+        vehicleInfo.setUserInfo(userMap.mapUserToResponseDto(booking.getVehicle().getUser()));
 
         // Map the WorkShop information
         WorkShopResponseDto workShopInfo = workShopMap.mapWorkShopToResponseDto(booking.getWorkShop());

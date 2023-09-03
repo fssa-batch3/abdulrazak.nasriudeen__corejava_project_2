@@ -1,9 +1,15 @@
 package com.fssa.reparo.service;
+import com.fssa.reparo.dao.ServiceDao;
+import com.fssa.reparo.dto.service.ServiceListResponseDto;
+import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.ServiceList;
+import com.fssa.reparo.model.Services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -13,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Order(1)
     void createServiceList(){
         try {
-            Assertions.assertTrue(serviceList.createServiceList(18));
+            Assertions.assertTrue(serviceList.createServiceList(22));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -24,9 +30,10 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Order(2)
     void getServiceListByBookingId(){
         try {
-            Assertions.assertEquals(18,serviceList.getServiceByBookingId(18).getBookingId());
+            ServiceListResponseDto list =  serviceList.getServiceByBookingId(22);
+            Assertions.assertEquals(22,list.getBookingInfo().getBookingId());
         } catch (ServiceException e) {
-            fail();
+
             throw new RuntimeException(e);
         }
 
@@ -35,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Order(3)
     void getServiceListById(){
         try {
-            Assertions.assertEquals(18,serviceList.getServiceById(1).getBookingId());
+            Assertions.assertEquals(22,serviceList.getServiceById(2).getBookingInfo().getBookingId());
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -46,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Order(4)
 void updateServiceAmount(){
     try {
-        Assertions.assertTrue(serviceList.updateServiceAmount(1,500));
+        Assertions.assertTrue(serviceList.updateServiceAmount(2,500));
     } catch (ServiceException e) {
         fail();
         throw new RuntimeException(e);
@@ -57,7 +64,7 @@ void updateServiceAmount(){
     @Order(5)
     void updateCancelService(){
         try {
-            Assertions.assertTrue(serviceList.updateCancelService(1,true,"high Cost"));
+            Assertions.assertTrue(serviceList.updateCancelService(2,true,"high Cost"));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -80,9 +87,9 @@ void updateServiceAmount(){
      void addServiceTest(){
          try {
              ServiceList ser =  new ServiceList();
-             ser.setServiceName("punchre");
+             ser.setServiceName("air");
              ser.setPrice(30);
-             ser.setServiceListId(1);
+             ser.setServiceListId(2);
              Assertions.assertTrue(serviceList.addService(ser));
          } catch (ServiceException e) {
              fail();
@@ -117,6 +124,21 @@ void updateServiceAmount(){
          }
 
      }
+     @Test
+     @Order(6)
+     void getAllServiceTest(){
+         try {
+             ServiceDao dao =  new ServiceDao();
+             List<Services> services =  dao.getAllServicelist();
+             Assertions.assertEquals("Air",services.get(0).getServices().get(0).getServiceName());
+         } catch (DAOException e) {
+
+             throw new RuntimeException(e);
+         }
+
+     }
+     
+
 
 
 
