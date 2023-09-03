@@ -1,11 +1,9 @@
 package com.fssa.reparo.service;
 
 import com.fssa.reparo.dao.ServiceDao;
-import com.fssa.reparo.datamapper.BookingMapper;
 import com.fssa.reparo.datamapper.ServiceMapper;
 import com.fssa.reparo.dto.booking.BookingResponseInclAcceptDto;
 import com.fssa.reparo.dto.service.ServiceListResponseDto;
-import com.fssa.reparo.dto.service.ServiceResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
@@ -113,8 +111,6 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
 
     public List<ServiceListResponseDto> getAllServiceLists() throws ServiceException {
         List<ServiceListResponseDto> listResponse = new ArrayList<>();
-        BookingServices bookService = new BookingServices();
-        ServiceMapper map = new ServiceMapper();
         try{
             List<Integer> servicesList =  serviceDao.getAllServicelist();
             for( int id : servicesList){
