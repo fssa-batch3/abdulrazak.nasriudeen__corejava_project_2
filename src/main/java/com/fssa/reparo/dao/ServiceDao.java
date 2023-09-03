@@ -119,15 +119,14 @@ public class ServiceDao extends ServiceListDao{
 
     }
 
-    public List<Services> getAllServicelist() throws DAOException {
-        List<Services> servicesList =  new ArrayList<>();
+    public List<Integer> getAllServicelist() throws DAOException {
+        List<Integer> servicesList =  new ArrayList<Integer>();
         String query = "select * from services";
         try(Connection connection = ConnectionDb.getConnection(); Statement stmt = connection.createStatement()){
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
-                Services serv = assignService(rs);
-                serv.setServices(getServicesFromListId(serv.getServiceListId()));
-                servicesList.add(serv);
+               int id =  rs.getInt("service_List_id");
+                servicesList.add(id);
             }
 
         }catch (SQLException | DTBException e){

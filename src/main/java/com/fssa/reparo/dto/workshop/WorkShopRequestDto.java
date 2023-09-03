@@ -6,6 +6,9 @@ public class WorkShopRequestDto  extends  WorkShopResponseDto{
         super(workshopName, workshopNumber, workshopType, workshopAddress, city, state);
         this.workshopPassword = workshopPassword;
     }
+    public WorkShopRequestDto() {
+    	super();
+    }
     public String getWorkshopPassword() {
         return workshopPassword;
     }

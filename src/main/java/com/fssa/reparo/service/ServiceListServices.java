@@ -116,14 +116,11 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
         BookingServices bookService = new BookingServices();
         ServiceMapper map = new ServiceMapper();
         try{
-            List<Services> servicesList =  serviceDao.getAllServicelist();
-            for(Services serv : servicesList){
-                BookingResponseInclAcceptDto booking =  bookService.getAcceptedLiveBookingById(serv.getBookingId());
-                ServiceListResponseDto response =  map.mapServicesToServiceListResponseDto(serv,booking);
-                listResponse.add(response);
+            List<Integer> servicesList =  serviceDao.getAllServicelist();
+            for( int id : servicesList){
+                ServiceListResponseDto serviceList = getServiceById(id);
+                listResponse.add(serviceList);
             }
-
-
         }catch (Exception e){
             throw new ServiceException(e);
         }

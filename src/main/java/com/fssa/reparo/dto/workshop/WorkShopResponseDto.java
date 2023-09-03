@@ -26,6 +26,9 @@ public class WorkShopResponseDto extends WorkShopDto {
         this.city = city;
         this.state = state;
     }
+    public WorkShopResponseDto() {
+    	
+    }
 
 
 

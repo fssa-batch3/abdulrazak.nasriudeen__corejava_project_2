@@ -129,15 +129,15 @@ void updateServiceAmount(){
      void getAllServiceTest(){
          try {
              ServiceDao dao =  new ServiceDao();
-             List<Services> services =  dao.getAllServicelist();
-             Assertions.assertEquals("Air",services.get(0).getServices().get(0).getServiceName());
-         } catch (DAOException e) {
+             List<ServiceListResponseDto> responseDto =  serviceList.getAllServiceLists();
+             Assertions.assertEquals("Air",responseDto.get(0).getListOfServices().get(0).getServiceInfo().getServiceName());
+         } catch ( ServiceException e) {
 
              throw new RuntimeException(e);
          }
 
      }
-     
+
 
 
 
