@@ -17,7 +17,7 @@ import java.util.List;
         use.setNumber(98403265105L);
         use.setPassword("1234");
         try {
-            WorkShopDAO work = new WorkShopDAO();
+            WorkShopDao work = new WorkShopDao();
             work.insertWorkShop(use);
         } catch (DAOException e) {
             e.printStackTrace();
@@ -30,7 +30,7 @@ import java.util.List;
     @Test
     void insertWorkShopSuccess() {
         try {
-            WorkShopDAO work  =  new WorkShopDAO() ;
+            WorkShopDao work  =  new WorkShopDao() ;
 
             WorkShop us = work.findWorkShopByNumber(98403265105L);
             Assertions.assertEquals(98403265105L, us.getNumber());
@@ -47,7 +47,7 @@ import java.util.List;
     @Test
     void getAllWorkShops() {
         try {
-            WorkShopDAO work  =  new WorkShopDAO() ;
+            WorkShopDao work  =  new WorkShopDao() ;
             List<WorkShop> workShop = work.getAllWorkShops();
             Assertions.assertNotEquals(0,workShop.size());
         } catch (DAOException e) {
@@ -57,7 +57,7 @@ import java.util.List;
     @Test
     void getWorkshopByAreaTest(){
         try {
-            WorkShopDAO bookDao = new WorkShopDAO();
+            WorkShopDao bookDao = new WorkShopDao();
             List<WorkShop> arr = bookDao.findWorkshopsByArea("chennai");
             Assertions.assertEquals(14,arr.get(0).getId());
         } catch (DAOException e) {
@@ -70,7 +70,7 @@ import java.util.List;
        static void deleteWorkshop()
         {
             try {
-                WorkShopDAO work  =  new WorkShopDAO() ;
+                WorkShopDao work  =  new WorkShopDao() ;
                 Assertions.assertTrue(work.removeWorkShopAccount(98403265105L));
 
             }catch (DAOException e){

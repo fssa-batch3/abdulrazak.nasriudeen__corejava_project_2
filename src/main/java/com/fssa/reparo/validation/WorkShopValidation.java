@@ -1,6 +1,6 @@
 package com.fssa.reparo.validation;
 
-import com.fssa.reparo.dao.WorkShopDAO;
+import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
@@ -17,7 +17,7 @@ public class WorkShopValidation {
    public boolean isValidWorkshop(WorkShop work) throws ValidationException {
        try{
        if(credentialValidate(work)){
-           WorkShopDAO workDao = new WorkShopDAO();
+           WorkShopDao workDao = new WorkShopDao();
            WorkShop chkWork = workDao.findWorkShopByNumber(work.getNumber());
            if(chkWork.getName() != null) throw new ValidationException("WorkShop already present");
            return  true;
@@ -31,7 +31,7 @@ public class WorkShopValidation {
    public int getWorkShop(long num , String pass) throws ValidationException{
            try {
                if(!(validate.loginCredentialValidation(num,pass))) throw new InvalidEntryException("invalid credentials") ;
-               WorkShopDAO workDao =  new WorkShopDAO() ;
+               WorkShopDao workDao =  new WorkShopDao() ;
                WorkShop work = workDao.findWorkShopByNumber(num);
                if(work.getNumber() == num ){
                    if(work.getPassword().equals(pass)){
@@ -54,7 +54,7 @@ public class WorkShopValidation {
 
        }
        public boolean isWorkshopId(int id) throws ValidationException{
-       WorkShopDAO workDao = new WorkShopDAO();
+       WorkShopDao workDao = new WorkShopDao();
            try {
                WorkShop work = workDao.getWorkShopsById(id);
                return work.getName()!=null;

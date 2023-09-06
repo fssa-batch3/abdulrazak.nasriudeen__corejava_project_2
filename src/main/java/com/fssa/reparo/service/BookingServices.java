@@ -1,13 +1,12 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.BookingDAO;
-import com.fssa.reparo.dao.UserDAO;
-import com.fssa.reparo.dao.VehicleDAO;
+import com.fssa.reparo.dao.BookingDao;
+import com.fssa.reparo.dao.UserDao;
+import com.fssa.reparo.dao.VehicleDao;
 import com.fssa.reparo.datamapper.BookingMapper;
 import com.fssa.reparo.dto.booking.BookingRequestDto;
 import com.fssa.reparo.dto.booking.BookingResponseDto;
 import com.fssa.reparo.dto.booking.BookingResponseExclAcceptDto;
 import com.fssa.reparo.dto.booking.BookingResponseInclAcceptDto;
-import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
@@ -20,7 +19,7 @@ import com.fssa.reparo.validation.WorkShopValidation;
 import java.util.ArrayList;
 import java.util.List;
 public class BookingServices {
-    protected BookingDAO bookingDao =  new BookingDAO();
+    protected BookingDao bookingDao =  new BookingDao();
     protected  BookingValidation bookingValidation =  new BookingValidation();
     protected WorkShopValidation workshopValidate = new WorkShopValidation();
 
@@ -109,7 +108,7 @@ public class BookingServices {
     public BookingResponseExclAcceptDto getUnAcceptedLiveBookingById(int id) throws ServiceException {
         try {
             bookingValidation.isBookingId(id);
-            VehicleDAO vehicleDao =  new VehicleDAO();
+            VehicleDao vehicleDao =  new VehicleDao();
 
             BookingMapper map = new BookingMapper();
             Booking booking =  bookingDao.findUnAcceptedLiveBookingById(id);
@@ -125,7 +124,7 @@ public class BookingServices {
     public List<BookingResponseExclAcceptDto> getAllUnAcceptedBooking() throws ServiceException{
         List<BookingResponseExclAcceptDto> bookingsResponse = new ArrayList<>();
         BookingMapper map =  new BookingMapper();
-        UserDAO userDAO =  new UserDAO();
+        UserDao userDAO =  new UserDao();
         try {
            List<Booking> bookings = bookingDao.getAllUnAcceptedBooking();
            for(Booking book : bookings){
@@ -142,7 +141,7 @@ public class BookingServices {
     public BookingResponseInclAcceptDto getAcceptedLiveBookingById(int id) throws ServiceException {
         try {
             bookingValidation.isBookingId(id);
-            UserDAO userdao = new UserDAO();
+            UserDao userdao = new UserDao();
             BookingMapper map = new BookingMapper();
             Booking booking =  bookingDao.findAcceptedLiveBookingById(id);
             Vehicle vehicle =  booking.getVehicle();
@@ -157,7 +156,7 @@ public class BookingServices {
     public List<BookingResponseInclAcceptDto> getAllAcceptedBooking() throws ServiceException{
         List<BookingResponseInclAcceptDto> bookingsResponse = new ArrayList<>();
         BookingMapper map =  new BookingMapper();
-        UserDAO userDAO =  new UserDAO();
+        UserDao userDAO =  new UserDao();
         try {
             List<Booking> bookings = bookingDao.getAllAcceptedBooking();
             for(Booking book : bookings){

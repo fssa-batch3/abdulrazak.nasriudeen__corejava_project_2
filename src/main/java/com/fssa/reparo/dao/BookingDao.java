@@ -6,7 +6,7 @@ import com.fssa.reparo.exception.DTBException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-public class BookingDAO {
+public class BookingDao {
    public Booking assignBooking(ResultSet rs) throws DAOException{
        try {
            Booking book = new Booking();
@@ -176,7 +176,7 @@ public class BookingDAO {
     }
     public Booking findUnAcceptedLiveBookingById(int id) throws DAOException{
         Booking booking =  new Booking();
-        VehicleDAO vehicleDAO =  new VehicleDAO();
+        VehicleDao vehicleDAO =  new VehicleDao();
         String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id WHERE booking_id = ? AND is_live = true AND accept_status = false";
         try(Connection connection =  ConnectionDb.getConnection();PreparedStatement preStmt = connection.prepareStatement(query)) {
             preStmt.setInt(1,id);
@@ -194,7 +194,7 @@ public class BookingDAO {
     public List<Booking>getAllUnAcceptedBooking() throws DAOException{
         String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id where is_live = true AND accept_status = false";
         List<Booking> bookings = new ArrayList<>();
-        VehicleDAO vehicleDAO =  new VehicleDAO();
+        VehicleDao vehicleDAO =  new VehicleDao();
         try(Connection connection =  ConnectionDb.getConnection();Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
@@ -211,8 +211,8 @@ public class BookingDAO {
     }
     public Booking findAcceptedLiveBookingById(int id) throws DAOException{
         Booking booking =  new Booking();
-        VehicleDAO vehicleDAO =  new VehicleDAO();
-        WorkShopDAO workShopDAO = new WorkShopDAO();
+        VehicleDao vehicleDAO =  new VehicleDao();
+        WorkShopDao workShopDAO = new WorkShopDao();
         String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id INNER JOIN workshop ON bookings.workshop_id = workshop.id WHERE bookings.booking_id = ? AND is_live = true AND accept_status = true";
         try(Connection connection =  ConnectionDb.getConnection();PreparedStatement preStmt = connection.prepareStatement(query)) {
             preStmt.setInt(1,id);
@@ -231,8 +231,8 @@ public class BookingDAO {
     public List<Booking>getAllAcceptedBooking() throws DAOException{
         String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id INNER JOIN workshop ON bookings.workshop_id = workshop.id WHERE is_live = true AND accept_status = true";
         List<Booking> bookings = new ArrayList<>();
-        VehicleDAO vehicleDAO =  new VehicleDAO();
-        WorkShopDAO workShopDAO = new WorkShopDAO();
+        VehicleDao vehicleDAO =  new VehicleDao();
+        WorkShopDao workShopDAO = new WorkShopDao();
         try(Connection connection =  ConnectionDb.getConnection();Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){

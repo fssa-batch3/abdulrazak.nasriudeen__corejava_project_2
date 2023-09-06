@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserDao {
 
     public User assignUser(ResultSet rs) throws DAOException{
         User user  = new User();

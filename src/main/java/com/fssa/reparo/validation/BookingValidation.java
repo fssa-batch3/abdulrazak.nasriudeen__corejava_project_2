@@ -1,5 +1,5 @@
 package com.fssa.reparo.validation;
-import com.fssa.reparo.dao.BookingDAO;
+import com.fssa.reparo.dao.BookingDao;
 import com.fssa.reparo.dao.ServiceDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
@@ -27,10 +27,10 @@ public class BookingValidation {
 
     }
     public void isBookingId(int id) throws ValidationException{
-        BookingDAO dao = new BookingDAO();
+        BookingDao dao = new BookingDao();
         try {
             Booking book = dao.getBookingById(id);
-//            if(book==null)throw new ValidationException("booking not present");
+            if(book.getProblem()==null)throw new ValidationException("booking not present");
 
         } catch (DAOException e) {
             throw new ValidationException(e);
@@ -38,10 +38,10 @@ public class BookingValidation {
 
     }
     public void isBookingVehicleId(int id) throws ValidationException{
-        BookingDAO dao = new BookingDAO();
+        BookingDao dao = new BookingDao();
         try {
             Booking book = dao.getBookingByVehicleId(id);
-//            if(book==null)throw new ValidationException("booking not present");
+            if(book.getProblem()==null)throw new ValidationException("booking not present");
 
         } catch (DAOException e) {
             throw new ValidationException(e);
@@ -50,7 +50,7 @@ public class BookingValidation {
     }
 
     public void bookingCityValidation(String city)throws ValidationException {
-        BookingDAO bookingDAO =  new BookingDAO();
+        BookingDao bookingDAO =  new BookingDao();
         Validations validate = new Validations();
         try {
             if(validate.stringValidation(city)) {

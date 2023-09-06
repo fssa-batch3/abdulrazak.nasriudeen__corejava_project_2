@@ -1,12 +1,8 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.ServiceDao;
 import com.fssa.reparo.dto.service.ServiceListResponseDto;
 import com.fssa.reparo.dto.service.ServiceRequestDto;
 import com.fssa.reparo.dto.service.ServiceResponseDto;
-import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
-import com.fssa.reparo.model.ServiceList;
-import com.fssa.reparo.model.Services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -123,7 +119,6 @@ void updateServiceAmount(){
      @Order(6)
      void getAllServiceTest(){
          try {
-             ServiceDao dao =  new ServiceDao();
              List<ServiceListResponseDto> responseDto =  serviceList.getAllServiceLists();
              System.out.print(responseDto.get(0).getCancelReason());
              Assertions.assertEquals("plug replacement",responseDto.get(0).getListOfServices().get(0).getServiceInfo().getServiceName());

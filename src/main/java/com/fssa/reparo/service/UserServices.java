@@ -8,13 +8,13 @@ import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.User;
 import com.fssa.reparo.validation.UserValidation;
-import com.fssa.reparo.dao.UserDAO;
+import com.fssa.reparo.dao.UserDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserServices {
-    private final UserDAO userDao=  new UserDAO();
+    private final UserDao userDao=  new UserDao();
     private final UserValidation userValidation=  new UserValidation();
 
 

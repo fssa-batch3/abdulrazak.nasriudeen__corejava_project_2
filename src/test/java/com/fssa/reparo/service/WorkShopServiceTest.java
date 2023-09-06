@@ -1,5 +1,5 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.WorkShopDAO;
+import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.dto.workshop.WorkShopRequestDto;
 import com.fssa.reparo.dto.workshop.WorkShopResponseDto;
 import com.fssa.reparo.exception.DAOException;
@@ -106,7 +106,7 @@ class WorkShopServiceTest {
      }
     @AfterAll
      static void removeWorkshop(){
-        WorkShopDAO workDao =  new WorkShopDAO();
+        WorkShopDao workDao =  new WorkShopDao();
         try {
             Assertions.assertTrue(workDao.removeWorkShopAccount(9840326000L));
         } catch (DAOException e) {

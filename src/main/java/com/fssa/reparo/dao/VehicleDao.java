@@ -15,7 +15,7 @@ import com.fssa.reparo.util.ConnectionDb;
 import com.fssa.reparo.validation.UserValidation;
 
 
-public class VehicleDAO {
+public class VehicleDao {
     public  Vehicle assignVehicle(ResultSet rs) throws DAOException{
         Vehicle vehicle = new Vehicle();
         try {
@@ -73,7 +73,7 @@ public class VehicleDAO {
     }
     public  Vehicle findVehicleByUserId(int id) throws DAOException {
         String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.user_id = ?";
-        UserDAO userDao =  new UserDAO();
+        UserDao userDao =  new UserDao();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
@@ -98,7 +98,7 @@ public class VehicleDAO {
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs = pre.executeQuery();
-            UserDAO userDao =  new UserDAO();
+            UserDao userDao =  new UserDao();
             if(rs.next()) {
             	vehicle = assignVehicle(rs);
             	vehicle.setUser(userDao.assignUser(rs));
@@ -112,7 +112,7 @@ public class VehicleDAO {
     public List<Vehicle>getAllVehicles()throws DAOException {
         String query = "select * from vehicles inner join user on user.id = vehicles.user_id ";
         List<Vehicle> vehicles =  new ArrayList<>();
-        UserDAO dao = new UserDAO();
+        UserDao dao = new UserDao();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             ResultSet rs = pre.executeQuery();

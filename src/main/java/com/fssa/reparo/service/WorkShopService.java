@@ -1,5 +1,5 @@
 package com.fssa.reparo.service;
-import com.fssa.reparo.dao.WorkShopDAO;
+import com.fssa.reparo.dao.WorkShopDao;
 import com.fssa.reparo.datamapper.WorkShopMapper;
 import com.fssa.reparo.dto.workshop.WorkShopRequestDto;
 import com.fssa.reparo.dto.workshop.WorkShopResponseDto;
@@ -13,7 +13,7 @@ import com.fssa.reparo.validation.WorkShopValidation;
 import java.util.ArrayList;
 import java.util.List;
 public class WorkShopService {
-    private final WorkShopDAO workShopDao = new WorkShopDAO();
+    private final WorkShopDao workShopDao = new WorkShopDao();
 
     /**
      * Registers a workshop by validating the input and inserting it into the database.
@@ -29,7 +29,7 @@ public class WorkShopService {
 
             try {
                 if(validate.isValidWorkshop(workShop)) {
-                    WorkShopDAO work = new WorkShopDAO();
+                    WorkShopDao work = new WorkShopDao();
                     return work.insertWorkShop(workShop );
 
                 }
@@ -81,7 +81,7 @@ public class WorkShopService {
      * @throws ServiceException If there is an issue with accessing the database.
      */
     public List<WorkShopResponseDto> getAllWorkShop() throws ServiceException{
-        WorkShopDAO dao  = new WorkShopDAO();
+        WorkShopDao dao  = new WorkShopDao();
         WorkShopMapper map = new WorkShopMapper();
         try {
             List<WorkShop> workShops = dao.getAllWorkShops();
@@ -109,7 +109,7 @@ public class WorkShopService {
      */
     public List<WorkShopResponseDto> getWorkShopByArea(String city) throws ServiceException{
         Validations validate =  new Validations();
-        WorkShopDAO dao =  new WorkShopDAO() ;
+        WorkShopDao dao =  new WorkShopDao() ;
         List<WorkShopResponseDto> workShopsResponse  =  new ArrayList<>();
         try {
             if(validate.stringValidation(city)){
@@ -134,7 +134,7 @@ public class WorkShopService {
      * @throws ServiceException If there is an issue with accessing the database.
      */
     public WorkShopResponseDto getWorkShopById(int id) throws ServiceException{
-        WorkShopDAO dao =  new WorkShopDAO() ;
+        WorkShopDao dao =  new WorkShopDao() ;
         try {
             WorkShopMapper map = new WorkShopMapper();
             return map.mapWorkShopToResponseDto(dao.getWorkShopsById(id));
@@ -155,7 +155,7 @@ public class WorkShopService {
     public List<Integer> getWorkShopByType(int type) throws ServiceException {
         Validations validate = new Validations();
         List<Integer> arr = new ArrayList<>();
-        WorkShopDAO dao = new WorkShopDAO();
+        WorkShopDao dao = new WorkShopDao();
         try {
 
             if (validate.workshopType(type)) {

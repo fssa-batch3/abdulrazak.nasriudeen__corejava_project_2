@@ -3,7 +3,7 @@ import com.fssa.reparo.datamapper.VehicleMapper;
 import com.fssa.reparo.dto.vehicle.VehicleRequestDto;
 import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
 import com.fssa.reparo.exception.ServiceException;
-import com.fssa.reparo.dao.VehicleDAO;
+import com.fssa.reparo.dao.VehicleDao;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ValidationException;
@@ -18,7 +18,7 @@ public  class VehicleService  {
         UserValidation validate =  new UserValidation();
         VehicleMapper map =  new VehicleMapper();
         Vehicle  vehicle = map.mapVehicleRequestDtoToVehicle(request);
-        VehicleDAO vehicleDao = new VehicleDAO();
+        VehicleDao vehicleDao = new VehicleDao();
         try {
             if(validate.userValidVehicle(vehicle) && validate.validUserId(vehicle.getUserId())){
 
@@ -33,7 +33,7 @@ public  class VehicleService  {
 
     }
     public VehicleResponseDto getVehicleById(int id) throws  ServiceException{
-        VehicleDAO vehicleDao = new VehicleDAO();
+        VehicleDao vehicleDao = new VehicleDao();
         VehicleMapper map = new VehicleMapper();
         try {
 
@@ -43,7 +43,7 @@ public  class VehicleService  {
         }
     }
     public VehicleResponseDto getVehicleByUserId(int id) throws  ServiceException{
-        VehicleDAO vehicleDao = new VehicleDAO();
+        VehicleDao vehicleDao = new VehicleDao();
         VehicleMapper map = new VehicleMapper();
         UserValidation userValidate =  new UserValidation();
 
@@ -57,7 +57,7 @@ public  class VehicleService  {
 
     }
     public List<VehicleResponseDto> getAllVehicles() throws  ServiceException{
-        VehicleDAO vehicleDao = new VehicleDAO();
+        VehicleDao vehicleDao = new VehicleDao();
         VehicleMapper map =  new VehicleMapper();
         List<VehicleResponseDto> vehicles =  new ArrayList<>();
 
