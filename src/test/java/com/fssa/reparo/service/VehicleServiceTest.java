@@ -1,4 +1,5 @@
 package com.fssa.reparo.service;
+import com.fssa.reparo.dto.user.UserResponseDto;
 import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.User;
@@ -48,8 +49,8 @@ class VehicleServiceTest {
     @Test
     void getVehicleByUserIdTest(){
         try {
-            Vehicle vehicle = vehicleService.getVehicleByUserId(35);
-            User use  = vehicle.getUser();
+            VehicleResponseDto vehicle = vehicleService.getVehicleByUserId(35);
+            UserResponseDto use  = vehicle.getUserInfo();
             Assertions.assertEquals("Razak Test",use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -77,8 +78,8 @@ class VehicleServiceTest {
     @Test
     void getVehicleByUserIdTestFail(){
         try {
-            Vehicle vehicle = vehicleService.getVehicleByUserId(35);
-            User use  = vehicle.getUser();
+            VehicleResponseDto vehicle = vehicleService.getVehicleByUserId(35);
+            UserResponseDto use  = vehicle.getUserInfo();
             Assertions.assertNotEquals("Razak",use.getName());
         } catch (ServiceException e) {
             throw new RuntimeException(e);

@@ -1,16 +1,20 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.BookingDAO;
 import com.fssa.reparo.dao.UserDAO;
+import com.fssa.reparo.dao.VehicleDAO;
 import com.fssa.reparo.datamapper.BookingMapper;
 import com.fssa.reparo.dto.booking.BookingRequestDto;
+import com.fssa.reparo.dto.booking.BookingResponseDto;
 import com.fssa.reparo.dto.booking.BookingResponseExclAcceptDto;
 import com.fssa.reparo.dto.booking.BookingResponseInclAcceptDto;
+import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.exception.ValidationException;
 import com.fssa.reparo.model.Booking;
 import com.fssa.reparo.model.Vehicle;
 import com.fssa.reparo.validation.BookingValidation;
+
 import com.fssa.reparo.validation.WorkShopValidation;
 
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ public class BookingServices {
     protected WorkShopValidation workshopValidate = new WorkShopValidation();
 
 
-    public  void createBooking(BookingRequestDto request) throws  ServiceException{
+    public  int  createBooking(BookingRequestDto request) throws  ServiceException{
         BookingMapper map = new BookingMapper();
         Booking booking =  map.mapRequestDtoToBooking(request);
         booking.setLive(true);
@@ -30,6 +34,8 @@ public class BookingServices {
         try {
             bookingValidation.validBooking(booking);
             bookingDao.insertBooking(booking);
+            return bookingDao.getBookingIdByVehicleId(booking.getVehicleId());
+
         } catch (ValidationException | DAOException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -55,13 +61,25 @@ public class BookingServices {
                 throw new ServiceException(e);
             }
     }
-    public Booking getBookingById(int id)throws ServiceException{
+    public BookingResponseDto getBookingById(int id)throws ServiceException{
         try {
+            BookingMapper map =  new BookingMapper();
             Booking booking;
             bookingValidation.isBookingId(id);
             booking =  bookingDao.getBookingById(id);
+            return map.mapBookingToResponseDto(booking);
+        } catch (ValidationException |DAOException e) {
+            throw new ServiceException(e);
+        }
 
-            return booking;
+    }
+    public BookingResponseDto getBookingByVehicleId(int id)throws ServiceException{
+        try {
+            BookingMapper map =  new BookingMapper();
+            Booking booking;
+            bookingValidation.isBookingVehicleId(id);
+            booking =  bookingDao.getBookingByVehicleId(id);
+            return map.mapBookingToResponseDto(booking);
         } catch (ValidationException |DAOException e) {
             throw new ServiceException(e);
         }
@@ -74,11 +92,12 @@ public class BookingServices {
             throw new ServiceException(e);
         }
     }
-    public List<Booking> findWorkshopByArea(String area) throws ServiceException{
-        List<Booking> bookings;
+    public List<Integer> findBookingByArea(String area) throws ServiceException{
+        List<Integer> bookings;
         try {
             bookingValidation.bookingCityValidation(area);
            bookings =   bookingDao.findBookingNearByCity(area);
+
         } catch (ValidationException | DAOException e) {
             throw new ServiceException(e);
         }
@@ -90,11 +109,12 @@ public class BookingServices {
     public BookingResponseExclAcceptDto getUnAcceptedLiveBookingById(int id) throws ServiceException {
         try {
             bookingValidation.isBookingId(id);
-            UserDAO userdao = new UserDAO();
+            VehicleDAO vehicleDao =  new VehicleDAO();
+
             BookingMapper map = new BookingMapper();
             Booking booking =  bookingDao.findUnAcceptedLiveBookingById(id);
-            Vehicle vehicle =  booking.getVehicle();
-            vehicle.setUser(userdao.findUserById(vehicle.getUserId()));
+            if(booking.getProblem()==null)throw new ServiceException("no Live Booking Available");
+            Vehicle vehicle = vehicleDao.findVehicleById(booking.getVehicleId());
             booking.setVehicle(vehicle);
             return map.mapBookingToResponseExclDto(booking);
         } catch (ValidationException |DAOException e) {

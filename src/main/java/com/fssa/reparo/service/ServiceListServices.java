@@ -4,6 +4,8 @@ import com.fssa.reparo.dao.ServiceDao;
 import com.fssa.reparo.datamapper.ServiceMapper;
 import com.fssa.reparo.dto.booking.BookingResponseInclAcceptDto;
 import com.fssa.reparo.dto.service.ServiceListResponseDto;
+import com.fssa.reparo.dto.service.ServiceRequestDto;
+import com.fssa.reparo.dto.service.ServiceResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.InvalidEntryException;
 import com.fssa.reparo.exception.ServiceException;
@@ -63,7 +65,7 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
         ServiceMapper map = new ServiceMapper();
 
         try {
-            validation.isServiceId(id);
+            validation.isServiceListId(id);
             Services service = serviceDao.getServiceListById(id);
             service.setServices(serviceDao.getServicesFromListId(id));
             int totalAmount = serviceDao.getTotalAmount(service.getServices());
@@ -82,7 +84,7 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
     public boolean updateServiceAmount(int serviceListId , int amount) throws ServiceException {
         BookingValidation validation =  new BookingValidation();
         try {
-            validation.isServiceId(serviceListId);
+            validation.isServiceListId(serviceListId);
             validation.priceValidation(amount);
             return serviceDao.updateServiceAmount(serviceListId,amount);
         } catch (ValidationException | DAOException | InvalidEntryException e) {
@@ -92,7 +94,7 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
     public boolean updateCancelService(int serviceListId , boolean cancel , String reason ) throws ServiceException {
         BookingValidation validation =  new BookingValidation();
         try {
-            validation.isServiceId(serviceListId);
+            validation.isServiceListId(serviceListId);
 
             return serviceDao.updateCancelStatus(serviceListId,cancel,reason);
         } catch (ValidationException | DAOException  e) {
@@ -102,7 +104,7 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
     public boolean updateAcceptService(int serviceListId , boolean accept  ) throws ServiceException {
         BookingValidation validation =  new BookingValidation();
         try {
-            validation.isServiceId(serviceListId);
+            validation.isServiceListId(serviceListId);
             return serviceDao.updateAcceptStatus(serviceListId,accept);
         } catch (ValidationException | DAOException  e) {
             throw new ServiceException(e);
@@ -125,10 +127,12 @@ public ServiceListResponseDto getServiceByBookingId(int id) throws ServiceExcept
 
 }
 class EachService{
-    public  boolean addService(ServiceList service) throws ServiceException {
+    public  boolean addService(ServiceRequestDto serviceReq) throws ServiceException {
         BookingValidation validation =  new BookingValidation();
+        ServiceMapper map =  new ServiceMapper();
         ServiceDao dao =  new ServiceDao();
         try {
+            ServiceList service = map.mapRequestDtoToServiceList(serviceReq);
             validation.serviceCredentialValidation(service);
             return dao.createService(service);
         } catch (ValidationException | DAOException e) {
@@ -136,12 +140,16 @@ class EachService{
         }
 
     }
-    public  boolean updateServiceDetail(ServiceList service) throws ServiceException {
+    public  boolean updateServiceDetail(ServiceRequestDto service , int serviceId) throws ServiceException {
+        ServiceMapper map =  new ServiceMapper();
         BookingValidation validation =  new BookingValidation();
         ServiceDao dao =  new ServiceDao();
         try {
-            validation.serviceCredentialValidation(service);
-            return dao.updateServiceDetails(service);
+            ServiceList  list  =  map.mapRequestDtoToServiceList(service);
+            list.setServiceId(serviceId);
+            validation.isServiceId(serviceId);
+            validation.serviceCredentialValidation(list);
+            return dao.updateServiceDetails(list);
         } catch (ValidationException | DAOException e) {
             throw new ServiceException(e);
         }
@@ -158,6 +166,20 @@ class EachService{
         }
 
     }
+    public ServiceResponseDto getEachServiceById(int id) throws ServiceException {
+        BookingValidation validation =  new BookingValidation();
+        ServiceDao dao =  new ServiceDao();
+        ServiceMapper map  =  new ServiceMapper();
+        try {
+            validation.isServiceId(id);
+            ServiceList service  = dao.getEachServiceById(id);
+            return map.mapServiceListToResponseDto(service);
+
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException(e);
+        }
+        }
+
 
 
 

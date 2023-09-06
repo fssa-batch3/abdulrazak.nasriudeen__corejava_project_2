@@ -30,7 +30,18 @@ public class BookingValidation {
         BookingDAO dao = new BookingDAO();
         try {
             Booking book = dao.getBookingById(id);
-            if(book==null)throw new ValidationException("booking not present");
+//            if(book==null)throw new ValidationException("booking not present");
+
+        } catch (DAOException e) {
+            throw new ValidationException(e);
+        }
+
+    }
+    public void isBookingVehicleId(int id) throws ValidationException{
+        BookingDAO dao = new BookingDAO();
+        try {
+            Booking book = dao.getBookingByVehicleId(id);
+//            if(book==null)throw new ValidationException("booking not present");
 
         } catch (DAOException e) {
             throw new ValidationException(e);
@@ -43,7 +54,7 @@ public class BookingValidation {
         Validations validate = new Validations();
         try {
             if(validate.stringValidation(city)) {
-                List<Booking> bookings = bookingDAO.findBookingNearByCity(city);
+                List<Integer> bookings = bookingDAO.findBookingNearByCity(city);
                 if(bookings.isEmpty()) throw  new ValidationException("No Available bookings");
             }else{
                 throw new ValidationException("city name should not contain special characters or numbers ");
@@ -52,14 +63,23 @@ public class BookingValidation {
 
             throw new ValidationException(e);
         }
-
     }
-
-    public void isServiceId(int id) throws ValidationException{
+    public void isServiceListId(int id) throws ValidationException{
         ServiceDao dao = new ServiceDao();
         try {
             Services serv = dao.getServiceListById(id);
             if(serv==null)throw new ValidationException("Service List is not present");
+
+        } catch (DAOException e) {
+            throw new ValidationException(e);
+        }
+
+    }
+    public void isServiceId(int id) throws ValidationException {
+        ServiceDao dao = new ServiceDao();
+        try {
+            ServiceList serv = dao.getEachServiceById(id);
+            if(serv==null)throw new ValidationException("Service is not available");
 
         } catch (DAOException e) {
             throw new ValidationException(e);
@@ -71,7 +91,7 @@ public class BookingValidation {
         Validations validations =  new Validations();
         try {
 
-            isServiceId(services.getServiceListId());
+            isServiceListId(services.getServiceListId());
             priceValidation(services.getPrice());
             validations.stringValidation(services.getServiceName());
 

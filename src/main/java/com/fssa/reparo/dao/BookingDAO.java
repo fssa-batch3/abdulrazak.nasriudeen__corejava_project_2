@@ -3,11 +3,9 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.model.Booking;
 import com.fssa.reparo.util.ConnectionDb;
 import com.fssa.reparo.exception.DTBException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 public class BookingDAO {
    public Booking assignBooking(ResultSet rs) throws DAOException{
        try {
@@ -65,13 +63,13 @@ public class BookingDAO {
 
     }
     public void updateRequestSts(int bookingId , boolean status) throws DAOException {
-
-        String query = "update bookings set request_status = ? where booking_id = ? ";
-
+        String query = "UPDATE bookings SET request_status = ?, is_live = ? WHERE booking_id = ?";
         try (Connection connect = ConnectionDb.getConnection();PreparedStatement preStmt = connect.prepareStatement(query)) {
 
             preStmt.setBoolean(1,status);
-            preStmt.setInt(2,bookingId);
+            preStmt.setBoolean(2,status);
+
+            preStmt.setInt(3,bookingId);
             preStmt.executeUpdate();
         }catch (SQLException | DTBException e){
             throw new DAOException(e);
@@ -93,28 +91,33 @@ public class BookingDAO {
 
         }
     }
-    public  Booking getBookingByVehicleId(int vehicleId) throws DAOException {
-       String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id) INNER JOIN workshop ON workshop.id = bookings.workshop_id) where vehicle_id = ? ";
+    public int getBookingIdByVehicleId(int vehicleId) throws DAOException {
+       String query = "SELECT booking_id from bookings where vehicle_id = ?";
+
 
         try(Connection connect = ConnectionDb.getConnection();
             PreparedStatement con = connect.prepareStatement(query)) {
-
             con.setInt(1,vehicleId);
             ResultSet rs = con.executeQuery();
+            if(rs.next()){
+                int id = rs.getInt("booking_id");
+                rs.close();
+                return id;
+            }
 
-            return assignBooking(rs);
-        } catch (DTBException | SQLException e) {
+            return 0;
+        } catch (DTBException | SQLException  e) {
             throw new DAOException(e);
         }
     }
-        public List<Booking> findBookingNearByCity(String area) throws DAOException {
-        List<Booking> bookings = new ArrayList<>();
-        String query = "SELECT * FROM ((bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id))  where city = ? AND is_live = true AND accept_Status = false" ;
+        public List<Integer> findBookingNearByCity(String area) throws DAOException {
+        List<Integer> bookings = new ArrayList<>();
+        String query = "SELECT * FROM bookings  where city = ? AND is_live = true AND accept_Status = false" ;
         try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt = connect.prepareStatement(query)) {
             preStmt.setString(1 , area);
             ResultSet rs =  preStmt.executeQuery();
             while(rs.next()){
-                Booking booking = assignBooking(rs);
+                Integer booking = rs.getInt("booking_id") ;
                 bookings.add(booking);
             }
         } catch (DTBException | SQLException e) {
@@ -124,7 +127,23 @@ public class BookingDAO {
         return bookings ;
     }
     public Booking getBookingById(int id) throws DAOException{
-       String query = "SELECT * FROM (bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id)  where bookings.booking_id = ?;";
+       String query = "SELECT * FROM (bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id)  where bookings.booking_id = ?";
+        Booking booking = null;
+        try (Connection connect =  ConnectionDb.getConnection();PreparedStatement preStmt =  connect.prepareStatement(query)){
+            preStmt.setInt(1,id);
+            ResultSet rs =  preStmt.executeQuery();
+            if(rs.next())booking = assignBooking(rs);
+
+
+
+            return booking;
+        }catch (DTBException | SQLException e){
+            throw  new DAOException(e);
+        }
+
+    }
+    public Booking getBookingByVehicleId(int id) throws DAOException{
+        String query = "SELECT * FROM (bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id)  where bookings.vehicle_id = ?;";
         Booking booking = null;
         try (Connection connect =  ConnectionDb.getConnection();PreparedStatement preStmt =  connect.prepareStatement(query)){
             preStmt.setInt(1,id);
@@ -158,7 +177,7 @@ public class BookingDAO {
     public Booking findUnAcceptedLiveBookingById(int id) throws DAOException{
         Booking booking =  new Booking();
         VehicleDAO vehicleDAO =  new VehicleDAO();
-        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id WHERE booking_id = ? AND is_live = true AND accept_status = false";
+        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id WHERE booking_id = ? AND is_live = true AND accept_status = false";
         try(Connection connection =  ConnectionDb.getConnection();PreparedStatement preStmt = connection.prepareStatement(query)) {
             preStmt.setInt(1,id);
             ResultSet rs = preStmt.executeQuery();
@@ -173,7 +192,7 @@ public class BookingDAO {
         return booking;
     }
     public List<Booking>getAllUnAcceptedBooking() throws DAOException{
-        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id where is_live = true AND accept_status = false";
+        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id where is_live = true AND accept_status = false";
         List<Booking> bookings = new ArrayList<>();
         VehicleDAO vehicleDAO =  new VehicleDAO();
         try(Connection connection =  ConnectionDb.getConnection();Statement stmt = connection.createStatement()) {
@@ -194,7 +213,7 @@ public class BookingDAO {
         Booking booking =  new Booking();
         VehicleDAO vehicleDAO =  new VehicleDAO();
         WorkShopDAO workShopDAO = new WorkShopDAO();
-        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id INNER JOIN workshop ON bookings.workshop_id = workshop.id WHERE bookings.booking_id = ? AND is_live = true AND accept_status = true";
+        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id INNER JOIN workshop ON bookings.workshop_id = workshop.id WHERE bookings.booking_id = ? AND is_live = true AND accept_status = true";
         try(Connection connection =  ConnectionDb.getConnection();PreparedStatement preStmt = connection.prepareStatement(query)) {
             preStmt.setInt(1,id);
             ResultSet rs = preStmt.executeQuery();
@@ -210,7 +229,7 @@ public class BookingDAO {
         return booking;
     }
     public List<Booking>getAllAcceptedBooking() throws DAOException{
-        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.id INNER JOIN workshop ON bookings.workshop_id = workshop.id WHERE is_live = true AND accept_status = true";
+        String query =  "SELECT * FROM bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id INNER JOIN workshop ON bookings.workshop_id = workshop.id WHERE is_live = true AND accept_status = true";
         List<Booking> bookings = new ArrayList<>();
         VehicleDAO vehicleDAO =  new VehicleDAO();
         WorkShopDAO workShopDAO = new WorkShopDAO();

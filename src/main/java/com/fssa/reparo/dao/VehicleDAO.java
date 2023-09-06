@@ -1,16 +1,18 @@
 package com.fssa.reparo.dao;
-import com.fssa.reparo.exception.DAOException;
-import com.fssa.reparo.model.Vehicle;
-import com.fssa.reparo.util.ConnectionDb;
-import com.fssa.reparo.exception.DTBException;
-import com.fssa.reparo.exception.InvalidEntryException;
-import com.fssa.reparo.validation.UserValidation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fssa.reparo.exception.DAOException;
+import com.fssa.reparo.exception.DTBException;
+import com.fssa.reparo.exception.InvalidEntryException;
+import com.fssa.reparo.model.User;
+import com.fssa.reparo.model.Vehicle;
+import com.fssa.reparo.util.ConnectionDb;
+import com.fssa.reparo.validation.UserValidation;
 
 
 public class VehicleDAO {
@@ -23,8 +25,9 @@ public class VehicleDAO {
                 vehicle.setVehicleYear(rs.getInt("year"));
                 vehicle.setVehicleType(rs.getInt("vehicle_type"));
                 vehicle.setVehicleModel(rs.getString("model"));
-                vehicle.setVehicleId(rs.getInt("id"));
+                vehicle.setVehicleId(rs.getInt("vehicle_id"));
                 vehicle.setVehicleNumber(rs.getString("vehicle_number"));
+               
 
 
 
@@ -70,12 +73,16 @@ public class VehicleDAO {
     }
     public  Vehicle findVehicleByUserId(int id) throws DAOException {
         String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.user_id = ?";
+        UserDAO userDao =  new UserDAO();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs = pre.executeQuery();
             Vehicle vehicle =  new Vehicle();
-            if(rs.next())vehicle = assignVehicle(rs);
+            if(rs.next()) {
+            	vehicle = assignVehicle(rs);
+            	vehicle.setUser(userDao.assignUser(rs));
+            }
             return vehicle;
 
         } catch (DTBException | SQLException e) {
@@ -85,14 +92,17 @@ public class VehicleDAO {
 
     }
     public  Vehicle findVehicleById(int id) throws DAOException {
-        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.id = ?";
+        String query = "select * from vehicles inner join user on user.id = vehicles.user_id  where vehicles.vehicle_id = ?";
         Vehicle vehicle =  new Vehicle();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             pre.setInt(1,id);
             ResultSet rs = pre.executeQuery();
-           if(rs.next())vehicle = assignVehicle(rs);
-           return vehicle;
+            UserDAO userDao =  new UserDAO();
+            if(rs.next()) {
+            	vehicle = assignVehicle(rs);
+            	vehicle.setUser(userDao.assignUser(rs));
+            }           return vehicle;
         } catch (DTBException | SQLException e) {
             throw new DAOException(e);
         }
@@ -102,12 +112,15 @@ public class VehicleDAO {
     public List<Vehicle>getAllVehicles()throws DAOException {
         String query = "select * from vehicles inner join user on user.id = vehicles.user_id ";
         List<Vehicle> vehicles =  new ArrayList<>();
+        UserDAO dao = new UserDAO();
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
             ResultSet rs = pre.executeQuery();
 
             while (rs.next()){
                Vehicle vehicle  = assignVehicle(rs);
+               User use = dao.assignUser(rs);
+               vehicle.setUser(use);
                 vehicles.add(vehicle);
             }
 

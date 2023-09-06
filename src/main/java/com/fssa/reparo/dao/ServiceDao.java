@@ -21,6 +21,7 @@ public class ServiceDao extends ServiceListDao{
             service.setLive(rs.getBoolean("is_live"));
             service.setAcceptStatus(rs.getBoolean("accept_status"));
             service.setCancelStatus(rs.getBoolean("cancel_status"));
+            service.setCancelReason(rs.getString("cancel_reason"));
             return service;
         }catch (SQLException e){
             throw new DAOException(e);
@@ -219,6 +220,24 @@ class ServiceListDao{
             throw new DAOException(e);
         }
 
+    }
+    public ServiceList getEachServiceById(int id) throws DAOException {
+        String query = "select * from service_list where service_id = ?";
+        ServiceList list =  new ServiceList();
+        try (Connection connection = ConnectionDb.getConnection(); PreparedStatement preStmt = connection.prepareStatement(query)) {
+            preStmt.setInt(1,id);
+            ResultSet rs = preStmt.executeQuery();
+            if(rs.next()){
+                list.setServiceName(rs.getString("service_name"));
+                list.setPrice(rs.getInt("service_price"));
+                list.setServiceId(rs.getInt("service_id"));
+                list.setServiceListId(rs.getInt("service_list_id"));
+            }
+            rs.close();
+        }catch (SQLException |DTBException e ){
+            throw new DAOException(e);
+        }
+        return list;
     }
 
 

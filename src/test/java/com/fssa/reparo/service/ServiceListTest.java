@@ -1,6 +1,8 @@
 package com.fssa.reparo.service;
 import com.fssa.reparo.dao.ServiceDao;
 import com.fssa.reparo.dto.service.ServiceListResponseDto;
+import com.fssa.reparo.dto.service.ServiceRequestDto;
+import com.fssa.reparo.dto.service.ServiceResponseDto;
 import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import com.fssa.reparo.model.ServiceList;
@@ -64,7 +66,7 @@ void updateServiceAmount(){
     @Order(5)
     void updateCancelService(){
         try {
-            Assertions.assertTrue(serviceList.updateCancelService(2,true,"high Cost"));
+            Assertions.assertTrue(serviceList.updateCancelService(18,true,"high Cost"));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -86,10 +88,7 @@ void updateServiceAmount(){
      @Order(6)
      void addServiceTest(){
          try {
-             ServiceList ser =  new ServiceList();
-             ser.setServiceName("air");
-             ser.setPrice(30);
-             ser.setServiceListId(2);
+              ServiceRequestDto ser =  new ServiceRequestDto(2,30,"air");
              Assertions.assertTrue(serviceList.addService(ser));
          } catch (ServiceException e) {
              fail();
@@ -101,12 +100,8 @@ void updateServiceAmount(){
      @Order(6)
      void updateServiceTest(){
          try {
-             ServiceList ser =  new ServiceList();
-             ser.setServiceName("Air");
-             ser.setPrice(80);
-             ser.setServiceListId(1);
-             ser.setServiceId(2);
-             Assertions.assertTrue(serviceList.updateServiceDetail(ser));
+             ServiceRequestDto ser =  new ServiceRequestDto(0,55,"air");
+             Assertions.assertTrue(serviceList.updateServiceDetail(ser,3));
          } catch (ServiceException e) {
              fail();
              throw new RuntimeException(e);
@@ -117,10 +112,10 @@ void updateServiceAmount(){
      @Order(6)
      void  deleteServiceTest(){
          try {
-             Assertions.assertTrue(serviceList.deleteEachService(1));
+             Assertions.assertTrue(serviceList.deleteEachService(2));
          } catch (ServiceException e) {
 
-             throw new RuntimeException(e);
+             e.printStackTrace();
          }
 
      }
@@ -130,7 +125,21 @@ void updateServiceAmount(){
          try {
              ServiceDao dao =  new ServiceDao();
              List<ServiceListResponseDto> responseDto =  serviceList.getAllServiceLists();
-             Assertions.assertEquals("Air",responseDto.get(0).getListOfServices().get(0).getServiceInfo().getServiceName());
+             System.out.print(responseDto.get(0).getCancelReason());
+             Assertions.assertEquals("plug replacement",responseDto.get(0).getListOfServices().get(0).getServiceInfo().getServiceName());
+         } catch ( ServiceException e) {
+
+             throw new RuntimeException(e);
+         }
+
+     }
+     @Test
+     @Order(6)
+     void getEachServiceTest(){
+         try {
+
+             ServiceResponseDto resp =  serviceList.getEachServiceById(3);
+             Assertions.assertEquals("punchre",resp.getServiceInfo().getServiceName());
          } catch ( ServiceException e) {
 
              throw new RuntimeException(e);

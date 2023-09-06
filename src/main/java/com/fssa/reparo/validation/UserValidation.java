@@ -64,6 +64,18 @@ public class UserValidation {
             throw new ValidationException(e);
         }
     }
+    public boolean validVehicleUserId(int id) throws ValidationException{
+        try {
+            VehicleDAO vehicleDao =  new VehicleDAO();
+            Vehicle vehicle =  vehicleDao.findVehicleByUserId(id);
+            if(vehicle.getVehicleNumber()==null)throw new ValidationException("vehicle not present");
+
+
+            return  vehicle.getVehicleNumber()!=null;
+        } catch (DAOException e) {
+            throw new ValidationException(e);
+        }
+    }
     public boolean validUserId(int id) throws ValidationException{
         try {
             User user =  userDao.findUserById(id);

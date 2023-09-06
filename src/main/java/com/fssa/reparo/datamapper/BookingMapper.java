@@ -1,6 +1,7 @@
 package com.fssa.reparo.datamapper;
 
 import com.fssa.reparo.dto.booking.BookingRequestDto;
+import com.fssa.reparo.dto.booking.BookingResponseDto;
 import com.fssa.reparo.dto.booking.BookingResponseExclAcceptDto;
 import com.fssa.reparo.dto.booking.BookingResponseInclAcceptDto;
 import com.fssa.reparo.dto.vehicle.VehicleResponseDto;
@@ -34,11 +35,6 @@ public class BookingMapper {
     public BookingResponseExclAcceptDto mapBookingToResponseExclDto(Booking booking) {
         // Create a VehicleMapper instance to map the Vehicle object
         VehicleMapper map = new VehicleMapper();
-
-        // Map the Vehicle information
-        VehicleResponseDto vehicleInfo = map.mapVehicleToResponseDto(booking.getVehicle());
-
-        // Create a BookingRequestDto and set its properties from the Booking object
         BookingRequestDto bookingInfo = new BookingRequestDto();
         bookingInfo.setProblem(booking.getProblem());
         bookingInfo.setBookingAddress(booking.getAddress());
@@ -46,6 +42,12 @@ public class BookingMapper {
         bookingInfo.setBookingState(booking.getState());
         bookingInfo.setRequestStatus(booking.isRequestStatus());
         bookingInfo.setAcceptStatus(booking.isAcceptStatus());
+
+        // Map the Vehicle information
+        VehicleResponseDto vehicleInfo = map.mapVehicleToResponseDto(booking.getVehicle());
+
+        // Create a BookingRequestDto and set its properties from the Booking object
+
 
         // Create and return a new BookingResponseExclAcceptDto using the mapped values
         return new BookingResponseExclAcceptDto(booking.getBookingId(), bookingInfo, vehicleInfo);
@@ -85,6 +87,17 @@ public class BookingMapper {
 
         // Create and return a new BookingResponseInclAcceptDto using the mapped values
         return new BookingResponseInclAcceptDto(booking.getBookingId(), bookingInfo, vehicleInfo, workShopInfo);
+    }
+
+    public BookingResponseDto mapBookingToResponseDto(Booking booking){
+        BookingRequestDto requestDto =  new BookingRequestDto();
+        requestDto.setVehicleId(booking.getVehicleId());
+        requestDto.setProblem(booking.getProblem());
+        requestDto.setBookingState(booking.getState());
+        requestDto.setBookingCity(booking.getCity());
+        requestDto.setBookingAddress(booking.getAddress());
+
+        return  new BookingResponseDto(booking.getBookingId(),requestDto);
     }
 
 

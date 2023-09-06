@@ -42,12 +42,15 @@ public  class VehicleService  {
             throw new ServiceException(e);
         }
     }
-    public Vehicle getVehicleByUserId(int id) throws  ServiceException{
+    public VehicleResponseDto getVehicleByUserId(int id) throws  ServiceException{
         VehicleDAO vehicleDao = new VehicleDAO();
-        try {
+        VehicleMapper map = new VehicleMapper();
+        UserValidation userValidate =  new UserValidation();
 
-            return vehicleDao.findVehicleByUserId(id);
-        } catch (DAOException e) {
+        try {
+            userValidate.validVehicleUserId(id);
+            return map.mapVehicleToResponseDto(vehicleDao.findVehicleByUserId(id));
+        } catch (DAOException |ValidationException e) {
             throw new ServiceException(e);
         }
 
