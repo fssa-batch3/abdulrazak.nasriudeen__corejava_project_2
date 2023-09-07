@@ -3,13 +3,13 @@ import com.fssa.reparo.dto.service.ServiceListResponseDto;
 import com.fssa.reparo.dto.service.ServiceRequestDto;
 import com.fssa.reparo.dto.service.ServiceResponseDto;
 import com.fssa.reparo.exception.ServiceException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 
  class ServiceListTest {
     ServiceListServices serviceList =  new ServiceListServices();
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Order(1)
     void createServiceList(){
         try {
-            Assertions.assertTrue(serviceList.createServiceList(22));
+            Assertions.assertTrue(serviceList.createServiceList(18));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Order(2)
     void getServiceListByBookingId(){
         try {
-            ServiceListResponseDto list =  serviceList.getServiceByBookingId(22);
-            Assertions.assertEquals(22,list.getBookingInfo().getBookingId());
+            ServiceListResponseDto list =  serviceList.getServiceByBookingId(59);
+            Assertions.assertEquals(59,list.getBookingInfo().getBookingId());
         } catch (ServiceException e) {
 
             throw new RuntimeException(e);
@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Order(3)
     void getServiceListById(){
         try {
-            Assertions.assertEquals(22,serviceList.getServiceById(2).getBookingInfo().getBookingId());
+            Assertions.assertEquals(59,serviceList.getServiceById(18).getBookingInfo().getBookingId());
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -51,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Order(4)
 void updateServiceAmount(){
     try {
-        Assertions.assertTrue(serviceList.updateServiceAmount(2,500));
+        Assertions.assertTrue(serviceList.updateServiceAmount(18,500));
     } catch (ServiceException e) {
         fail();
         throw new RuntimeException(e);
@@ -73,7 +73,7 @@ void updateServiceAmount(){
     @Order(6)
     void updateAcceptService(){
         try {
-            Assertions.assertTrue(serviceList.updateAcceptService(1,true));
+            Assertions.assertTrue(serviceList.updateAcceptService(18,true));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -81,10 +81,10 @@ void updateServiceAmount(){
 
     }
      @Test
-     @Order(6)
+     @Order(7)
      void addServiceTest(){
          try {
-              ServiceRequestDto ser =  new ServiceRequestDto(2,30,"air");
+              ServiceRequestDto ser =  new ServiceRequestDto(18,30,"air");
              Assertions.assertTrue(serviceList.addService(ser));
          } catch (ServiceException e) {
              fail();
@@ -93,11 +93,11 @@ void updateServiceAmount(){
 
      }
      @Test
-     @Order(6)
+     @Order(8)
      void updateServiceTest(){
          try {
              ServiceRequestDto ser =  new ServiceRequestDto(0,55,"air");
-             Assertions.assertTrue(serviceList.updateServiceDetail(ser,3));
+             Assertions.assertTrue(serviceList.updateServiceDetail(ser,20));
          } catch (ServiceException e) {
              fail();
              throw new RuntimeException(e);
@@ -105,10 +105,10 @@ void updateServiceAmount(){
 
      }
      @Test
-     @Order(6)
+     @Order(9)
      void  deleteServiceTest(){
          try {
-             Assertions.assertTrue(serviceList.deleteEachService(2));
+             Assertions.assertTrue(serviceList.deleteEachService(23));
          } catch (ServiceException e) {
 
              e.printStackTrace();
@@ -116,32 +116,33 @@ void updateServiceAmount(){
 
      }
      @Test
-     @Order(6)
+     @Order(10)
      void getAllServiceTest(){
          try {
              List<ServiceListResponseDto> responseDto =  serviceList.getAllServiceLists();
-             System.out.print(responseDto.get(0).getCancelReason());
-             Assertions.assertEquals("plug replacement",responseDto.get(0).getListOfServices().get(0).getServiceInfo().getServiceName());
+             Assertions.assertEquals("air",responseDto.get(0).getListOfServices().get(0).getServiceInfo().getServiceName());
          } catch ( ServiceException e) {
 
              throw new RuntimeException(e);
          }
 
      }
+
      @Test
-     @Order(6)
+     @Order(11)
      void getEachServiceTest(){
          try {
 
              ServiceResponseDto resp =  serviceList.getEachServiceById(20);
-             System.out.println(resp.getServiceInfo().getServiceName());
-             Assertions.assertEquals("punchre",resp.getServiceInfo().getServiceName());
+             Assertions.assertEquals("air",resp.getServiceInfo().getServiceName());
          } catch ( ServiceException e) {
 
              throw new RuntimeException(e);
          }
 
      }
+
+
 
 
 

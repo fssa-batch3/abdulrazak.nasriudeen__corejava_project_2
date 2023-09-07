@@ -127,6 +127,7 @@ public class ServiceDao extends ServiceListDao{
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
                int id =  rs.getInt(serviceListId);
+
                 servicesList.add(id);
             }
 
@@ -135,6 +136,8 @@ public class ServiceDao extends ServiceListDao{
         }
         return servicesList;
     }
+   
+
 
 
 
