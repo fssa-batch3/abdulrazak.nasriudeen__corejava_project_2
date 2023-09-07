@@ -51,7 +51,7 @@ public class BookingDao {
         }
 
     }
-    
+
     public void updateRequestSts(int bookingId , boolean status) throws DAOException {
         String query = "UPDATE bookings SET request_status = ?, is_live = ? WHERE booking_id = ?";
         try (Connection connect = ConnectionDb.getConnection();PreparedStatement preStmt = connect.prepareStatement(query)) {

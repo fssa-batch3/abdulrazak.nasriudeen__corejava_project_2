@@ -62,7 +62,7 @@ void updateServiceAmount(){
     @Order(5)
     void updateCancelService(){
         try {
-            Assertions.assertTrue(serviceList.updateCancelService(18,true,"high Cost"));
+            Assertions.assertTrue(serviceList.updateCancelService(23,true,"high Cost"));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
@@ -73,7 +73,7 @@ void updateServiceAmount(){
     @Order(6)
     void updateAcceptService(){
         try {
-            Assertions.assertTrue(serviceList.updateAcceptService(18,true));
+            Assertions.assertTrue(serviceList.updateAcceptService(23,true));
         } catch (ServiceException e) {
             fail();
             throw new RuntimeException(e);
