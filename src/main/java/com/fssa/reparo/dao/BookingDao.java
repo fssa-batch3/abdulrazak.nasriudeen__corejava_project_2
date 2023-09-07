@@ -51,18 +51,7 @@ public class BookingDao {
         }
 
     }
-    public void removeBooking(int id)throws DAOException {
-
-        String query = "delete from bookings where vehicle_id = ?";
-        try (Connection connect = ConnectionDb.getConnection(); PreparedStatement preStmt =  connect.prepareStatement(query)) {
-            preStmt.setInt(1,id);
-              preStmt.executeUpdate();
-        }catch (DTBException | SQLException e){
-            throw new DAOException(e);
-        }
-
-
-    }
+    
     public void updateRequestSts(int bookingId , boolean status) throws DAOException {
         String query = "UPDATE bookings SET request_status = ?, is_live = ? WHERE booking_id = ?";
         try (Connection connect = ConnectionDb.getConnection();PreparedStatement preStmt = connect.prepareStatement(query)) {
@@ -101,7 +90,7 @@ public class BookingDao {
             con.setInt(1,vehicleId);
             ResultSet rs = con.executeQuery();
             if(rs.next()){
-                int id = rs.getInt("booking_id");
+                int id = rs.getInt(BOOKING_ID);
                 rs.close();
                 return id;
             }
