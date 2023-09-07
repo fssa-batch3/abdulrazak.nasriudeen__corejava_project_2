@@ -20,9 +20,13 @@ class UserServiceTest {
     void createUserTest() {
         UserRequestDto request = new UserRequestDto("Razak", 9840326001L, "abd123");
         UserServices user = new UserServices();
+        UserDao userDao = new UserDao();
+
         try {
             user.registerUser(request);
-        } catch (ServiceException e) {
+            User us = userDao.findUserByNumber(9840326001L);
+            assertEquals("Razak", (us.getName()));
+        } catch (ServiceException | DAOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -30,24 +34,11 @@ class UserServiceTest {
 
     }
 
+
+
+
     @Test
     @Order(2)
-    void createUserSuccess() {
-        UserDao userDao = new UserDao();
-        try {
-            User us = userDao.findUserByNumber(9840326001L);
-            assertEquals("Razak", (us.getName()));
-
-
-        } catch (DAOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-
-    @Test
-    @Order(3)
     void createUserTestFail() {
         UserRequestDto use = new UserRequestDto("Abdul", 98403265109L, "123456");
 
@@ -60,7 +51,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void loginTestSuccess() {
         try {
             assertEquals(35, userServices.loginUser(9840326515L, "pas123"));
@@ -71,7 +62,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void loginTestFail() {
 
         ServiceException exception = assertThrows(ServiceException.class, () -> userServices.loginUser(9840326512L, "pas123"));
@@ -82,7 +73,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void getUserByIdTestSuccess() {
         try {
             UserResponseDto dto = userServices.getUserById(35);
@@ -94,7 +85,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void getUserByIdTestFail() {
 
         ServiceException exception = assertThrows(ServiceException.class, () -> userServices.getUserById(24));
@@ -106,7 +97,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void getAllUsersTestSuccess() {
         try {
             List<UserResponseDto> users = userServices.getAllUsers();
@@ -119,7 +110,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     void updateUserPassword() {
         try {
             Assertions.assertTrue(userServices.updateUserPassword("pas123", 9840326515L));
@@ -129,7 +120,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     void updateUserPasswordFailInvalidNumber() {
         ServiceException exception = assertThrows(ServiceException.class, () -> userServices.updateUserPassword("pas123", 9840326000L));
         String[] arr = exception.getMessage().split(":");
@@ -137,7 +128,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     void updateUserPasswordFailInvalidPassword() {
         ServiceException exception = assertThrows(ServiceException.class, () -> userServices.updateUserPassword("chennai", 9840326515L));
         String[] arr = exception.getMessage().split(":");
@@ -145,7 +136,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     void logoutSuccessTest() {
         try {
             Assertions.assertTrue(userServices.logOutUser(35));
@@ -155,7 +146,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(13)
+    @Order(12)
     void logoutFailInvalidNumberTest() {
 
         ServiceException exception = assertThrows(ServiceException.class, () -> userServices.logOutUser(20));
@@ -165,7 +156,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Order(14)
+    @Order(13)
     void deleteUserAccount() {
         UserDao dao = new UserDao();
         try {

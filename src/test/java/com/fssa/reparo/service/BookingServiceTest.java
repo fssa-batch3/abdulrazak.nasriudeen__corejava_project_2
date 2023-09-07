@@ -29,7 +29,7 @@ void createBookingTest(){
     booking.setBookingCity("chennai");
     booking.setBookingState("Tamil Nadu");
     try {
-        bookService.createBooking(booking);
+      Assertions.assertNotEquals(0,bookService.createBooking(booking));
     } catch (ServiceException e) {
         throw new RuntimeException(e);
     }

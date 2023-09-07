@@ -7,10 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 public class BookingDao {
+    private static  final String BOOKING_ID = "booking_id";
    public Booking assignBooking(ResultSet rs) throws DAOException{
        try {
            Booking book = new Booking();
-               book.setBookingId(rs.getInt("booking_id"));
+               book.setBookingId(rs.getInt(BOOKING_ID));
                book.setCity(rs.getString("city"));
                book.setVehicleId(rs.getInt("vehicle_id"));
                book.setState(rs.getString("state"));
@@ -117,7 +118,7 @@ public class BookingDao {
             preStmt.setString(1 , area);
             ResultSet rs =  preStmt.executeQuery();
             while(rs.next()){
-                Integer booking = rs.getInt("booking_id") ;
+                Integer booking = rs.getInt(BOOKING_ID) ;
                 bookings.add(booking);
             }
         } catch (DTBException | SQLException e) {

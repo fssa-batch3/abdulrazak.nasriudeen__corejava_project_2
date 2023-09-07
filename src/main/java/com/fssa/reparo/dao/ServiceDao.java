@@ -15,7 +15,7 @@ public class ServiceDao extends ServiceListDao{
     public Services assignService(ResultSet rs) throws DAOException {
         Services service = new Services();
         try{
-            service.setServiceListId(rs.getInt(serviceListId));
+            service.setServiceListId(rs.getInt(SERVICE_LIST_ID));
             service.setServiceAmount(rs.getInt("service_price"));
             service.setBookingId(rs.getInt("booking_id"));
             service.setLive(rs.getBoolean("is_live"));
@@ -126,7 +126,7 @@ public class ServiceDao extends ServiceListDao{
         try(Connection connection = ConnectionDb.getConnection(); Statement stmt = connection.createStatement()){
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
-               int id =  rs.getInt(serviceListId);
+               int id =  rs.getInt(SERVICE_LIST_ID);
 
                 servicesList.add(id);
             }
@@ -136,20 +136,20 @@ public class ServiceDao extends ServiceListDao{
         }
         return servicesList;
     }
-   
+
 
 
 
 
 }
 class ServiceListDao{
-    public static final String serviceListId= "service_list_id";
+    public static final String SERVICE_LIST_ID = "service_list_id";
 
 
     public ServiceList assignServiceList(ResultSet rs) throws DAOException {
         ServiceList list = new ServiceList();
         try {
-            list.setServiceListId(rs.getInt(serviceListId));
+            list.setServiceListId(rs.getInt(SERVICE_LIST_ID));
             list.setServiceId(rs.getInt("service_id"));
             list.setServiceName(rs.getString("service_name"));
             list.setPrice(rs.getInt("service_price"));
