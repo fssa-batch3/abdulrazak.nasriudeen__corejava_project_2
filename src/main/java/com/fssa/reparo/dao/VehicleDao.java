@@ -58,11 +58,11 @@ public class VehicleDao {
 
 
     }
-    public boolean removeVehicle(int id) throws DAOException {
-        String query = "delete from vehicles where user_id = ?";
+    public boolean removeVehicleByVehicleNumber(String number) throws DAOException {
+        String query = "delete from vehicles where vehicle_number = ?";
         try ( Connection connect =  ConnectionDb.getConnection();
               PreparedStatement pre =  connect.prepareStatement(query)){
-            pre.setInt(1,id);
+            pre.setString(1,number);
             int i = pre.executeUpdate();
             return i ==1 ;
         } catch (DTBException | SQLException e) {
@@ -131,6 +131,6 @@ public class VehicleDao {
         }
         return vehicles;
     }
-//
+
 
 }

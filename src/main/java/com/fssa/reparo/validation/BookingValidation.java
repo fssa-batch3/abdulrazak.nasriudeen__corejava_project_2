@@ -30,7 +30,7 @@ public class BookingValidation {
         BookingDao dao = new BookingDao();
         try {
             Booking book = dao.getBookingById(id);
-            if(book.getProblem()==null)throw new ValidationException("booking not present");
+            if(book.getBookingId()==0)throw new ValidationException("booking not present");
 
         } catch (DAOException e) {
             throw new ValidationException(e);

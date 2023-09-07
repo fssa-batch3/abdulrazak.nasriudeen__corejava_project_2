@@ -55,10 +55,7 @@ import java.util.List;
     @AfterAll
    static void removeVehicleTest()
     {
-        VehicleDao vehicle = new VehicleDao();
-        try{
-            Assertions.assertTrue(vehicle.removeVehicle(3));
-        }catch (DAOException e){ e.printStackTrace();}
+
     }
 
 

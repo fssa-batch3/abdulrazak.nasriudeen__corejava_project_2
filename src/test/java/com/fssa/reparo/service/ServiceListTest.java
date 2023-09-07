@@ -133,7 +133,8 @@ void updateServiceAmount(){
      void getEachServiceTest(){
          try {
 
-             ServiceResponseDto resp =  serviceList.getEachServiceById(3);
+             ServiceResponseDto resp =  serviceList.getEachServiceById(20);
+             System.out.println(resp.getServiceInfo().getServiceName());
              Assertions.assertEquals("punchre",resp.getServiceInfo().getServiceName());
          } catch ( ServiceException e) {
 

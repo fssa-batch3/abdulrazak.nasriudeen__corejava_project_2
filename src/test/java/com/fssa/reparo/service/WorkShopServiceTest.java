@@ -6,10 +6,18 @@ import com.fssa.reparo.exception.DAOException;
 import com.fssa.reparo.exception.ServiceException;
 import org.junit.jupiter.api.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 class WorkShopServiceTest {
      protected  WorkShopService workService = new WorkShopService();
-     @BeforeAll
-     static  void createWorkshop(){
+
+
+     @Test
+     @Order(1)
+     void createWorkshopTest(){
          WorkShopRequestDto request = new WorkShopRequestDto("Auto mobiles",9840326000L,"abd234",2,"123  Main Street","chennai","tamilNadu");
          WorkShopService workService =  new WorkShopService();
          try {
@@ -19,11 +27,8 @@ class WorkShopServiceTest {
          }
 
      }
-
-
-
-    @Test
-    @Order(1)
+     @Test
+    @Order(2)
     void loginWorkshopTest(){
         try{
             Assertions.assertEquals(18,workService.loginWorkShop(9840326580L,"abd123"));
@@ -34,7 +39,7 @@ class WorkShopServiceTest {
 
     }
     @Test
-    @Order(2)
+    @Order(3)
     void logoutWorkShopTest(){
         try {
             Assertions.assertTrue(workService.logOutWorkShop(18));
@@ -43,6 +48,7 @@ class WorkShopServiceTest {
         }
     }
     @Test
+    @Order(4)
     void getWorkShopByAreaTest(){
 
         try {
@@ -54,6 +60,7 @@ class WorkShopServiceTest {
 
     }
     @Test
+    @Order(5)
     void getWorkShopByTypeTest(){
 
         try {
@@ -65,6 +72,7 @@ class WorkShopServiceTest {
 
     }
     @Test
+    @Order(6)
     void getAllWorkShopTest(){
 
         try {
@@ -76,6 +84,7 @@ class WorkShopServiceTest {
 
     }
     @Test
+    @Order(7)
     void getWorkShopByIdTest(){
 
         try {
@@ -87,6 +96,7 @@ class WorkShopServiceTest {
 
     }
     @Test
+    @Order(8)
     void updatePasswordTest(){
         try {
             Assertions.assertTrue(workService.updateWorkshopPassword(9840326580L,"abd123"));
@@ -96,17 +106,18 @@ class WorkShopServiceTest {
 
     }
      @Test
+     @Order(9)
      void updatePasswordTestFails(){
-         try {
-             Assertions.assertFalse(workService.updateWorkshopPassword(9840326580L,"Test"));
-         } catch (ServiceException e) {
-             throw new RuntimeException(e);
-         }
+
+         ServiceException exception = assertThrows(ServiceException.class, () -> workService.updateWorkshopPassword(9840326580L,"Test"));
+         String[] arr = exception.getMessage().split(":");
+         assertEquals(" Invalid Password", arr[arr.length - 1]);
 
      }
-    @AfterAll
-     static void removeWorkshop(){
-        WorkShopDao workDao =  new WorkShopDao();
+     @Test
+    @Order(10)
+    void removeWorkshopTest(){
+         WorkShopDao workDao =  new WorkShopDao();
         try {
             Assertions.assertTrue(workDao.removeWorkShopAccount(9840326000L));
         } catch (DAOException e) {
@@ -114,6 +125,6 @@ class WorkShopServiceTest {
         }
 
 
-    }
+     }
 
 }

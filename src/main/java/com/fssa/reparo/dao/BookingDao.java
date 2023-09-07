@@ -128,7 +128,7 @@ public class BookingDao {
     }
     public Booking getBookingById(int id) throws DAOException{
        String query = "SELECT * FROM (bookings INNER JOIN vehicles ON bookings.vehicle_id = vehicles.vehicle_id)  where bookings.booking_id = ?";
-        Booking booking = null;
+        Booking booking =  new Booking();
         try (Connection connect =  ConnectionDb.getConnection();PreparedStatement preStmt =  connect.prepareStatement(query)){
             preStmt.setInt(1,id);
             ResultSet rs =  preStmt.executeQuery();
@@ -248,6 +248,18 @@ public class BookingDao {
         return bookings;
 
     }
+    public boolean removeBookingByVehicleId(int id) throws DAOException {
+       String query = "delete  from bookings where vehicle_id=? ";
+        try ( Connection connect =  ConnectionDb.getConnection();
+              PreparedStatement pre =  connect.prepareStatement(query)){
+            pre.setInt(1,id);
+            int i = pre.executeUpdate();
+            return i ==1 ;
+        } catch (DTBException | SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
 
 
 }

@@ -140,13 +140,13 @@ public class ServiceDao extends ServiceListDao{
 
 }
 class ServiceListDao{
-    public final String serviceListId= "service_list_id";
+    public static final String serviceListId= "service_list_id";
 
 
     public ServiceList assignServiceList(ResultSet rs) throws DAOException {
         ServiceList list = new ServiceList();
         try {
-            list.setServiceListId(rs.getInt("service_list_id"));
+            list.setServiceListId(rs.getInt(serviceListId));
             list.setServiceId(rs.getInt("service_id"));
             list.setServiceName(rs.getString("service_name"));
             list.setPrice(rs.getInt("service_price"));
@@ -230,10 +230,7 @@ class ServiceListDao{
             preStmt.setInt(1,id);
             ResultSet rs = preStmt.executeQuery();
             if(rs.next()){
-                list.setServiceName(rs.getString("service_name"));
-                list.setPrice(rs.getInt("service_price"));
-                list.setServiceId(rs.getInt("service_id"));
-                list.setServiceListId(rs.getInt("service_list_id"));
+               list = assignServiceList(rs);
             }
             rs.close();
         }catch (SQLException |DTBException e ){
